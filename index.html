@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Offroad Brothers 4WD Store | Houston, TX</title>
+<meta name="description" content="Offroad Brothers 4WD Store in Houston, TX. Off-road, 4x4, and overland tires, wheels, suspension, accessories, and installation services." />
+
+<!-- Satoshi Font -->
+<link rel="preconnect" href="https://api.fontshare.com" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --orange:#FF3B2F;
+  --orange-dark:#E6342A;
+  --orange-light:#FF5447;
+  --ink:#0A0A0A;
+  --white:#FFFFFF;
+  --bg:#FFFFFF;
+  --soft:#FAFAFA;
+  --soft-2:#F5F6F8;
+  --line:#E9ECF2;
+  --muted:#5F6774;
+  --radius:14px;
+  --shadow-sm:0 10px 26px rgba(10,10,10,.08);
+  --shadow-md:0 18px 60px rgba(10,10,10,.12);
+  --max:1200px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Satoshi',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max);margin:0 auto;padding:0 clamp(18px,5vw,42px)}
+
+/* Desktop Header - Fixed Layout */
+.header{
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:rgba(255,255,255,.96);
+  border-bottom:3px solid var(--orange);
+  backdrop-filter:blur(16px);
+  box-shadow:0 4px 16px rgba(0,0,0,.05);
+}
+.header-inner{
+  height:92px;
+  display:flex;
+  align-items:center;
+  gap:24px;
+}
+
+/* Language Toggle - HARD LEFT */
+.lang-wrap{
+  display:flex;
+  gap:0;
+  background:var(--soft-2);
+  border-radius:10px;
+  padding:4px;
+  border:2px solid var(--line);
+}
+.lang-btn{
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  padding:8px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  transition:all .25s ease;
+}
+.lang-btn.active{
+  background:var(--white);
+  color:var(--orange);
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+/* Navigation - HARD RIGHT */
+.nav{
+  display:flex;
+  gap:clamp(18px,2.5vw,38px);
+  align-items:center;
+  margin-left:auto;
+}
+.nav a{
+  font-weight:800;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  position:relative;
+  padding:10px 6px;
+  color:var(--ink);
+  transition:all .25s ease;
+}
+.nav a::after{
+  content:'';
+  position:absolute;
+  bottom:4px;
+  left:0;
+  width:0;
+  height:3px;
+  background:var(--orange);
+  transition:width .25s ease;
+}
+.nav a:hover{color:var(--orange)}
+.nav a:hover::after{width:100%}
+
+/* Social icons in header */
+.nav-social-icons{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-left:8px;
+}
+.nav-social-icon{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:var(--soft-2);
+  border:2px solid var(--line);
+  transition:all .25s ease;
+  color:var(--muted);
+}
+.nav-social-icon:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:var(--white);
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(255,59,47,.24);
+}
+
+.cta-button{
+  background:var(--orange);
+  color:var(--white) !important;
+  padding:14px 28px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:1.2px;
+  border:2px solid var(--orange);
+  box-shadow:0 8px 22px rgba(255,59,47,.22);
+  transition:all .25s ease;
+}
+.cta-button::after{display:none}
+.cta-button:hover{
+  background:var(--orange-dark);
+  border-color:var(--orange-dark);
+  transform:translateY(-2px);
+  box-shadow:0 14px 32px rgba(255,59,47,.30);
+}
+
+/* Mobile menu */
+.mobile-menu-btn{
+  display:none;
+  background:var(--white);
+  border:2px solid var(--line);
+  font-size:22px;
+  color:var(--ink);
+  cursor:pointer;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:900;
+}
+
+@media (max-width: 980px){
+  .nav{display:none}
+  .mobile-menu-btn{display:block}
+  .nav.active{
+    display:flex;
+    flex-direction:column;
+    position:absolute;
+    top:92px;
+    left:0; right:0;
+    background:var(--white);
+    padding:22px 18px 28px;
+    border-bottom:3px solid var(--orange);
+    box-shadow:0 18px 40px rgba(0,0,0,.10);
+  }
+  .nav-social-icons{
+    margin-left:0;
+    margin-top:12px;
+  }
+}
+
+/* Hero with Logo */
+.hero{
+  padding:140px 0 92px;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(to bottom, var(--soft), var(--bg));
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:-220px -220px auto -220px;
+  height:420px;
+  background:
+    radial-gradient(closest-side, rgba(255,59,47,.14), rgba(255,59,47,0) 70%),
+    radial-gradient(closest-side, rgba(0,0,0,.06), rgba(0,0,0,0) 70%);
+  filter:blur(6px);
+  pointer-events:none;
+}
+
+.hero-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  position:relative;
+  max-width:920px;
+  margin:0 auto;
+}
+
+.hero-logo{
+  width:min(680px, 88vw);
+  height:auto;
+  margin-bottom:42px;
+  filter:drop-shadow(0 18px 46px rgba(255,59,47,.22));
+  animation:float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform:translateY(0px) }
+  50% { transform:translateY(-12px) }
+}
+
+.hero p{
+  font-size:clamp(20px,2.6vw,28px);
+  color:var(--muted);
+  font-weight:600;
+  margin-bottom:42px;
+  max-width:780px;
+  line-height:1.5;
+}
+
+.hero-buttons{
+  display:flex; 
+  gap:18px; 
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.btn-primary{
+  background:var(--orange);
+  color:var(--white);
+  padding:20px 44px;
+  border-radius:12px;
+  font-weight:900;
+  font-size:16px;
+  text-transform:uppercase;
+  letter-spacing:1.1px;
+  border:2px solid var(--orange);
+  box-shadow:0 14px 36px rgba(255,59,47,.26);
+  transition:all .25s ease;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.btn-primary:hover{
+  background:var(--orange-dark);
+  border-color:var(--orange-dark);
+  transform:translateY(-3px);
+  box-shadow:0 20px 46px rgba(255,59,47,.34);
+}
+
+.btn-secondary{
+  background:var(--white);
+  color:var(--ink);
+  padding:20px 44px;
+  border-radius:12px;
+  font-weight:900;
+  font-size:16px;
+  text-transform:uppercase;
+  letter-spacing:1.1px;
+  border:2px solid var(--line);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  transition:all .25s ease;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.btn-secondary:hover{
+  background:var(--soft);
+  border-color:var(--muted);
+  transform:translateY(-3px);
+  box-shadow:0 14px 32px rgba(0,0,0,.12);
+}
+
+/* Apple-style elite cards */
+.section{padding:92px 0}
+.section.alt{background:var(--soft)}
+.section-title{
+  font-size:clamp(38px,5vw,56px);
+  font-weight:900;
+  text-align:center;
+  margin-bottom:64px;
+  letter-spacing:-1px;
+}
+.section-title .highlight{color:var(--orange)}
+
+/* Elite Card System */
+.elite-card{
+  background:var(--white);
+  border-radius:22px;
+  padding:0;
+  box-shadow:0 16px 48px rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.06);
+  overflow:hidden;
+  max-width:680px;
+  margin:0 auto;
+}
+
+.card-header{
+  background:linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+  padding:32px 36px;
+  position:relative;
+}
+
+.card-header h3{
+  font-size:28px;
+  font-weight:900;
+  color:var(--white);
+  margin-bottom:8px;
+  letter-spacing:-.5px;
+}
+
+.card-header p{
+  font-size:16px;
+  font-weight:600;
+  color:rgba(255,255,255,.88);
+  margin:0;
+}
+
+.card-status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,.18);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.24);
+  padding:8px 18px;
+  border-radius:24px;
+  font-size:13px;
+  font-weight:800;
+  color:var(--white);
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  margin-top:18px;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--white);
+  box-shadow:0 0 12px rgba(255,255,255,.6);
+  animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity:1; transform:scale(1) }
+  50% { opacity:.7; transform:scale(1.15) }
+}
+
+.card-body{
+  padding:36px;
+}
+
+.info-tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:18px;
+  margin-bottom:32px;
+}
+
+.info-tile{
+  background:var(--soft-2);
+  border-radius:14px;
+  padding:20px;
+  border:1px solid var(--line);
+  transition:all .25s ease;
+}
+
+.info-tile:hover{
+  background:var(--soft);
+  border-color:var(--orange);
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(255,59,47,.12);
+}
+
+.tile-icon{
+  font-size:28px;
+  margin-bottom:12px;
+  display:block;
+}
+
+.tile-label{
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.tile-value{
+  font-size:18px;
+  font-weight:900;
+  color:var(--ink);
+  line-height:1.3;
+}
+
+.tile-value a{
+  color:var(--orange);
+  text-decoration:none;
+  transition:color .25s ease;
+}
+
+.tile-value a:hover{
+  color:var(--orange-dark);
+  text-decoration:underline;
+}
+
+.card-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.card-actions .btn-primary,
+.card-actions .btn-secondary{
+  flex:1;
+  min-width:200px;
+}
+
+/* Visit Shop Card Social Links */
+.visit-social{
+  display:flex;
+  gap:12px;
+  margin-top:24px;
+  padding-top:24px;
+  border-top:2px solid var(--line);
+}
+
+.visit-social-link{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px;
+  background:var(--soft-2);
+  border:2px solid var(--line);
+  border-radius:12px;
+  font-weight:800;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  transition:all .25s ease;
+}
+
+.visit-social-link:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:var(--white);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(255,59,47,.24);
+}
+
+.visit-social-link svg{
+  width:22px;
+  height:22px;
+}
+
+/* Services Grid */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:28px;
+}
+.service-card{
+  background:var(--white);
+  padding:32px;
+  border-radius:var(--radius);
+  border:2px solid var(--line);
+  transition:all .25s ease;
+  position:relative;
+  overflow:hidden;
+}
+.service-card::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:5px;
+  background:linear-gradient(90deg, var(--orange), var(--orange-light));
+  transform:translateY(-5px);
+  transition:transform .25s ease;
+}
+.service-card:hover::before{transform:translateY(0)}
+.service-card:hover{
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-4px);
+}
+.service-icon{
+  font-size:48px;
+  margin-bottom:18px;
+  display:block;
+}
+.service-card h3{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:12px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.service-card p{
+  color:var(--muted);
+  font-weight:600;
+  line-height:1.7;
+}
+
+/* Products Grid */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:24px;
+}
+.product-card{
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px;
+  text-align:center;
+  transition:all .25s ease;
+}
+.product-card:hover{
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-4px);
+}
+.product-card .service-icon{margin:0 auto 16px}
+.product-card h3{
+  font-size:18px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin-bottom:8px;
+}
+.product-card p{
+  font-size:14px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+/* Brands Grid */
+.brands-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:22px;
+}
+.brand-card{
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+  text-align:center;
+  font-weight:900;
+  font-size:18px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  transition:all .25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:120px;
+}
+.brand-card:hover{
+  background:var(--orange);
+  color:var(--white);
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-3px);
+}
+
+/* Reviews Carousel */
+.reviews-wrapper{
+  position:relative;
+  max-width:1000px;
+  margin:0 auto;
+}
+.reviews-track{
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  padding:12px 0 32px;
+  scrollbar-width:none;
+}
+.reviews-track::-webkit-scrollbar{display:none}
+.review-card{
+  flex:0 0 calc(100% - 32px);
+  scroll-snap-align:start;
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+}
+@media (min-width:768px){
+  .review-card{flex:0 0 calc(50% - 24px)}
+}
+@media (min-width:1100px){
+  .review-card{flex:0 0 calc(33.333% - 22px)}
+}
+.review-top{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:16px;
+  gap:12px;
+}
+.r-name{
+  font-weight:900;
+  font-size:17px;
+  margin-bottom:4px;
+}
+.r-meta{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:600;
+}
+.r-stars{
+  color:var(--orange);
+  font-size:16px;
+  margin-bottom:4px;
+}
+.r-body{
+  font-size:15px;
+  line-height:1.7;
+  color:var(--ink);
+  font-weight:600;
+  margin-bottom:14px;
+}
+.r-badge{
+  display:inline-block;
+  background:var(--soft-2);
+  padding:8px 16px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:var(--orange);
+}
+
+.carousel-controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:24px;
+}
+.car-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--white);
+  border:2px solid var(--line);
+  font-size:20px;
+  font-weight:900;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.car-btn:hover{
+  background:var(--orange);
+  color:var(--white);
+  border-color:var(--orange);
+  transform:scale(1.08);
+}
+
+.review-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:18px;
+}
+.dotbtn{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--line);
+  border:none;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.dotbtn.active{
+  background:var(--orange);
+  width:28px;
+  border-radius:5px;
+}
+
+/* Contact */
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:42px;
+  max-width:1000px;
+  margin:0 auto;
+}
+@media (max-width:768px){
+  .split{grid-template-columns:1fr}
+}
+.panel{
+  background:var(--white);
+  padding:36px;
+  border-radius:var(--radius);
+  border:2px solid var(--line);
+}
+.panel h3{
+  font-size:26px;
+  font-weight:900;
+  margin-bottom:24px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+.kv{
+  display:flex;
+  margin-bottom:16px;
+  gap:12px;
+}
+.kv .k{
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  font-size:12px;
+  color:var(--muted);
+  min-width:80px;
+}
+.kv .v{
+  font-weight:700;
+  flex:1;
+}
+.kv .v a{
+  color:var(--orange);
+  text-decoration:none;
+  transition:all .25s ease;
+}
+.kv .v a:hover{
+  text-decoration:underline;
+  color:var(--orange-dark);
+}
+
+/* Footer */
+.footer{
+  background:var(--ink);
+  color:var(--white);
+  padding:64px 0 32px;
+  margin-top:92px;
+}
+.footer-inner{
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+  text-align:center;
+}
+.footer-nav{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:clamp(14px,3vw,28px);
+}
+.footer-nav a{
+  font-weight:800;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  transition:color .25s ease;
+}
+.footer-nav a:hover{color:var(--orange)}
+.footer-nav .nav-social{
+  color:var(--orange);
+}
+
+.footer-social{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+}
+.social{
+  width:46px;
+  height:46px;
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
+  border:2px solid rgba(255,255,255,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  transition:all .25s ease;
+}
+.social:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+  transform:translateY(-3px);
+  box-shadow:0 12px 28px rgba(255,59,47,.32);
+}
+
+.footer-copy{
+  font-size:13px;
+  font-weight:600;
+  color:rgba(255,255,255,.7);
+  line-height:1.8;
+}
+
+.footer-built{
+  margin-top:12px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.footer-built a{
+  color:var(--orange);
+  text-decoration:none;
+  transition:all .25s ease;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+
+.footer-built a:hover{
+  color:var(--orange-light);
+  text-decoration:underline;
+}
+
+/* Mobile responsiveness */
+@media (max-width:768px){
+  .hero{padding:120px 0 72px}
+  .hero-logo{margin-bottom:32px}
+  .hero p{font-size:18px; margin-bottom:32px}
+  .section{padding:64px 0}
+  .section-title{margin-bottom:42px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-inner">
+    <!-- Language Toggle - HARD LEFT -->
+    <div class="lang-wrap">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="es">ES</button>
+    </div>
+
+    <!-- Navigation - HARD RIGHT -->
+    <nav class="nav" id="mainNav">
+      <a href="#services">Services</a>
+      <a href="#products">Products</a>
+      <a href="#brands">Brands</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#location">Location</a>
+      <a href="#contact">Contact</a>
+      
+      <!-- Social Icons in Header -->
+      <div class="nav-social-icons">
+        <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+      </div>
+      
+      <a href="tel:+12814068738" class="cta-button">Call Now</a>
+    </nav>
+
+    <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
+  </div>
+</header>
+
+<!-- Hero Section with Large Logo -->
+<section class="hero">
+  <div class="container hero-inner">
+    <img src="/mnt/user-data/uploads/offroadbrotherslogo.png" alt="Offroad Brothers 4WD Store" class="hero-logo">
+    
+    <p id="heroLead" 
+       data-en="Off-road, 4x4, and overland tires, wheels, suspension, and accessories — plus expert installation and fitment help."
+       data-es="Llantas, rines, suspensión y accesorios para todo terreno, 4x4 y overland — además de instalación experta y ayuda con el ajuste.">
+      Off-road, 4x4, and overland tires, wheels, suspension, and accessories — plus expert installation and fitment help.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="tel:+12814068738" class="btn-primary" id="btnCall" 
+         data-en="Call (281) 406-8738" 
+         data-es="Llamar (281) 406-8738">Call (281) 406-8738</a>
+      <a href="#services" class="btn-secondary" id="btnExplore" 
+         data-en="Explore Services" 
+         data-es="Explorar Servicios">Explore Services</a>
+    </div>
+  </div>
+</section>
+
+<!-- Get a Quote Section - Elite Apple Style -->
+<section class="section" id="quote">
+  <div class="container">
+    <h2 class="section-title">Get a <span class="highlight">Quote</span></h2>
+    
+    <div class="elite-card">
+      <div class="card-header">
+        <h3>Free Quote Request</h3>
+        <p>Tell us what you need and we'll get back to you fast</p>
+        <div class="card-status">
+          <span class="status-dot"></span>
+          Responses within 2 hours
+        </div>
+      </div>
+
+      <div class="card-body">
+        <form id="quoteForm">
+          <div style="display:grid; gap:16px; margin-bottom:24px">
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Name *</label>
+              <input required name="name" type="text" placeholder="Your name"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Email *</label>
+              <input required name="email" type="email" placeholder="your@email.com"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Phone</label>
+              <input name="phone" type="tel" placeholder="(281) 555-1234"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Vehicle & Services Needed *</label>
+              <textarea required name="details" placeholder="e.g., 2020 Toyota 4Runner - looking for 3in lift + 35in tires"
+                style="width:100%; min-height:120px; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; resize:vertical; font-size:15px;"></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width:100%">Submit Quote Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="section alt" id="services">
+  <div class="container">
+    <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🔧</span>
+        <h3>Lift Kits</h3>
+        <p>Professional lift kit installation for all makes and models. From 2" leveling kits to 6"+ lifts.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <h3>Tire & Wheel Packages</h3>
+        <p>Complete tire and wheel packages with expert fitment guidance. We ensure perfect compatibility.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🛠️</span>
+        <h3>Suspension Upgrades</h3>
+        <p>Performance suspension systems for on-road comfort and off-road capability.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">💡</span>
+        <h3>Lighting Systems</h3>
+        <p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🎯</span>
+        <h3>Custom Builds</h3>
+        <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">✅</span>
+        <h3>Expert Consultation</h3>
+        <p>Free expert advice on parts selection, fitment, and build planning for your project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section class="section" id="products">
+  <div class="container">
+    <h2 class="section-title">Shop <span class="highlight">Products</span></h2>
+    
+    <div class="products-grid">
+      <div class="product-card">
+        <span class="service-icon">🛞</span>
+        <h3>All-Terrain Tires</h3>
+        <p>Top brands for every terrain</p>
+      </div>
+
+      <div class="product-card">
+        <span class="service-icon">⭕</span>
+        <h3>Wheels & Rims</h3>
+        <p>Beadlock, steel, and alloy options</p>
+      </div>
+
+      <div class="product-card">
+        <span class="service-icon">📐</span>
+        <h3>Lift Kits</h3>
+        <p>2" to 6"+ suspension lifts</p>
+      </div>
+
+      <div class="product-card">
+        <span class="service-icon">🔆</span>
+        <h3>LED Lighting</h3>
+        <p>Light bars, pods, and rock lights</p>
+      </div>
+
+      <div class="product-card">
+        <span class="service-icon">🛡️</span>
+        <h3>Armor & Protection</h3>
+        <p>Skid plates, rock sliders, bumpers</p>
+      </div>
+
+      <div class="product-card">
+        <span class="service-icon">🎒</span>
+        <h3>Overland Gear</h3>
+        <p>Roof racks, awnings, recovery gear</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Brands Section -->
+<section class="section alt" id="brands">
+  <div class="container">
+    <h2 class="section-title">Trusted <span class="highlight">Brands</span></h2>
+    
+    <div class="brands-grid">
+      <div class="brand-card">BFGoodrich</div>
+      <div class="brand-card">Nitto</div>
+      <div class="brand-card">Toyo Tires</div>
+      <div class="brand-card">Method</div>
+      <div class="brand-card">Fuel</div>
+      <div class="brand-card">Black Rhino</div>
+      <div class="brand-card">Fox</div>
+      <div class="brand-card">King</div>
+      <div class="brand-card">Bilstein</div>
+      <div class="brand-card">Warn</div>
+      <div class="brand-card">ARB</div>
+      <div class="brand-card">Rigid</div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="section" id="reviews">
+  <div class="container">
+    <h2 class="section-title">Customer <span class="highlight">Reviews</span></h2>
+    
+    <div class="reviews-wrapper">
+      <div class="reviews-track" id="reviewTrack"></div>
+      
+      <div class="carousel-controls">
+        <button class="car-btn prev">‹</button>
+        <button class="car-btn next">›</button>
+      </div>
+      
+      <div class="review-dots" id="reviewDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Location Section - Elite Apple Style -->
+<section class="section alt" id="location">
+  <div class="container">
+    <h2 class="section-title">Visit the <span class="highlight">Shop</span></h2>
+    
+    <div class="elite-card">
+      <div class="card-header">
+        <h3>Come See Us in Houston</h3>
+        <p>Expert staff ready to help with your build</p>
+        <div class="card-status">
+          <span class="status-dot"></span>
+          Open Now • Closes 6 PM
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="info-tiles">
+          <div class="info-tile">
+            <span class="tile-icon">📍</span>
+            <div class="tile-label">Address</div>
+            <div class="tile-value">14300 Northwest Fwy<br>Suite A-23<br>Houston, TX 77040</div>
+          </div>
+
+          <div class="info-tile">
+            <span class="tile-icon">📞</span>
+            <div class="tile-label">Phone</div>
+            <div class="tile-value"><a href="tel:+12814068738">(281) 406-8738</a></div>
+          </div>
+
+          <div class="info-tile">
+            <span class="tile-icon">🕐</span>
+            <div class="tile-label">Hours</div>
+            <div class="tile-value">Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM<br>Sun: Closed</div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <a href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" class="btn-primary">Get Directions</a>
+          <a href="tel:+12814068738" class="btn-secondary">Call Now</a>
+        </div>
+
+        <!-- Social Links in Visit Card -->
+        <div class="visit-social">
+          <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" class="visit-social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" class="visit-social-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section" id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
+
+    <div class="split">
+      <div class="panel">
+        <h3>Get in Touch</h3>
+        <div class="kv"><div class="k">Phone</div><div class="v"><a href="tel:+12814068738">(281) 406-8738</a></div></div>
+        <div class="kv"><div class="k">Address</div><div class="v">14300 Northwest Fwy SUITE A-23, Houston, TX 77040</div></div>
+        <div class="kv"><div class="k">Hours</div><div class="v">Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM • Sun: Closed</div></div>
+      </div>
+
+      <div class="panel">
+        <h3>Quick Message</h3>
+        <form id="contactForm">
+          <div style="display:grid; gap:12px">
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Name</label>
+              <input required name="name" type="text"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Email</label>
+              <input required name="email" type="email"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Phone</label>
+              <input name="phone" type="tel"
+                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
+            </div>
+            <div>
+              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Message</label>
+              <textarea required name="message"
+                style="width:100%; min-height:140px; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; resize:vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width:100%">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <nav class="footer-nav">
+      <a href="#services">Services</a>
+      <a href="#products">Products</a>
+      <a href="#brands">Brands</a>
+      <a href="#location">Location</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-social" href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener">Instagram</a>
+      <a class="nav-social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener">Facebook</a>
+    </nav>
+
+    <div class="footer-social">
+      <a class="social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a class="social" href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="footer-copy">
+      © <span id="year"></span> Offroad Brothers 4WD Store • 14300 Northwest Fwy SUITE A-23, Houston, TX 77040 • (281) 406-8738
+      <div class="footer-built">Built by <a href="https://snrgweb.com" target="_blank" rel="noopener">SNRG WEB</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior:'smooth', block:'start' });
+      const nav = document.getElementById('mainNav');
+      if (nav) nav.classList.remove('active');
+    });
+  });
+
+  // Form handlers
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Thanks! We received your message and will reach out shortly.");
+      contactForm.reset();
+    });
+  }
+
+  const quoteForm = document.getElementById('quoteForm');
+  if (quoteForm) {
+    quoteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Thanks! We received your quote request and will reach out shortly.");
+      quoteForm.reset();
+    });
+  }
+
+  // Reviews carousel
+  const REVIEWS = [
+    {"name": "David Saldana", "meta": "10 reviews • 15 photos • 2 months ago", "stars": 5, "body": "Julio and his Offroad Brothers team are top-notch. Brought in a Tundra TRD PRO for a 3in lift and a tire upgrade — amazing job at a great price. Would definitely recommend.", "badge": "Lift + tires"},
+    {"name": "Troy Gannod", "meta": "Local Guide • 33 reviews • 5 months ago", "stars": 5, "body": "Julio is the best! He squeezed me into a busy week to get me rolling for the weekend. I already had parts for my 4Runner and wanted a reputable shop — they delivered.", "badge": "4Runner install"},
+    {"name": "Dave DeRouen", "meta": "Local Guide • 42 reviews • 10 months ago", "stars": 5, "body": "Outstanding customer service and work on my Tundra. In under an hour we had a plan, parts were ordered, and my truck was scheduled. Smooth process end-to-end.", "badge": "Plan + schedule fast"},
+    {"name": "James Benton", "meta": "Local Guide • 187 reviews • 3 months ago", "stars": 5, "body": "They installed a rally bar and lights on my 2025 Subaru Forester Wilderness — great job and clean install.", "badge": "Lights + bar"},
+    {"name": "Mauricio Torres", "meta": "6 reviews • 8 months ago", "stars": 5, "body": "Julio and Claudio were great to work with. Julio answered all my questions quickly and put my mind at ease. Great price and great communication.", "badge": "Clear communication"},
+    {"name": "Matthew Russell", "meta": "8 reviews • 6 months ago", "stars": 5, "body": "Julio is simply the best. Fantastic work, incredibly knowledgeable, and the craftsmanship is top-notch. Houston is fortunate to have a shop like this.", "badge": "Craftsmanship"}
+  ];
+
+  const track = document.getElementById('reviewTrack');
+  const dots = document.getElementById('reviewDots');
+
+  function stars(n) {
+    return "★★★★★".slice(0,n);
+  }
+
+  function renderReviews(){
+    if(!track) return;
+    track.innerHTML = "";
+    dots && (dots.innerHTML="");
+    REVIEWS.forEach((r, i) => {
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="review-top">
+          <div>
+            <div class="r-name">${r.name}</div>
+            <div class="r-meta">${r.meta}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="r-stars">${stars(r.stars)}</div>
+            <div class="r-meta">Google review</div>
+          </div>
+        </div>
+        <div class="r-body">"${r.body}"</div>
+        <div class="r-badge">✔ ${r.badge}</div>
+      `;
+      track.appendChild(card);
+
+      if(dots){
+        const d = document.createElement('button');
+        d.className = 'dotbtn' + (i===0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to review ' + (i+1));
+        d.addEventListener('click', () => {
+          const first = track.querySelector('.review-card');
+          if(!first) return;
+          const cardW = first.getBoundingClientRect().width + 16;
+          track.scrollTo({ left: i * cardW, behavior:'smooth' });
+        });
+        dots.appendChild(d);
+      }
+    });
+  }
+
+  function updateDots(){
+    if(!track || !dots) return;
+    const cards = [...track.querySelectorAll('.review-card')];
+    if(cards.length === 0) return;
+    const first = cards[0];
+    const cardW = first.getBoundingClientRect().width + 16;
+    const idx = Math.round(track.scrollLeft / cardW);
+    [...dots.children].forEach((b, i)=> b.classList.toggle('active', i===idx));
+  }
+
+  function step(dir){
+    if(!track) return;
+    const first = track.querySelector('.review-card');
+    if(!first) return;
+    const cardW = first.getBoundingClientRect().width + 16;
+    track.scrollBy({ left: dir * cardW, behavior:'smooth' });
+  }
+
+  renderReviews();
+  track && track.addEventListener('scroll', () => {
+    window.requestAnimationFrame(updateDots);
+  });
+
+  const prev = document.querySelector('.car-btn.prev');
+  const next = document.querySelector('.car-btn.next');
+  prev && prev.addEventListener('click', ()=>step(-1));
+  next && next.addEventListener('click', ()=>step(1));
+
+  // Language toggle
+  (function(){
+    const wrap = document.querySelector('.lang-wrap');
+    if(!wrap) return;
+    const btns = [...wrap.querySelectorAll('.lang-btn')];
+    const heroLead = document.getElementById('heroLead');
+    const btnCall = document.getElementById('btnCall');
+    const btnExplore = document.getElementById('btnExplore');
+
+    function setLang(lang){
+      document.documentElement.setAttribute('lang', lang);
+      btns.forEach(b=>{
+        const on = b.dataset.lang === lang;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      [heroLead, btnCall, btnExplore].forEach(el=>{
+        if(!el) return;
+        const key = lang === 'es' ? 'es' : 'en';
+        const val = el.dataset[key];
+        if(val) el.textContent = val;
+      });
+    }
+
+    btns.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.lang)));
+    setLang('en');
+  })();
+</script>
+
+</body>
+</html>

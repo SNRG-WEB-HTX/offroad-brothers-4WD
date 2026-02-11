@@ -864,8 +864,10 @@ a{color:inherit;text-decoration:none}
     width:clamp(300px, 70vw, 1535px);
     max-width:100%;
     margin:0;
+    display:block !important;
   }
   .hero-buttons{
+    margin-top:-60px;
     margin-bottom:clamp(300px, 60vh, 600px);
   }
   .hero p{font-size:clamp(16px, 4vw, 20px); margin-bottom:10px; line-height:1.4}
@@ -885,8 +887,10 @@ a{color:inherit;text-decoration:none}
   .hero-logo{
     width:clamp(280px, 85vw, 1535px);
     max-width:100%;
+    display:block !important;
   }
   .hero-buttons{
+    margin-top:-40px;
     margin-bottom:clamp(250px, 50vh, 500px);
   }
   .hero p{font-size:clamp(15px, 3.5vw, 18px)}
@@ -895,6 +899,13 @@ a{color:inherit;text-decoration:none}
     font-size:13px;
     width:100%;
     max-width:280px;
+  }
+}
+
+/* Laptop/smaller desktop adjustment */
+@media (min-width:769px) and (max-width:1440px){
+  .hero-buttons{
+    margin-top:-150px;
   }
 }
 

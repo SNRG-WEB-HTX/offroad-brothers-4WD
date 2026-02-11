@@ -176,8 +176,14 @@ a{color:inherit;text-decoration:none}
 }
 
 @media (max-width: 980px){
+  .header-inner{
+    justify-content:space-between;
+  }
   .nav{display:none}
-  .mobile-menu-btn{display:block}
+  .mobile-menu-btn{
+    display:block;
+    margin-left:auto;
+  }
   .nav.active{
     display:flex;
     flex-direction:column;
@@ -197,7 +203,7 @@ a{color:inherit;text-decoration:none}
 
 /* Hero with Logo */
 .hero{
-  padding:140px 0 92px;
+  padding:95px 0 45px;
   position:relative;
   overflow:hidden;
   background:var(--white);
@@ -225,30 +231,25 @@ a{color:inherit;text-decoration:none}
 }
 
 .hero-logo{
-  width:min(680px, 88vw);
+  width:min(884px, 92vw);
   height:auto;
-  margin-bottom:42px;
+  margin-bottom:10px;
   filter:drop-shadow(0 18px 46px rgba(255,59,47,.22));
-  animation:float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform:translateY(0px) }
-  50% { transform:translateY(-12px) }
 }
 
 .hero p{
   font-size:clamp(20px,2.6vw,28px);
   color:var(--muted);
   font-weight:600;
-  margin-bottom:42px;
+  margin-bottom:12px;
   max-width:780px;
-  line-height:1.5;
+  line-height:1.35;
 }
 
 .hero-buttons{
-  display:flex; 
-  gap:18px; 
+  display:flex;
+  gap:12px;
+  margin-top:-6px; 
   flex-wrap:wrap;
   justify-content:center;
 }
@@ -495,6 +496,7 @@ a{color:inherit;text-decoration:none}
   transition:all .25s ease;
   position:relative;
   overflow:hidden;
+  text-align:center;
 }
 .service-card::before{
   content:'';
@@ -513,7 +515,7 @@ a{color:inherit;text-decoration:none}
 }
 .service-icon{
   font-size:48px;
-  margin-bottom:18px;
+  margin:0 auto 18px;
   display:block;
 }
 .service-card h3{
@@ -821,8 +823,8 @@ a{color:inherit;text-decoration:none}
 }
 
 .footer-built{
-  margin-top:12px;
-  font-size:13px;
+  margin-top:16px;
+  font-size:15px;
   font-weight:700;
 }
 
@@ -831,7 +833,8 @@ a{color:inherit;text-decoration:none}
   text-decoration:none;
   transition:all .25s ease;
   font-weight:900;
-  letter-spacing:.8px;
+  letter-spacing:1px;
+  font-size:16px;
 }
 
 .footer-built a:hover{
@@ -841,11 +844,44 @@ a{color:inherit;text-decoration:none}
 
 /* Mobile responsiveness */
 @media (max-width:768px){
-  .hero{padding:120px 0 72px}
-  .hero-logo{margin-bottom:32px}
-  .hero p{font-size:18px; margin-bottom:32px}
+  .hero{padding:85px 0 42px}
+  .hero-logo{margin-bottom:8px}
+  .hero p{font-size:18px; margin-bottom:10px; line-height:1.35}
   .section{padding:64px 0}
   .section-title{margin-bottom:42px}
+}
+/* --- Trusted Brands: real logos, consistent sizing --- */
+.brands-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:16px;
+  margin-top:22px;
+}
+.brand-card{
+  border:1px solid rgba(10,10,10,.10);
+  border-radius:16px;
+  background:#fff;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:108px;
+  box-shadow:0 10px 26px rgba(10,10,10,.05);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.brand-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,59,47,.22);
+  box-shadow:0 16px 40px rgba(10,10,10,.08);
+}
+.brand-card img{
+  max-height:46px;
+  width:auto;
+  max-width:170px;
+  height:auto;
+  object-fit:contain;
+  filter:none !important; /* keep real logo colors */
+  opacity:1;
 }
 </style>
 </head>
@@ -891,7 +927,7 @@ a{color:inherit;text-decoration:none}
 <!-- Hero Section with Large Logo -->
 <section class="hero">
   <div class="container hero-inner">
-    <img src="/mnt/user-data/uploads/offroadbrotherlogo.png" alt="Offroad Brothers 4WD Store" class="hero-logo">
+    <img src="https://raw.githubusercontent.com/SNRG-WEB-HTX/offroad-brothers-4WD/main/images/offroadbrotherlogo.png" alt="Offroad Brothers 4WD Store" class="hero-logo">
     
     <p id="heroLead" 
        data-en="Off-road, 4x4, and overland tires, wheels, suspension, and accessories — plus expert installation and fitment help."
@@ -1006,18 +1042,42 @@ a{color:inherit;text-decoration:none}
     <h2 class="section-title">Trusted <span class="highlight">Brands</span></h2>
     
     <div class="brands-grid">
-      <div class="brand-card">BFGoodrich</div>
-      <div class="brand-card">Nitto</div>
-      <div class="brand-card">Toyo Tires</div>
-      <div class="brand-card">Method</div>
-      <div class="brand-card">Fuel</div>
-      <div class="brand-card">Black Rhino</div>
-      <div class="brand-card">Fox</div>
-      <div class="brand-card">King</div>
-      <div class="brand-card">Bilstein</div>
-      <div class="brand-card">Warn</div>
-      <div class="brand-card">ARB</div>
-      <div class="brand-card">Rigid</div>
+      <div class="brand-card">
+        <img src="https://www.bfgoodrichtires.com/etc.clientlibs/bfgoodrichtires/clientlibs/clientlib-base/resources/images/logo.svg" alt="BFGoodrich" style="max-width:140px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.nittotire.com/nitto-tire-logo-2022.png" alt="Nitto" style="max-width:120px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.toyotires.com/static/images/toyo-logo.svg" alt="Toyo Tires" style="max-width:130px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.methodracewheels.com/cdn/shop/files/Method_Race_Wheels_Logo_Black.png?v=1668110960" alt="Method" style="max-width:130px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://fueloffroad.com/wp-content/themes/fueloffroad/images/logo.svg" alt="Fuel" style="max-width:100px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.blackrhinowheels.com/images/black-rhino-wheels-logo.svg" alt="Black Rhino" style="max-width:110px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.ridefox.com/images/fox-logo.svg" alt="Fox" style="max-width:100px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://kingshocks.com/wp-content/uploads/2020/12/king-shocks-logo.png" alt="King" style="max-width:120px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.bilstein.com/media/logo/websites/1/bilstein-logo.svg" alt="Bilstein" style="max-width:130px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.warn.com/static/version1736445034/frontend/Warn/warn/en_US/images/logo.svg" alt="Warn" style="max-width:110px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://arb.com.au/wp-content/themes/arb/images/arb-logo.svg" alt="ARB" style="max-width:90px; height:auto">
+      </div>
+      <div class="brand-card">
+        <img src="https://www.rigidindustries.com/sites/default/files/rigid_logo.svg" alt="Rigid" style="max-width:110px; height:auto">
+      </div>
     </div>
   </div>
 </section>
@@ -1154,9 +1214,7 @@ a{color:inherit;text-decoration:none}
       <a href="#products">Products</a>
       <a href="#brands">Brands</a>
       <a href="#contact">Contact</a>
-      <a class="nav-social" href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener">Instagram</a>
-      <a class="nav-social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener">Facebook</a>
-    </nav>
+</nav>
 
     <div class="footer-social">
       <a class="social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" aria-label="Facebook">

@@ -348,221 +348,78 @@ a{color:inherit;text-decoration:none}
   letter-spacing:-.5px;
 }
 
-.card-header p{
-  font-size:16px;
-  font-weight:600;
+.card-subhead{
+  font-size:14px;
+  font-weight:700;
   color:var(--muted);
-  margin:0;
-}
-
-.card-status{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:var(--soft-2);
-  border:1px solid var(--line);
-  padding:8px 18px;
-  border-radius:24px;
-  font-size:13px;
-  font-weight:800;
-  color:var(--ink);
-  letter-spacing:.8px;
   text-transform:uppercase;
-  margin-top:18px;
-}
-
-.status-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--orange);
-  box-shadow:0 0 12px rgba(255,59,47,.4);
-  animation:pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity:1; transform:scale(1) }
-  50% { opacity:.7; transform:scale(1.15) }
+  letter-spacing:1.2px;
 }
 
 .card-body{
   padding:36px;
-}
-
-.info-tiles{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-  gap:18px;
-  margin-bottom:32px;
-}
-
-.info-tile{
-  background:var(--soft-2);
-  border-radius:14px;
-  padding:20px;
-  border:1px solid var(--line);
-  transition:all .25s ease;
-}
-
-.info-tile:hover{
-  background:var(--soft);
-  border-color:var(--orange);
-  transform:translateY(-2px);
-  box-shadow:0 8px 22px rgba(255,59,47,.12);
-}
-
-.tile-icon{
-  font-size:28px;
-  margin-bottom:12px;
-  display:block;
-}
-
-.tile-label{
-  font-size:12px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:1px;
+  line-height:1.8;
+  font-weight:600;
   color:var(--muted);
-  margin-bottom:6px;
 }
 
-.tile-value{
-  font-size:18px;
-  font-weight:900;
-  color:var(--ink);
-  line-height:1.3;
+.card-body ul{
+  list-style:none;
+  padding:0;
+  margin:0;
 }
-
-.tile-value a{
+.card-body li{
+  padding:12px 0 12px 36px;
+  position:relative;
+  line-height:1.6;
+}
+.card-body li::before{
+  content:"✓";
+  position:absolute;
+  left:0;
   color:var(--orange);
-  text-decoration:none;
-  transition:color .25s ease;
+  font-weight:900;
+  font-size:18px;
 }
 
-.tile-value a:hover{
-  color:var(--orange-dark);
-  text-decoration:underline;
-}
-
-.card-actions{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.card-actions .btn-primary,
-.card-actions .btn-secondary{
-  flex:1;
-  min-width:200px;
-}
-
-/* Visit Shop Card Social Links */
-.visit-social{
-  display:flex;
-  gap:12px;
-  margin-top:24px;
-  padding-top:24px;
-  border-top:2px solid var(--line);
-}
-
-.visit-social-link{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:16px;
-  background:var(--soft-2);
-  border:2px solid var(--line);
-  border-radius:12px;
-  font-weight:800;
-  font-size:14px;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  transition:all .25s ease;
-}
-
-.visit-social-link:hover{
-  background:var(--orange);
-  border-color:var(--orange);
-  color:var(--white);
-  transform:translateY(-2px);
-  box-shadow:0 8px 20px rgba(255,59,47,.24);
-}
-
-.visit-social-link svg{
-  width:22px;
-  height:22px;
-}
-
-/* Services Grid */
-.services-grid{
+/* Services/Products Grid */
+.services-grid,.products-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
   gap:28px;
 }
-.service-card{
+.service-card,.product-card{
   background:var(--white);
-  padding:32px;
   border-radius:var(--radius);
+  padding:32px 28px;
+  text-align:center;
   border:2px solid var(--line);
   transition:all .25s ease;
-  position:relative;
-  overflow:hidden;
-  text-align:center;
 }
-.service-card::before{
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0;
-  height:5px;
-  background:linear-gradient(90deg, var(--orange), var(--orange-light));
-  transform:translateY(-5px);
-  transition:transform .25s ease;
-}
-.service-card:hover::before{transform:translateY(0)}
-.service-card:hover{
+.service-card:hover,.product-card:hover{
   border-color:var(--orange);
   box-shadow:var(--shadow-md);
-  transform:translateY(-4px);
+  transform:translateY(-5px);
 }
 .service-icon{
-  font-size:48px;
-  margin:0 auto 18px;
+  font-size:42px;
+  margin-bottom:18px;
   display:block;
 }
-.service-card h3{
-  font-size:22px;
+.service-card h3,.product-card h3{
+  font-size:20px;
   font-weight:900;
-  margin-bottom:12px;
   text-transform:uppercase;
-  letter-spacing:.5px;
+  letter-spacing:.9px;
+  margin-bottom:12px;
 }
-.service-card p{
+.service-card p,.product-card p{
+  font-size:15px;
   color:var(--muted);
   font-weight:600;
-  line-height:1.7;
+  line-height:1.6;
 }
 
-/* Products Grid */
-.products-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-  gap:24px;
-}
-.product-card{
-  background:var(--white);
-  border:2px solid var(--line);
-  border-radius:var(--radius);
-  padding:24px;
-  text-align:center;
-  transition:all .25s ease;
-}
-.product-card:hover{
-  border-color:var(--orange);
-  box-shadow:var(--shadow-md);
-  transform:translateY(-4px);
-}
 .product-card .service-icon{margin:0 auto 16px}
 .product-card h3{
   font-size:18px;
@@ -733,64 +590,76 @@ a{color:inherit;text-decoration:none}
 @media (max-width:768px){
   .split{grid-template-columns:1fr}
 }
-.panel{
-  background:var(--white);
-  padding:36px;
-  border-radius:var(--radius);
+.form-group{margin-bottom:22px}
+.form-group label{
+  display:block;
+  font-weight:900;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.9px;
+  margin-bottom:10px;
+  color:var(--ink);
+}
+.form-group input,
+.form-group textarea{
+  width:100%;
+  padding:16px 18px;
   border:2px solid var(--line);
+  border-radius:12px;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  transition:all .25s ease;
+  background:var(--white);
 }
-.panel h3{
-  font-size:26px;
+.form-group input:focus,
+.form-group textarea:focus{
+  outline:none;
+  border-color:var(--orange);
+  box-shadow:0 0 0 4px rgba(255,59,47,.10);
+}
+.form-group textarea{resize:vertical;min-height:140px}
+
+.btn-submit{
+  width:100%;
+  background:var(--orange);
+  color:var(--white);
+  padding:18px 32px;
+  border-radius:12px;
   font-weight:900;
-  margin-bottom:24px;
+  font-size:15px;
   text-transform:uppercase;
-  letter-spacing:.5px;
-}
-.kv{
-  display:flex;
-  margin-bottom:16px;
-  gap:12px;
-}
-.kv .k{
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  font-size:12px;
-  color:var(--muted);
-  min-width:80px;
-}
-.kv .v{
-  font-weight:700;
-  flex:1;
-}
-.kv .v a{
-  color:var(--orange);
-  text-decoration:none;
+  letter-spacing:1.1px;
+  border:2px solid var(--orange);
+  box-shadow:0 12px 32px rgba(255,59,47,.24);
+  cursor:pointer;
   transition:all .25s ease;
 }
-.kv .v a:hover{
-  text-decoration:underline;
-  color:var(--orange-dark);
+.btn-submit:hover{
+  background:var(--orange-dark);
+  border-color:var(--orange-dark);
+  transform:translateY(-3px);
+  box-shadow:0 18px 42px rgba(255,59,47,.32);
 }
 
 /* Footer */
 .footer{
   background:var(--ink);
   color:var(--white);
-  padding:64px 0 32px;
-  margin-top:92px;
+  padding:48px 0 32px;
+  border-top:4px solid var(--orange);
 }
 .footer-inner{
   display:flex;
   flex-direction:column;
-  gap:32px;
+  gap:28px;
   text-align:center;
 }
 .footer-nav{
   display:flex;
-  flex-wrap:wrap;
+  gap:28px;
   justify-content:center;
-  gap:clamp(14px,3vw,28px);
+  flex-wrap:wrap;
 }
 .footer-nav a{
   font-weight:800;
@@ -800,21 +669,18 @@ a{color:inherit;text-decoration:none}
   transition:color .25s ease;
 }
 .footer-nav a:hover{color:var(--orange)}
-.footer-nav .nav-social{
-  color:var(--orange);
-}
 
 .footer-social{
   display:flex;
-  justify-content:center;
   gap:16px;
+  justify-content:center;
 }
 .social{
-  width:46px;
-  height:46px;
-  border-radius:12px;
+  width:48px;
+  height:48px;
   background:rgba(255,255,255,.08);
-  border:2px solid rgba(255,255,255,.12);
+  border:2px solid rgba(255,255,255,.15);
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -855,14 +721,15 @@ a{color:inherit;text-decoration:none}
   text-decoration:underline;
 }
 
-/* Mobile responsiveness */
+/* Mobile responsiveness - CRITICAL FIX */
 @media (max-width:768px){
   .hero{
     padding:clamp(80px, 12vh, 120px) 0 clamp(40px, 6vh, 60px);
   }
+  /* THE FIX: Remove minimum width constraint on mobile */
   .hero-logo{
-    width:clamp(400px, 80vw, 1535px) !important;
-    max-width:100% !important;
+    width:clamp(280px, 85vw, 600px) !important;
+    max-width:95% !important;
     height:auto !important;
     margin:0 auto 50px auto !important;
     display:block !important;
@@ -882,14 +749,15 @@ a{color:inherit;text-decoration:none}
   .section-title{margin-bottom:42px}
 }
 
-/* Extra small devices */
+/* Extra small devices - CRITICAL FIX */
 @media (max-width:480px){
   .hero{
     padding:clamp(70px, 10vh, 100px) 0 clamp(35px, 5vh, 50px);
   }
+  /* THE FIX: Even smaller minimum width for tiny screens */
   .hero-logo{
-    width:clamp(350px, 85vw, 1535px) !important;
-    max-width:100% !important;
+    width:clamp(240px, 90vw, 500px) !important;
+    max-width:95% !important;
     height:auto !important;
     margin:0 auto 40px auto !important;
     display:block !important;
@@ -919,34 +787,256 @@ a{color:inherit;text-decoration:none}
 /* --- Trusted Brands: real logos, consistent sizing --- */
 .brands-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-  gap:16px;
-  margin-top:22px;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:18px;
 }
-.brand-card{
-  border:1px solid rgba(10,10,10,.10);
-  border-radius:16px;
-  background:#fff;
-  padding:18px;
+.brand-logo-card{
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+  padding:20px;
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:108px;
-  box-shadow:0 10px 26px rgba(10,10,10,.05);
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  transition:all .25s ease;
+  min-height:100px;
+}
+.brand-logo-card:hover{
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-3px);
+}
+.brand-logo-card img{
+  max-width:100%;
+  height:auto;
+  max-height:60px;
+  object-fit:contain;
+  filter:grayscale(1) opacity(.7);
+  transition:all .25s ease;
+}
+.brand-logo-card:hover img{
+  filter:grayscale(0) opacity(1);
+}
+
+/* Fallback for brand cards without logos */
+.brand-card{
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+  text-align:center;
+  font-weight:900;
+  font-size:18px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  transition:all .25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:120px;
 }
 .brand-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(255,59,47,.22);
-  box-shadow:0 16px 40px rgba(10,10,10,.08);
+  background:var(--orange);
+  color:var(--white);
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
+  transform:translateY(-3px);
 }
-.brand-card img{
-  max-height:46px;
-  width:auto;
-  max-width:170px;
-  height:auto;
+
+.card-info-item{
+  display:flex;
+  gap:16px;
+  margin-bottom:18px;
+  align-items:flex-start;
+}
+.info-icon{
+  font-size:28px;
+  flex-shrink:0;
+  width:44px;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--soft-2);
+  border-radius:10px;
+  border:2px solid var(--line);
+}
+.info-content h4{
+  font-size:16px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:var(--ink);
+  margin-bottom:6px;
+}
+.info-content p{
+  font-size:15px;
+  color:var(--muted);
+  font-weight:600;
+  line-height:1.6;
+}
+.info-content a{
+  color:var(--orange);
+  font-weight:700;
+  transition:color .25s ease;
+}
+.info-content a:hover{
+  color:var(--orange-dark);
+  text-decoration:underline;
+}
+
+/* Product page specific */
+body.product-page{padding-top:92px}
+body.product-page .hero{padding-top:clamp(40px,6vh,80px)}
+.product-header{text-align:center;margin-bottom:56px}
+.product-header h1{
+  font-size:clamp(42px,6vw,68px);
+  font-weight:900;
+  letter-spacing:-1.2px;
+  margin-bottom:18px;
+}
+.product-header p{
+  font-size:clamp(18px,2.2vw,24px);
+  color:var(--muted);
+  font-weight:600;
+  max-width:720px;
+  margin:0 auto;
+}
+
+.back-link{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 24px;
+  background:var(--soft-2);
+  border:2px solid var(--line);
+  border-radius:10px;
+  font-weight:900;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  transition:all .25s ease;
+  margin-bottom:32px;
+}
+.back-link:hover{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:var(--white);
+  transform:translateX(-3px);
+}
+
+/* Gallery styles */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:22px;
+  margin-bottom:48px;
+}
+.gallery-item{
+  position:relative;
+  overflow:hidden;
+  border-radius:var(--radius);
+  background:var(--soft);
+  aspect-ratio:4/3;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.gallery-item:hover{
+  transform:translateY(-5px);
+  box-shadow:var(--shadow-md);
+}
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .25s ease;
+}
+.gallery-item:hover img{
+  transform:scale(1.05);
+}
+.gallery-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity .25s ease;
+}
+.gallery-item:hover .gallery-overlay{
+  opacity:1;
+}
+
+/* Lightbox */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.lightbox.active{display:flex}
+.lightbox-content{
+  max-width:90vw;
+  max-height:90vh;
+  position:relative;
+}
+.lightbox-content img{
+  max-width:100%;
+  max-height:90vh;
   object-fit:contain;
-  filter:none !important; /* keep real logo colors */
+}
+.lightbox-close{
+  position:absolute;
+  top:-48px;
+  right:0;
+  font-size:36px;
+  color:var(--white);
+  cursor:pointer;
+  font-weight:700;
+  transition:color .25s ease;
+}
+.lightbox-close:hover{
+  color:var(--orange);
+}
+
+.filter-buttons{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:42px;
+}
+.filter-btn{
+  padding:12px 24px;
+  background:var(--white);
+  border:2px solid var(--line);
+  border-radius:10px;
+  font-weight:900;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.filter-btn:hover,
+.filter-btn.active{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:var(--white);
+  box-shadow:0 8px 22px rgba(255,59,47,.22);
+}
+
+/* Animation */
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.animate-in{
+  animation:slideUp .6s ease forwards;
   opacity:1;
 }
 </style>
@@ -1053,43 +1143,43 @@ a{color:inherit;text-decoration:none}
 <!-- Products Section -->
 <section class="section" id="products">
   <div class="container">
-    <h2 class="section-title">Shop <span class="highlight">Products</span></h2>
+    <h2 class="section-title">Featured <span class="highlight">Products</span></h2>
     
     <div class="products-grid">
       <div class="product-card">
-        <span class="service-icon">🛞</span>
-        <h3>All-Terrain Tires</h3>
-        <p>Top brands for every terrain</p>
+        <span class="service-icon">🚙</span>
+        <h3>Off-Road Tires</h3>
+        <p>Premium tire selection from top brands. All-terrain and mud-terrain options in stock.</p>
       </div>
 
       <div class="product-card">
-        <span class="service-icon">⭕</span>
-        <h3>Wheels & Rims</h3>
-        <p>Beadlock, steel, and alloy options</p>
+        <span class="service-icon">⚙️</span>
+        <h3>Custom Wheels</h3>
+        <p>Wide selection of wheels in various styles, sizes, and finishes to match your build.</p>
       </div>
 
       <div class="product-card">
-        <span class="service-icon">📐</span>
+        <span class="service-icon">🔩</span>
         <h3>Lift Kits</h3>
-        <p>2" to 6"+ suspension lifts</p>
+        <p>Quality lift kits from leading manufacturers. We help you choose the right setup.</p>
       </div>
 
       <div class="product-card">
-        <span class="service-icon">🔆</span>
+        <span class="service-icon">💡</span>
         <h3>LED Lighting</h3>
-        <p>Light bars, pods, and rock lights</p>
+        <p>High-performance LED light bars, pod lights, and rock lights for maximum visibility.</p>
       </div>
 
       <div class="product-card">
         <span class="service-icon">🛡️</span>
         <h3>Armor & Protection</h3>
-        <p>Skid plates, rock sliders, bumpers</p>
+        <p>Bumpers, skid plates, rock sliders, and protection accessories for your vehicle.</p>
       </div>
 
       <div class="product-card">
         <span class="service-icon">🎒</span>
         <h3>Overland Gear</h3>
-        <p>Roof racks, awnings, recovery gear</p>
+        <p>Roof racks, tents, storage solutions, and essential gear for adventure travel.</p>
       </div>
     </div>
   </div>
@@ -1101,42 +1191,18 @@ a{color:inherit;text-decoration:none}
     <h2 class="section-title">Trusted <span class="highlight">Brands</span></h2>
     
     <div class="brands-grid">
-      <div class="brand-card">
-        <img src="https://www.bfgoodrichtires.com/etc.clientlibs/bfgoodrichtires/clientlibs/clientlib-base/resources/images/logo.svg" alt="BFGoodrich" style="max-width:140px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.nittotire.com/nitto-tire-logo-2022.png" alt="Nitto" style="max-width:120px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.toyotires.com/static/images/toyo-logo.svg" alt="Toyo Tires" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.methodracewheels.com/cdn/shop/files/Method_Race_Wheels_Logo_Black.png?v=1668110960" alt="Method" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://fueloffroad.com/wp-content/themes/fueloffroad/images/logo.svg" alt="Fuel" style="max-width:100px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.blackrhinowheels.com/images/black-rhino-wheels-logo.svg" alt="Black Rhino" style="max-width:110px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.ridefox.com/images/fox-logo.svg" alt="Fox" style="max-width:100px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://kingshocks.com/wp-content/uploads/2020/12/king-shocks-logo.png" alt="King" style="max-width:120px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.bilstein.com/media/logo/websites/1/bilstein-logo.svg" alt="Bilstein" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.warn.com/static/version1736445034/frontend/Warn/warn/en_US/images/logo.svg" alt="Warn" style="max-width:110px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://arb.com.au/wp-content/themes/arb/images/arb-logo.svg" alt="ARB" style="max-width:90px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.rigidindustries.com/sites/default/files/rigid_logo.svg" alt="Rigid" style="max-width:110px; height:auto">
-      </div>
+      <div class="brand-card">BFGoodrich</div>
+      <div class="brand-card">Nitto</div>
+      <div class="brand-card">Fuel Wheels</div>
+      <div class="brand-card">Method</div>
+      <div class="brand-card">Fox Racing</div>
+      <div class="brand-card">Bilstein</div>
+      <div class="brand-card">King Shocks</div>
+      <div class="brand-card">Toyo Tires</div>
+      <div class="brand-card">Falken</div>
+      <div class="brand-card">Icon</div>
+      <div class="brand-card">Rough Country</div>
+      <div class="brand-card">Pro Comp</div>
     </div>
   </div>
 </section>
@@ -1148,101 +1214,55 @@ a{color:inherit;text-decoration:none}
     
     <div class="reviews-wrapper">
       <div class="reviews-track" id="reviewTrack"></div>
-      
       <div class="carousel-controls">
-        <button class="car-btn prev">‹</button>
-        <button class="car-btn next">›</button>
+        <button class="car-btn prev" aria-label="Previous review">‹</button>
+        <button class="car-btn next" aria-label="Next review">›</button>
       </div>
-      
       <div class="review-dots" id="reviewDots"></div>
     </div>
   </div>
 </section>
 
 <!-- Contact Section -->
-<section class="section" id="contact">
+<section class="section alt" id="contact">
   <div class="container">
-    <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:28px; max-width:900px; margin:0 auto;">
-      
-      <!-- Get a Quote Card -->
-      <div class="elite-card">
-        <div class="card-header">
-          <h3>Get a Quote</h3>
-          <p>Fast response on your build</p>
-          <div class="card-status">
-            <span class="status-dot"></span>
-            2 hour turnaround
+    <h2 class="section-title">Get In <span class="highlight">Touch</span></h2>
+    
+    <div class="split">
+      <div>
+        <div class="elite-card">
+          <div class="card-header">
+            <h3>Contact Information</h3>
+            <div class="card-subhead">We're here to help</div>
           </div>
-        </div>
-
-        <div class="card-body">
-          <form id="quoteForm">
-            <div style="display:grid; gap:12px">
-              <input required name="name" type="text" placeholder="Name *"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <input required name="email" type="email" placeholder="Email *"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <input name="phone" type="tel" placeholder="Phone"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <textarea required name="details" placeholder="Vehicle & services needed *"
-                style="width:100%; min-height:90px; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; resize:vertical; font-size:14px; transition:border .2s ease;"></textarea>
-              
-              <button type="submit" class="btn-primary" style="width:100%; margin-top:8px">Request Quote</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <!-- Visit Shop Card -->
-      <div class="elite-card">
-        <div class="card-header">
-          <h3>Visit the Shop</h3>
-          <p>Come see us in Houston</p>
-          <div class="card-status">
-            <span class="status-dot"></span>
-            Open Now • Closes 6 PM
-          </div>
-        </div>
-
-        <div class="card-body">
-          <div style="display:grid; gap:14px">
-            
-            <div style="display:flex; gap:12px; align-items:start">
-              <span style="font-size:22px; margin-top:2px">📍</span>
-              <div>
-                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
-                  14300 Northwest Fwy<br>Suite A-23<br>Houston, TX 77040
-                </div>
+          <div class="card-body">
+            <div class="card-info-item">
+              <div class="info-icon">📍</div>
+              <div class="info-content">
+                <h4>Location</h4>
+                <p>14300 Northwest Fwy<br>SUITE A-23<br>Houston, TX 77040</p>
               </div>
             </div>
 
-            <div style="display:flex; gap:12px; align-items:center">
-              <span style="font-size:22px">📞</span>
-              <div style="font-size:15px; font-weight:900; color:var(--orange)">
-                <a href="tel:+12814068738" style="text-decoration:none">(281) 406-8738</a>
+            <div class="card-info-item">
+              <div class="info-icon">📞</div>
+              <div class="info-content">
+                <h4>Phone</h4>
+                <p><a href="tel:+12814068738">(281) 406-8738</a></p>
               </div>
             </div>
 
-            <div style="display:flex; gap:12px; align-items:start">
-              <span style="font-size:22px; margin-top:2px">🕐</span>
-              <div>
-                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
-                  Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM<br>Sun: Closed
-                </div>
+            <div class="card-info-item">
+              <div class="info-icon">⏰</div>
+              <div class="info-content">
+                <h4>Hours</h4>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                Saturday: 10:00 AM - 4:00 PM<br>
+                Sunday: Closed</p>
               </div>
             </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px">
-              <a href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" class="btn-primary" style="padding:12px 20px; font-size:13px; text-align:center">Directions</a>
-              <a href="tel:+12814068738" class="btn-secondary" style="padding:12px 20px; font-size:13px; text-align:center">Call Now</a>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px">
+            <div style="margin-top:28px; padding-top:24px; border-top:2px solid var(--line); display:flex; flex-direction:column; gap:10px;">
               <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; background:var(--soft-2); border:2px solid var(--line); border-radius:10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.6px; transition:all .25s ease; text-decoration:none" onmouseover="this.style.background='var(--orange)'; this.style.borderColor='var(--orange)'; this.style.color='var(--white)'" onmouseout="this.style.background='var(--soft-2)'; this.style.borderColor='var(--line)'; this.style.color='inherit'">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -1257,6 +1277,45 @@ a{color:inherit;text-decoration:none}
               </a>
             </div>
 
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="elite-card">
+          <div class="card-header">
+            <h3>Request a Quote</h3>
+            <div class="card-subhead">Tell us about your project</div>
+          </div>
+          <div class="card-body">
+            <form id="quoteForm">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" required>
+              </div>
+
+              <div class="form-group">
+                <label for="vehicle">Vehicle Make & Model</label>
+                <input type="text" id="vehicle" placeholder="e.g. 2020 Toyota 4Runner">
+              </div>
+
+              <div class="form-group">
+                <label for="message">Project Details</label>
+                <textarea id="message" placeholder="Tell us about your build goals..."></textarea>
+              </div>
+
+              <button type="submit" class="btn-submit">Send Quote Request</button>
+            </form>
           </div>
         </div>
       </div>

@@ -200,7 +200,7 @@ a{color:inherit;text-decoration:none}
   padding:140px 0 92px;
   position:relative;
   overflow:hidden;
-  background:linear-gradient(to bottom, var(--soft), var(--bg));
+  background:var(--white);
 }
 .hero::before{
   content:'';
@@ -208,8 +208,8 @@ a{color:inherit;text-decoration:none}
   inset:-220px -220px auto -220px;
   height:420px;
   background:
-    radial-gradient(closest-side, rgba(255,59,47,.14), rgba(255,59,47,0) 70%),
-    radial-gradient(closest-side, rgba(0,0,0,.06), rgba(0,0,0,0) 70%);
+    radial-gradient(closest-side, rgba(255,59,47,.12), rgba(255,59,47,0) 70%),
+    radial-gradient(closest-side, rgba(0,0,0,.04), rgba(0,0,0,0) 70%);
   filter:blur(6px);
   pointer-events:none;
 }
@@ -320,15 +320,16 @@ a{color:inherit;text-decoration:none}
 }
 
 .card-header{
-  background:linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+  background:var(--white);
   padding:32px 36px;
   position:relative;
+  border-bottom:1px solid var(--line);
 }
 
 .card-header h3{
   font-size:28px;
   font-weight:900;
-  color:var(--white);
+  color:var(--ink);
   margin-bottom:8px;
   letter-spacing:-.5px;
 }
@@ -336,7 +337,7 @@ a{color:inherit;text-decoration:none}
 .card-header p{
   font-size:16px;
   font-weight:600;
-  color:rgba(255,255,255,.88);
+  color:var(--muted);
   margin:0;
 }
 
@@ -344,14 +345,13 @@ a{color:inherit;text-decoration:none}
   display:inline-flex;
   align-items:center;
   gap:8px;
-  background:rgba(255,255,255,.18);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.24);
+  background:var(--soft-2);
+  border:1px solid var(--line);
   padding:8px 18px;
   border-radius:24px;
   font-size:13px;
   font-weight:800;
-  color:var(--white);
+  color:var(--ink);
   letter-spacing:.8px;
   text-transform:uppercase;
   margin-top:18px;
@@ -361,8 +361,8 @@ a{color:inherit;text-decoration:none}
   width:8px;
   height:8px;
   border-radius:50%;
-  background:var(--white);
-  box-shadow:0 0 12px rgba(255,255,255,.6);
+  background:var(--orange);
+  box-shadow:0 0 12px rgba(255,59,47,.4);
   animation:pulse 2s ease-in-out infinite;
 }
 
@@ -865,7 +865,6 @@ a{color:inherit;text-decoration:none}
       <a href="#products">Products</a>
       <a href="#brands">Brands</a>
       <a href="#reviews">Reviews</a>
-      <a href="#location">Location</a>
       <a href="#contact">Contact</a>
       
       <!-- Social Icons in Header -->
@@ -892,7 +891,7 @@ a{color:inherit;text-decoration:none}
 <!-- Hero Section with Large Logo -->
 <section class="hero">
   <div class="container hero-inner">
-    <img src="/mnt/user-data/uploads/offroadbrotherslogo.png" alt="Offroad Brothers 4WD Store" class="hero-logo">
+    <img src="/mnt/user-data/uploads/offroadbrotherlogo.png" alt="Offroad Brothers 4WD Store" class="hero-logo">
     
     <p id="heroLead" 
        data-en="Off-road, 4x4, and overland tires, wheels, suspension, and accessories — plus expert installation and fitment help."
@@ -907,53 +906,6 @@ a{color:inherit;text-decoration:none}
       <a href="#services" class="btn-secondary" id="btnExplore" 
          data-en="Explore Services" 
          data-es="Explorar Servicios">Explore Services</a>
-    </div>
-  </div>
-</section>
-
-<!-- Get a Quote Section - Elite Apple Style -->
-<section class="section" id="quote">
-  <div class="container">
-    <h2 class="section-title">Get a <span class="highlight">Quote</span></h2>
-    
-    <div class="elite-card">
-      <div class="card-header">
-        <h3>Free Quote Request</h3>
-        <p>Tell us what you need and we'll get back to you fast</p>
-        <div class="card-status">
-          <span class="status-dot"></span>
-          Responses within 2 hours
-        </div>
-      </div>
-
-      <div class="card-body">
-        <form id="quoteForm">
-          <div style="display:grid; gap:16px; margin-bottom:24px">
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Name *</label>
-              <input required name="name" type="text" placeholder="Your name"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Email *</label>
-              <input required name="email" type="email" placeholder="your@email.com"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Phone</label>
-              <input name="phone" type="tel" placeholder="(281) 555-1234"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; font-size:15px;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted); display:block; margin-bottom:8px">Vehicle & Services Needed *</label>
-              <textarea required name="details" placeholder="e.g., 2020 Toyota 4Runner - looking for 3in lift + 35in tires"
-                style="width:100%; min-height:120px; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; resize:vertical; font-size:15px;"></textarea>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-primary" style="width:100%">Submit Quote Request</button>
-        </form>
-      </div>
     </div>
   </div>
 </section>
@@ -1088,109 +1040,108 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
-<!-- Location Section - Elite Apple Style -->
-<section class="section alt" id="location">
-  <div class="container">
-    <h2 class="section-title">Visit the <span class="highlight">Shop</span></h2>
-    
-    <div class="elite-card">
-      <div class="card-header">
-        <h3>Come See Us in Houston</h3>
-        <p>Expert staff ready to help with your build</p>
-        <div class="card-status">
-          <span class="status-dot"></span>
-          Open Now • Closes 6 PM
-        </div>
-      </div>
-
-      <div class="card-body">
-        <div class="info-tiles">
-          <div class="info-tile">
-            <span class="tile-icon">📍</span>
-            <div class="tile-label">Address</div>
-            <div class="tile-value">14300 Northwest Fwy<br>Suite A-23<br>Houston, TX 77040</div>
-          </div>
-
-          <div class="info-tile">
-            <span class="tile-icon">📞</span>
-            <div class="tile-label">Phone</div>
-            <div class="tile-value"><a href="tel:+12814068738">(281) 406-8738</a></div>
-          </div>
-
-          <div class="info-tile">
-            <span class="tile-icon">🕐</span>
-            <div class="tile-label">Hours</div>
-            <div class="tile-value">Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM<br>Sun: Closed</div>
-          </div>
-        </div>
-
-        <div class="card-actions">
-          <a href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" class="btn-primary">Get Directions</a>
-          <a href="tel:+12814068738" class="btn-secondary">Call Now</a>
-        </div>
-
-        <!-- Social Links in Visit Card -->
-        <div class="visit-social">
-          <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" class="visit-social-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            Instagram
-          </a>
-          <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" class="visit-social-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            Facebook
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Contact Section -->
 <section class="section" id="contact">
   <div class="container">
     <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
 
-    <div class="split">
-      <div class="panel">
-        <h3>Get in Touch</h3>
-        <div class="kv"><div class="k">Phone</div><div class="v"><a href="tel:+12814068738">(281) 406-8738</a></div></div>
-        <div class="kv"><div class="k">Address</div><div class="v">14300 Northwest Fwy SUITE A-23, Houston, TX 77040</div></div>
-        <div class="kv"><div class="k">Hours</div><div class="v">Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM • Sun: Closed</div></div>
-      </div>
-
-      <div class="panel">
-        <h3>Quick Message</h3>
-        <form id="contactForm">
-          <div style="display:grid; gap:12px">
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Name</label>
-              <input required name="name" type="text"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Email</label>
-              <input required name="email" type="email"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Phone</label>
-              <input name="phone" type="tel"
-                style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif;">
-            </div>
-            <div>
-              <label style="font-weight:900; text-transform:uppercase; letter-spacing:1px; font-size:12px; color:var(--muted)">Message</label>
-              <textarea required name="message"
-                style="width:100%; min-height:140px; padding:14px; border-radius:12px; border:2px solid var(--line); font-weight:700; font-family:'Satoshi',sans-serif; resize:vertical;"></textarea>
-            </div>
-
-            <button type="submit" class="btn-primary" style="width:100%">Send Message</button>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:28px; max-width:900px; margin:0 auto;">
+      
+      <!-- Get a Quote Card -->
+      <div class="elite-card">
+        <div class="card-header">
+          <h3>Get a Quote</h3>
+          <p>Fast response on your build</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            2 hour turnaround
           </div>
-        </form>
+        </div>
+
+        <div class="card-body">
+          <form id="quoteForm">
+            <div style="display:grid; gap:12px">
+              <input required name="name" type="text" placeholder="Name *"
+                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
+              
+              <input required name="email" type="email" placeholder="Email *"
+                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
+              
+              <input name="phone" type="tel" placeholder="Phone"
+                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
+              
+              <textarea required name="details" placeholder="Vehicle & services needed *"
+                style="width:100%; min-height:90px; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; resize:vertical; font-size:14px; transition:border .2s ease;"></textarea>
+              
+              <button type="submit" class="btn-primary" style="width:100%; margin-top:8px">Request Quote</button>
+            </div>
+          </form>
+        </div>
       </div>
+
+      <!-- Visit Shop Card -->
+      <div class="elite-card">
+        <div class="card-header">
+          <h3>Visit the Shop</h3>
+          <p>Come see us in Houston</p>
+          <div class="card-status">
+            <span class="status-dot"></span>
+            Open Now • Closes 6 PM
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div style="display:grid; gap:14px">
+            
+            <div style="display:flex; gap:12px; align-items:start">
+              <span style="font-size:22px; margin-top:2px">📍</span>
+              <div>
+                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
+                  14300 Northwest Fwy<br>Suite A-23<br>Houston, TX 77040
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; align-items:center">
+              <span style="font-size:22px">📞</span>
+              <div style="font-size:15px; font-weight:900; color:var(--orange)">
+                <a href="tel:+12814068738" style="text-decoration:none">(281) 406-8738</a>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:12px; align-items:start">
+              <span style="font-size:22px; margin-top:2px">🕐</span>
+              <div>
+                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
+                  Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM<br>Sun: Closed
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px">
+              <a href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" class="btn-primary" style="padding:12px 20px; font-size:13px; text-align:center">Directions</a>
+              <a href="tel:+12814068738" class="btn-secondary" style="padding:12px 20px; font-size:13px; text-align:center">Call Now</a>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px">
+              <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; background:var(--soft-2); border:2px solid var(--line); border-radius:10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.6px; transition:all .25s ease; text-decoration:none" onmouseover="this.style.background='var(--orange)'; this.style.borderColor='var(--orange)'; this.style.color='var(--white)'" onmouseout="this.style.background='var(--soft-2)'; this.style.borderColor='var(--line)'; this.style.color='inherit'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                <span>Instagram</span>
+              </a>
+              <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; background:var(--soft-2); border:2px solid var(--line); border-radius:10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.6px; transition:all .25s ease; text-decoration:none" onmouseover="this.style.background='var(--orange)'; this.style.borderColor='var(--orange)'; this.style.color='var(--white)'" onmouseout="this.style.background='var(--soft-2)'; this.style.borderColor='var(--line)'; this.style.color='inherit'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>Facebook</span>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1202,7 +1153,6 @@ a{color:inherit;text-decoration:none}
       <a href="#services">Services</a>
       <a href="#products">Products</a>
       <a href="#brands">Brands</a>
-      <a href="#location">Location</a>
       <a href="#contact">Contact</a>
       <a class="nav-social" href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener">Instagram</a>
       <a class="nav-social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener">Facebook</a>
@@ -1245,16 +1195,7 @@ a{color:inherit;text-decoration:none}
     });
   });
 
-  // Form handlers
-  const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert("Thanks! We received your message and will reach out shortly.");
-      contactForm.reset();
-    });
-  }
-
+  // Form handler
   const quoteForm = document.getElementById('quoteForm');
   if (quoteForm) {
     quoteForm.addEventListener('submit', (e) => {

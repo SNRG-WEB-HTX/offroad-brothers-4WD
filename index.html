@@ -572,9 +572,12 @@ a{color:inherit;text-decoration:none}
   width:100%;
   height:100%;
   backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
   border-radius:var(--radius);
   border:2px solid var(--line);
   overflow:hidden;
+  top:0;
+  left:0;
 }
 
 /* Front of card - will hold image */
@@ -584,12 +587,44 @@ a{color:inherit;text-decoration:none}
   align-items:center;
   justify-content:center;
   position:relative;
+  z-index:2;
+}
+
+.service-card.flipped .service-card-front{
+  z-index:0;
 }
 
 .service-card-front img{
   width:100%;
   height:100%;
   object-fit:cover;
+}
+
+/* Title banner overlay on front of card */
+.service-card-title-banner{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,.85) 40%, rgba(10,10,10,.95) 100%);
+  padding:24px 20px 20px;
+  z-index:3;
+}
+
+.service-card-title-banner h3{
+  color:var(--white);
+  font-size:20px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  margin:0;
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+
+@media (max-width:768px){
+  .service-card-title-banner h3{
+    font-size:18px;
+  }
 }
 
 /* Back of card - current content */
@@ -601,7 +636,12 @@ a{color:inherit;text-decoration:none}
   flex-direction:column;
   justify-content:center;
   text-align:center;
-  position:relative;
+  position:absolute;
+  z-index:1;
+}
+
+.service-card.flipped .service-card-back{
+  z-index:2;
 }
 
 .service-card-back::before{
@@ -1013,7 +1053,7 @@ a{color:inherit;text-decoration:none}
     height:auto !important;
     margin:0 auto 0 auto !important;
     display:block !important;
-    transform:scale(2.0);
+    transform:scale(1.82);
     transform-origin:center center;
     padding-top:40px;
   }
@@ -1037,8 +1077,8 @@ a{color:inherit;text-decoration:none}
     margin-bottom:0 !important;
   }
   .btn-primary, .btn-secondary{
-    padding:11px 20px !important;
-    font-size:12px !important;
+    padding:10px 17px !important;
+    font-size:10px !important;
     width:100% !important;
     letter-spacing:0.7px;
   }
@@ -1200,13 +1240,15 @@ a{color:inherit;text-decoration:none}
 .dealer-logos-grid .dealer-logo-card{
   flex:0 0 auto;
   scroll-snap-align:start;
-  width:360px;
+  width:200px;
+  height:160px;
 }
 
 /* Responsive logo sizes in horizontal scroll */
 @media (min-width:1200px){
   .dealer-logos-grid .dealer-logo-card{
-    width:400px;
+    width:220px;
+    height:180px;
   }
 }
 
@@ -1215,7 +1257,8 @@ a{color:inherit;text-decoration:none}
     gap:30px;
   }
   .dealer-logos-grid .dealer-logo-card{
-    width:300px;
+    width:160px;
+    height:140px;
   }
 }
 
@@ -1224,7 +1267,8 @@ a{color:inherit;text-decoration:none}
     gap:25px;
   }
   .dealer-logos-grid .dealer-logo-card{
-    width:260px;
+    width:140px;
+    height:120px;
   }
 }
 
@@ -1494,7 +1538,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-lift-kits.jpg" alt="Lift Kits" loading="lazy">
+            <img src="images/service-lift-kits.png" alt="Lift Kits" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Lift Kits</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>
@@ -1517,7 +1564,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-tire-wheel.jpg" alt="Tire & Wheel Packages" loading="lazy">
+            <img src="images/service-tire-wheel.webp" alt="Tire & Wheel Packages" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Tire & Wheel Packages</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>
@@ -1540,7 +1590,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-suspension.jpg" alt="Suspension Upgrades" loading="lazy">
+            <img src="images/service-suspension.webp" alt="Suspension Upgrades" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Suspension Upgrades</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>
@@ -1563,7 +1616,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-lighting.jpg" alt="Lighting Systems" loading="lazy">
+            <img src="images/service-lighting.png" alt="Lighting Systems" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Lighting Systems</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>
@@ -1586,7 +1642,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-custom-builds.jpg" alt="Custom Builds" loading="lazy">
+            <img src="images/service-custom-builds.png" alt="Custom Builds" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Custom Builds</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>
@@ -1609,7 +1668,10 @@ a{color:inherit;text-decoration:none}
       <div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
-            <img src="images/service-consultation.jpg" alt="Expert Consultation" loading="lazy">
+            <img src="images/service-consultation.png" alt="Expert Consultation" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Expert Consultation</h3>
+            </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 12h18M12 3l9 9-9 9"/>

@@ -32,8 +32,8 @@
   --shadow-sm:0 10px 26px rgba(10,10,10,.08);
   --shadow-md:0 18px 60px rgba(10,10,10,.12);
   --max:1200px;
-  --cd-rail-h: clamp(140px, 18vw, 220px);
-  --cd-tile-w: clamp(280px, 32vw, 480px);
+  --cd-rail-h: clamp(280px, 36vw, 440px);
+  --cd-tile-w: clamp(560px, 64vw, 960px);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -539,53 +539,136 @@ a{color:inherit;text-decoration:none}
   height:22px;
 }
 
-/* Services Grid */
+/* Services Grid - Flip Cards */
 .services-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
   gap:28px;
 }
+
+/* Flip card container */
 .service-card{
-  background:var(--white);
-  padding:32px;
+  perspective:1000px;
+  height:320px;
+  cursor:pointer;
+}
+
+.service-card-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  transition:transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-style:preserve-3d;
+}
+
+.service-card.flipped .service-card-inner{
+  transform:rotateY(180deg);
+}
+
+.service-card-front,
+.service-card-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
   border-radius:var(--radius);
   border:2px solid var(--line);
-  transition:all .25s ease;
-  position:relative;
   overflow:hidden;
-  text-align:center;
 }
-.service-card::before{
+
+/* Front of card - will hold image */
+.service-card-front{
+  background:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.service-card-front img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Back of card - current content */
+.service-card-back{
+  background:var(--white);
+  padding:32px;
+  transform:rotateY(180deg);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+}
+
+.service-card-back::before{
   content:'';
   position:absolute;
   top:0; left:0; right:0;
   height:5px;
   background:linear-gradient(90deg, var(--orange), var(--orange-light));
-  transform:translateY(-5px);
-  transition:transform .25s ease;
 }
-.service-card:hover::before{transform:translateY(0)}
-.service-card:hover{
-  border-color:var(--orange);
-  box-shadow:var(--shadow-md);
-  transform:translateY(-4px);
-}
+
 .service-icon{
   font-size:48px;
   margin:0 auto 18px;
   display:block;
 }
-.service-card h3{
+
+.service-card-back h3{
   font-size:22px;
   font-weight:900;
   margin-bottom:12px;
   text-transform:uppercase;
   letter-spacing:.5px;
 }
-.service-card p{
+
+.service-card-back p{
   color:var(--muted);
   font-weight:600;
   line-height:1.7;
+}
+
+/* Apple-style flip icon */
+.flip-icon{
+  position:absolute;
+  bottom:16px;
+  right:16px;
+  width:36px;
+  height:36px;
+  background:rgba(255,255,255,0.9);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+  transition:all 0.3s ease;
+  z-index:10;
+}
+
+.service-card:hover .flip-icon{
+  background:var(--orange);
+  transform:scale(1.1);
+}
+
+.flip-icon svg{
+  width:20px;
+  height:20px;
+  color:var(--ink);
+  transition:color 0.3s ease;
+}
+
+.service-card:hover .flip-icon svg{
+  color:var(--white);
+}
+
+/* Hover effect */
+.service-card:hover .service-card-front,
+.service-card:hover .service-card-back{
+  border-color:var(--orange);
+  box-shadow:var(--shadow-md);
 }
 
 /* Products Grid */
@@ -927,13 +1010,14 @@ a{color:inherit;text-decoration:none}
     width:100% !important;
     max-width:100% !important;
     height:auto !important;
-    margin:0 auto -20px auto !important;
+    margin:0 auto 0 auto !important;
     display:block !important;
-    transform:scale(2.5);
+    transform:scale(2.0);
     transform-origin:center center;
+    padding-top:40px;
   }
   .hero-buttons{
-    margin-top:clamp(80px, 12vh, 120px) !important;
+    margin-top:clamp(60px, 10vh, 90px) !important;
     margin-bottom:clamp(30px, 6vh, 60px);
     display:flex;
     flex-direction:column;
@@ -1407,39 +1491,141 @@ a{color:inherit;text-decoration:none}
     
     <div class="services-grid">
       <div class="service-card">
-        <span class="service-icon">🔧</span>
-        <h3>Lift Kits</h3>
-        <p>Professional lift kit installation for all makes and models. From 2" leveling kits to 6"+ lifts.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-lift-kits.jpg" alt="Lift Kits" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">🔧</span>
+            <h3>Lift Kits</h3>
+            <p>Professional lift kit installation for all makes and models. From 2" leveling kits to 6"+ lifts.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="service-card">
-        <span class="service-icon">⚙️</span>
-        <h3>Tire & Wheel Packages</h3>
-        <p>Complete tire and wheel packages with expert fitment guidance. We ensure perfect compatibility.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-tire-wheel.jpg" alt="Tire & Wheel Packages" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">⚙️</span>
+            <h3>Tire & Wheel Packages</h3>
+            <p>Complete tire and wheel packages with expert fitment guidance. We ensure perfect compatibility.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="service-card">
-        <span class="service-icon">🛠️</span>
-        <h3>Suspension Upgrades</h3>
-        <p>Performance suspension systems for on-road comfort and off-road capability.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-suspension.jpg" alt="Suspension Upgrades" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">🛠️</span>
+            <h3>Suspension Upgrades</h3>
+            <p>Performance suspension systems for on-road comfort and off-road capability.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="service-card">
-        <span class="service-icon">💡</span>
-        <h3>Lighting Systems</h3>
-        <p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-lighting.jpg" alt="Lighting Systems" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">💡</span>
+            <h3>Lighting Systems</h3>
+            <p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="service-card">
-        <span class="service-icon">🎯</span>
-        <h3>Custom Builds</h3>
-        <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-custom-builds.jpg" alt="Custom Builds" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">🎯</span>
+            <h3>Custom Builds</h3>
+            <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="service-card">
-        <span class="service-icon">✅</span>
-        <h3>Expert Consultation</h3>
-        <p>Free expert advice on parts selection, fitment, and build planning for your project.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-consultation.jpg" alt="Expert Consultation" loading="lazy">
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">✅</span>
+            <h3>Expert Consultation</h3>
+            <p>Free expert advice on parts selection, fitment, and build planning for your project.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1682,11 +1868,44 @@ a{color:inherit;text-decoration:none}
 </footer>
 
 <script>
-  // Force scroll to top on all page loads
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
-  window.scrollTo(0, 0);
+  // AGGRESSIVE SCROLL TO TOP - ALL DEVICES, NO EXCEPTIONS
+  (function forceScrollTop(){
+    // Method 1: Immediate scroll
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Method 2: Disable scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    
+    // Method 3: Force on load
+    window.addEventListener('load', function() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+    
+    // Method 4: Force on beforeunload
+    window.addEventListener('beforeunload', function() {
+      window.scrollTo(0, 0);
+    });
+    
+    // Method 5: Force on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', function() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+    
+    // Method 6: setTimeout backup
+    setTimeout(function() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }, 0);
+  })();
   
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1864,6 +2083,16 @@ a{color:inherit;text-decoration:none}
       btn.addEventListener('click', ()=>{
         const isOpen = btn.getAttribute('aria-expanded') === 'true';
         setOpen(btn, !isOpen);
+      });
+    });
+  })();
+
+  // Flip Cards for Services
+  (function(){
+    const cards = document.querySelectorAll('.service-card');
+    cards.forEach(card => {
+      card.addEventListener('click', function() {
+        this.classList.toggle('flipped');
       });
     });
   })();

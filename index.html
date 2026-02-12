@@ -32,6 +32,8 @@
   --shadow-sm:0 10px 26px rgba(10,10,10,.08);
   --shadow-md:0 18px 60px rgba(10,10,10,.12);
   --max:1200px;
+  --cd-rail-h: clamp(86px, 12vw, 140px);
+  --cd-tile-w: clamp(190px, 24vw, 340px);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1070,25 +1072,78 @@ a{color:inherit;text-decoration:none}
 }
 .dealer-scroll{
   padding:16px 18px 18px 18px;
-  max-height:420px;
-  overflow:auto;
+  max-height:none;
+  overflow:visible;
   overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
 }
 
-/* subtle scroll fade (nice on mobile) */
-.dealer-scroll{
-  mask-image:linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
-  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+/* Horizontal scrolling logo carousel */
+.dealer-logos-grid{
+  display:flex;
+  gap:40px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  padding:20px 10px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,59,47,.3) transparent;
 }
 
-.dealer-scroll::-webkit-scrollbar{width:10px}
-.dealer-scroll::-webkit-scrollbar-track{background:transparent}
-.dealer-scroll::-webkit-scrollbar-thumb{
-  background:rgba(10,10,10,.18);
-  border-radius:999px;
-  border:2px solid rgba(255,255,255,.7);
+.dealer-logos-grid::-webkit-scrollbar{
+  height:8px;
 }
+
+.dealer-logos-grid::-webkit-scrollbar-track{
+  background:rgba(0,0,0,.05);
+  border-radius:10px;
+}
+
+.dealer-logos-grid::-webkit-scrollbar-thumb{
+  background:rgba(255,59,47,.3);
+  border-radius:10px;
+  transition:background .25s ease;
+}
+
+.dealer-logos-grid::-webkit-scrollbar-thumb:hover{
+  background:var(--orange);
+}
+
+.dealer-logos-grid .dealer-logo-card{
+  flex:0 0 auto;
+  scroll-snap-align:start;
+  width:200px;
+}
+
+/* Responsive logo sizes in horizontal scroll */
+@media (min-width:1200px){
+  .dealer-logos-grid .dealer-logo-card{
+    width:220px;
+  }
+}
+
+@media (max-width:768px){
+  .dealer-logos-grid{
+    gap:30px;
+  }
+  .dealer-logos-grid .dealer-logo-card{
+    width:160px;
+  }
+}
+
+@media (max-width:480px){
+  .dealer-logos-grid{
+    gap:25px;
+  }
+  .dealer-logos-grid .dealer-logo-card{
+    width:140px;
+  }
+}
+
+/* Removed scroll fade for horizontal scroll */
+
+/* Removed old scrollbar styling - now using horizontal scroll on .dealer-logos-grid */
 
 @media (max-width:768px){
   .dealer-head-smart{
@@ -1185,6 +1240,101 @@ a{color:inherit;text-decoration:none}
     max-width:100px;
   }
 }
+
+/* ============================
+   CERTIFIED DEALER — PREMIER
+   ============================ */
+
+/* Premium animated pull-down (replaces instant hidden feel) */
+.dealer-expand{
+  display:grid;
+  grid-template-rows: 0fr;
+  opacity:0;
+  transform: translateY(-6px);
+  transition: grid-template-rows .28s ease, opacity .22s ease, transform .22s ease;
+  background: var(--soft);
+  border-top: 1px solid rgba(10,10,10,.08);
+}
+
+.dealer-expand[data-open="true"]{
+  grid-template-rows: 1fr;
+  opacity:1;
+  transform: translateY(0);
+}
+
+.dealer-expand > .dealer-scroll{
+  overflow:hidden;
+  padding: 16px 18px 20px;
+}
+
+/* Horizontal swipe rail */
+.dealer-logos-grid{
+  display:flex;
+  gap: clamp(18px, 2.6vw, 34px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 12px 0 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,59,47,.3) transparent;
+}
+
+.dealer-logos-grid::-webkit-scrollbar{
+  height: 6px;
+}
+
+.dealer-logos-grid::-webkit-scrollbar-track{
+  background: rgba(0,0,0,.04);
+  border-radius: 10px;
+}
+
+.dealer-logos-grid::-webkit-scrollbar-thumb{
+  background: rgba(255,59,47,.3);
+  border-radius: 10px;
+  transition: background .25s ease;
+}
+
+.dealer-logos-grid::-webkit-scrollbar-thumb:hover{
+  background: var(--orange);
+}
+
+/* Rail tile (card wrapper) */
+.dealer-expand .dealer-logos-grid .dealer-logo-card{
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: var(--cd-tile-w);
+  height: var(--cd-rail-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: transform .25s ease, opacity .25s ease;
+}
+
+.dealer-expand .dealer-logos-grid .dealer-logo-card:hover{
+  transform: scale(1.08);
+  opacity: 0.85;
+}
+
+/* Full-size logos inside rail */
+.dealer-expand .dealer-logos-grid .dealer-logo-card img{
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(0%);
+  transition: filter .25s ease;
+}
+
+.dealer-expand .dealer-logos-grid .dealer-logo-card:hover img{
+  filter: brightness(1.1);
+}
+
 
 
 </style>
@@ -1307,16 +1457,6 @@ a{color:inherit;text-decoration:none}
         </button>
       </div>
 
-      <!-- Featured (always visible) -->
-      <div class="dealer-featured" aria-label="Featured wheel brands">
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
-      </div>
-
       <!-- Expandable (scrollable) -->
       <div class="dealer-expand" id="dealerWheelsPanel" role="region" aria-labelledby="dealerWheelsBtn" hidden>
         <div class="dealer-scroll">
@@ -1348,16 +1488,6 @@ a{color:inherit;text-decoration:none}
           <span class="dealer-toggle-label">View all brands</span>
           <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
         </button>
-      </div>
-
-      <!-- Featured (always visible) -->
-      <div class="dealer-featured" aria-label="Featured suspension and accessory brands">
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/fox.webp" alt="FOX" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/bds.webp" alt="BDS Suspension" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
-        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
       </div>
 
       <!-- Expandable (scrollable) -->
@@ -1699,16 +1829,23 @@ a{color:inherit;text-decoration:none}
       if(!panel) return;
 
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      panel.hidden = !open;
+      
+      // Allow animation
+      panel.hidden = false;
+      panel.dataset.open = open ? 'true' : 'false';
+      
+      // Hide after animation when closing
+      if(!open){
+        setTimeout(()=>{ panel.hidden = true; }, 320);
+      }
 
-      // label swap
+      // Label swap
       const label = btn.querySelector('.dealer-toggle-label');
       if(label){
         label.textContent = open ? 'Hide brands' : 'View all brands';
       }
 
       if(open){
-        // keep user on the same page; just nudge to the start of the opened panel
         panel.scrollIntoView({behavior:'smooth', block:'nearest'});
       }
     }

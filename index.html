@@ -333,6 +333,48 @@ a{color:inherit;text-decoration:none}
   margin:0 auto;
 }
 
+
+
+/* --- Contact cards: Apple-elite equal sizing --- */
+#contact .contact-cards{
+  align-items:stretch;
+}
+
+#contact .contact-cards .elite-card{
+  height:100%;
+  min-height:clamp(560px, 62vh, 720px);
+  display:flex;
+  flex-direction:column;
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(10,10,10,.08);
+  box-shadow:0 18px 60px rgba(10,10,10,.08);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+#contact .contact-cards .elite-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 80px rgba(10,10,10,.12);
+  border-color:rgba(255,122,0,.25);
+}
+
+#contact .contact-cards .card-body{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+
+/* Make the Visit card content behave like a smart layout */
+#contact .contact-cards .card-body > div{
+  flex:1;
+}
+
+@media (max-width:768px){
+  #contact .contact-cards .elite-card{
+    min-height:unset;
+  }
+}
 .card-header{
   background:var(--white);
   padding:32px 36px;
@@ -921,40 +963,175 @@ a{color:inherit;text-decoration:none}
     margin-top:-150px;
   }
 }
-
-/* --- Trusted Brands: real logos, consistent sizing --- */
-.brands-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-  gap:16px;
-  margin-top:22px;
+/* --- Certified Dealer: smart featured + pull-down scroll --- */
+.dealer-block.dealer-smart{
+  max-width:1000px;
+  margin:0 auto 26px auto;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(10,10,10,.10);
+  border-radius:20px;
+  box-shadow:0 18px 60px rgba(10,10,10,.08);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  overflow:hidden;
 }
-.brand-card{
+
+.dealer-head-smart{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px 18px 14px 18px;
+  border-bottom:1px solid rgba(10,10,10,.08);
+  background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.86));
+}
+
+.dealer-head-copy{flex:1; min-width:0}
+.dealer-head-smart .dealer-block-title{
+  margin:0 0 6px 0;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.9px;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.dealer-head-smart .dealer-block-subtitle{
+  margin:0;
+  font-size:13px;
+  font-weight:650;
+  color:var(--muted);
+  line-height:1.55;
+}
+
+.dealer-toggle{
+  white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid rgba(10,10,10,.10);
+  background:rgba(255,255,255,.9);
+  font-weight:900;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+.dealer-toggle:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px rgba(10,10,10,.08);
+  border-color:rgba(255,122,0,.30);
+}
+.dealer-toggle-icon{
+  font-size:16px;
+  color:var(--orange);
+  transition:transform .2s ease;
+}
+.dealer-toggle[aria-expanded="true"] .dealer-toggle-icon{
+  transform:rotate(180deg);
+}
+
+.dealer-featured{
+  padding:16px 18px 18px 18px;
+  background:var(--soft);
+  display:grid;
+  grid-template-columns:repeat(12, 1fr);
+  gap:12px;
+}
+
+/* Scattered logic: featured cards span varied columns */
+.dealer-featured .dealer-logo-card--featured{ min-height:86px; }
+.dealer-featured .dealer-logo-card--featured:nth-child(1){grid-column:span 5; transform:rotate(-.4deg)}
+.dealer-featured .dealer-logo-card--featured:nth-child(2){grid-column:span 4; transform:rotate(.35deg)}
+.dealer-featured .dealer-logo-card--featured:nth-child(3){grid-column:span 3; transform:rotate(-.2deg)}
+.dealer-featured .dealer-logo-card--featured:nth-child(4){grid-column:span 4; transform:rotate(.2deg)}
+.dealer-featured .dealer-logo-card--featured:nth-child(5){grid-column:span 4; transform:rotate(-.35deg)}
+.dealer-featured .dealer-logo-card--featured:nth-child(6){grid-column:span 4; transform:rotate(.15deg)}
+
+.dealer-featured .dealer-logo-card--featured{
+  background:rgba(255,255,255,.92);
   border:1px solid rgba(10,10,10,.10);
   border-radius:16px;
+  box-shadow:0 10px 24px rgba(10,10,10,.06);
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.dealer-featured .dealer-logo-card--featured:hover{
+  transform:translateY(-2px) scale(1.01);
+  box-shadow:0 16px 42px rgba(10,10,10,.10);
+  border-color:rgba(255,122,0,.28);
+}
+
+.dealer-expand{
+  background:var(--soft);
+  border-top:1px solid rgba(10,10,10,.08);
+}
+.dealer-scroll{
+  padding:16px 18px 18px 18px;
+  max-height:420px;
+  overflow:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* subtle scroll fade (nice on mobile) */
+.dealer-scroll{
+  mask-image:linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+}
+
+.dealer-scroll::-webkit-scrollbar{width:10px}
+.dealer-scroll::-webkit-scrollbar-track{background:transparent}
+.dealer-scroll::-webkit-scrollbar-thumb{
+  background:rgba(10,10,10,.18);
+  border-radius:999px;
+  border:2px solid rgba(255,255,255,.7);
+}
+
+@media (max-width:768px){
+  .dealer-head-smart{
+    align-items:flex-start;
+    padding:16px 14px 12px 14px;
+  }
+  .dealer-toggle{
+    padding:9px 10px;
+    font-size:11px;
+  }
+  .dealer-featured{
+    padding:14px;
+    grid-template-columns:repeat(6, 1fr);
+    gap:10px;
+  }
+  .dealer-featured .dealer-logo-card--featured:nth-child(1){grid-column:span 3}
+  .dealer-featured .dealer-logo-card--featured:nth-child(2){grid-column:span 3}
+  .dealer-featured .dealer-logo-card--featured:nth-child(3){grid-column:span 2}
+  .dealer-featured .dealer-logo-card--featured:nth-child(4){grid-column:span 2}
+  .dealer-featured .dealer-logo-card--featured:nth-child(5){grid-column:span 3}
+  .dealer-featured .dealer-logo-card--featured:nth-child(6){grid-column:span 3}
+  .dealer-scroll{max-height:320px; padding:14px}
+}
+
+/* tighten logo cards inside dealer areas */
+#products .dealer-logo-card{
   background:#fff;
-  padding:18px;
+  border:1px solid rgba(10,10,10,.10);
+  border-radius:16px;
+  padding:16px;
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:108px;
+  min-height:92px;
   box-shadow:0 10px 26px rgba(10,10,10,.05);
-  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
-.brand-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(255,59,47,.22);
-  box-shadow:0 16px 40px rgba(10,10,10,.08);
-}
-.brand-card img{
+#products .dealer-logo-card img{
   max-height:46px;
   width:auto;
   max-width:170px;
   height:auto;
   object-fit:contain;
-  filter:none !important; /* keep real logo colors */
-  opacity:1;
 }
+
 </style>
 </head>
 <body>
@@ -1059,91 +1236,102 @@ a{color:inherit;text-decoration:none}
 <!-- Products Section -->
 <section class="section" id="products">
   <div class="container">
-    <h2 class="section-title">Shop <span class="highlight">Products</span></h2>
-    
-    <div class="products-grid">
-      <div class="product-card">
-        <span class="service-icon">🛞</span>
-        <h3>All-Terrain Tires</h3>
-        <p>Top brands for every terrain</p>
+    <h2 class="section-title">Certified <span class="highlight">Dealer</span></h2>
+
+    <!-- Wheels -->
+    <div class="dealer-block dealer-smart" data-dealer="wheels">
+      <div class="dealer-block-head dealer-head-smart">
+        <div class="dealer-head-copy">
+          <h3 class="dealer-block-title">Wheels</h3>
+          <p class="dealer-block-subtitle">Dialed fitment. Clean finishes. Built for Houston streets and weekend trails.</p>
+        </div>
+
+        <button class="dealer-toggle" type="button" aria-expanded="false" aria-controls="dealerWheelsPanel" id="dealerWheelsBtn">
+          <span class="dealer-toggle-label">View all brands</span>
+          <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
+        </button>
       </div>
 
-      <div class="product-card">
-        <span class="service-icon">⭕</span>
-        <h3>Wheels & Rims</h3>
-        <p>Beadlock, steel, and alloy options</p>
+      <!-- Featured (always visible) -->
+      <div class="dealer-featured" aria-label="Featured wheel brands">
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
       </div>
 
-      <div class="product-card">
-        <span class="service-icon">📐</span>
-        <h3>Lift Kits</h3>
-        <p>2" to 6"+ suspension lifts</p>
-      </div>
-
-      <div class="product-card">
-        <span class="service-icon">🔆</span>
-        <h3>LED Lighting</h3>
-        <p>Light bars, pods, and rock lights</p>
-      </div>
-
-      <div class="product-card">
-        <span class="service-icon">🛡️</span>
-        <h3>Armor & Protection</h3>
-        <p>Skid plates, rock sliders, bumpers</p>
-      </div>
-
-      <div class="product-card">
-        <span class="service-icon">🎒</span>
-        <h3>Overland Gear</h3>
-        <p>Roof racks, awnings, recovery gear</p>
+      <!-- Expandable (scrollable) -->
+      <div class="dealer-expand" id="dealerWheelsPanel" role="region" aria-labelledby="dealerWheelsBtn" hidden>
+        <div class="dealer-scroll">
+          <div class="dealer-logos-grid" aria-label="All wheel brands">
+            <div class="dealer-logo-card"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/american-traxx.webp" alt="American Traxx Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/black-rhino.webp" alt="Black Rhino Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/cali-offroad.webp" alt="Cali Offroad Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/dirty-life.webp" alt="Dirty Life Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Brands Section -->
-<section class="section alt" id="brands">
-  <div class="container">
-    <h2 class="section-title">Trusted <span class="highlight">Brands</span></h2>
-    
-    <div class="brands-grid">
-      <div class="brand-card">
-        <img src="https://www.bfgoodrichtires.com/etc.clientlibs/bfgoodrichtires/clientlibs/clientlib-base/resources/images/logo.svg" alt="BFGoodrich" style="max-width:140px; height:auto">
+    <!-- Suspensions & Accessories -->
+    <div class="dealer-block dealer-smart" data-dealer="suspensions">
+      <div class="dealer-block-head dealer-head-smart">
+        <div class="dealer-head-copy">
+          <h3 class="dealer-block-title">Suspensions &amp; Accessories</h3>
+          <p class="dealer-block-subtitle">Lift, level, armor, and essentials — installed right, aligned right, and road‑tested.</p>
+        </div>
+
+        <button class="dealer-toggle" type="button" aria-expanded="false" aria-controls="dealerSuspPanel" id="dealerSuspBtn">
+          <span class="dealer-toggle-label">View all brands</span>
+          <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
+        </button>
       </div>
-      <div class="brand-card">
-        <img src="https://www.nittotire.com/nitto-tire-logo-2022.png" alt="Nitto" style="max-width:120px; height:auto">
+
+      <!-- Featured (always visible) -->
+      <div class="dealer-featured" aria-label="Featured suspension and accessory brands">
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/Fox.webp" alt="FOX" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/BDS.webp" alt="BDS Suspension" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
+        <div class="dealer-logo-card dealer-logo-card--featured"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
       </div>
-      <div class="brand-card">
-        <img src="https://www.toyotires.com/static/images/toyo-logo.svg" alt="Toyo Tires" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.methodracewheels.com/cdn/shop/files/Method_Race_Wheels_Logo_Black.png?v=1668110960" alt="Method" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://fueloffroad.com/wp-content/themes/fueloffroad/images/logo.svg" alt="Fuel" style="max-width:100px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.blackrhinowheels.com/images/black-rhino-wheels-logo.svg" alt="Black Rhino" style="max-width:110px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.ridefox.com/images/fox-logo.svg" alt="Fox" style="max-width:100px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://kingshocks.com/wp-content/uploads/2020/12/king-shocks-logo.png" alt="King" style="max-width:120px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.bilstein.com/media/logo/websites/1/bilstein-logo.svg" alt="Bilstein" style="max-width:130px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.warn.com/static/version1736445034/frontend/Warn/warn/en_US/images/logo.svg" alt="Warn" style="max-width:110px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://arb.com.au/wp-content/themes/arb/images/arb-logo.svg" alt="ARB" style="max-width:90px; height:auto">
-      </div>
-      <div class="brand-card">
-        <img src="https://www.rigidindustries.com/sites/default/files/rigid_logo.svg" alt="Rigid" style="max-width:110px; height:auto">
+
+      <!-- Expandable (scrollable) -->
+      <div class="dealer-expand" id="dealerSuspPanel" role="region" aria-labelledby="dealerSuspBtn" hidden>
+        <div class="dealer-scroll">
+          <div class="dealer-logos-grid" aria-label="All suspension and accessory brands">
+            <div class="dealer-logo-card"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/BDS.webp" alt="BDS Suspension" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/body-armor.webp" alt="Body Armor" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/cali-raised.webp" alt="Cali Raised" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/dobinsons.webp" alt="Dobinsons" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/Fox.webp" alt="FOX" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/ironman.webp" alt="Ironman 4x4" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/king-off-road.webp" alt="King Shocks" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/max-trac.webp" alt="MaxTrac Suspension" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/nitto.webp" alt="Nitto" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/omac.webp" alt="OMAC" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/rival.webp" alt="RIVAL 4x4" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/Superlift-Logo.webp" alt="Superlift" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/tjm.webp" alt="TJM" loading="lazy"></div>
+            <div class="dealer-logo-card"><img src="images/bluetti.webp" alt="Bluetti" loading="lazy"></div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1170,7 +1358,7 @@ a{color:inherit;text-decoration:none}
   <div class="container">
     <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:28px; max-width:900px; margin:0 auto;">
+    <div class="contact-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:28px; max-width:900px; margin:0 auto;">
       
       <!-- Get a Quote Card -->
       <div class="elite-card">
@@ -1444,6 +1632,43 @@ a{color:inherit;text-decoration:none}
     btns.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.lang)));
     setLang('en');
   })();
+
+  // Certified Dealer: smart pull-down scroll per department
+  (function(){
+    const toggles = document.querySelectorAll('.dealer-toggle');
+    if(!toggles || toggles.length === 0) return;
+
+    function setOpen(btn, open){
+      const panelId = btn.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      if(!panel) return;
+
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      panel.hidden = !open;
+
+      // label swap
+      const label = btn.querySelector('.dealer-toggle-label');
+      if(label){
+        label.textContent = open ? 'Hide brands' : 'View all brands';
+      }
+
+      if(open){
+        // keep user on the same page; just nudge to the start of the opened panel
+        panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
+    }
+
+    toggles.forEach(btn=>{
+      // make sure hidden panels are hidden on load
+      setOpen(btn, false);
+
+      btn.addEventListener('click', ()=>{
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        setOpen(btn, !isOpen);
+      });
+    });
+  })();
+
 </script>
 
 </body>

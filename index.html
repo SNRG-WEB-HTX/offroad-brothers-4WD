@@ -861,17 +861,26 @@ a{color:inherit;text-decoration:none}
     overflow-x:hidden;
   }
   .hero{
-    padding:clamp(100px, 15vh, 140px) 0 clamp(20px, 4vh, 40px);
+    min-height:calc(100vh - 92px);
+    padding:clamp(110px, 20vh, 160px) 0 clamp(30px, 8vh, 60px);
     overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
   .hero-inner{
     overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
   }
   .hero-logo{
-    width:100% !important;
+    width:clamp(280px, 85vw, 360px) !important;
     max-width:100% !important;
     height:auto !important;
-    margin:0 auto -100px auto !important;
+    margin:0 auto -80px auto !important;
     display:block !important;
     visibility:visible !important;
     opacity:1 !important;
@@ -879,16 +888,28 @@ a{color:inherit;text-decoration:none}
   .hero-buttons{
     margin-top:0 !important;
     margin-bottom:clamp(30px, 6vh, 60px);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    padding:0 clamp(18px, 5vw, 32px);
   }
-  .hero p{font-size:clamp(16px, 4vw, 20px); margin-bottom:10px; line-height:1.4}
+  .hero p{
+    font-size:clamp(15px, 3.8vw, 18px); 
+    margin-bottom:clamp(20px, 4vh, 28px); 
+    line-height:1.45;
+    padding:0 clamp(12px, 3vw, 24px);
+  }
   .footer{
     padding:32px 0 0 !important;
     margin-top:0 !important;
     margin-bottom:0 !important;
   }
   .btn-primary, .btn-secondary{
-    padding:12px 24px !important;
-    font-size:13px !important;
+    padding:11px 20px !important;
+    font-size:12px !important;
+    width:100% !important;
+    letter-spacing:0.7px;
   }
   .section{padding:64px 0}
   .section-title{margin-bottom:42px}

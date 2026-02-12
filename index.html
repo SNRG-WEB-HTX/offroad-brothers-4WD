@@ -860,9 +860,6 @@ a{color:inherit;text-decoration:none}
   body{
     overflow-x:hidden;
   }
-  .hero .container{
-    padding:0 !important;
-  }
   .hero{
     min-height:calc(100vh - 92px);
     padding:clamp(110px, 20vh, 160px) 0 clamp(30px, 8vh, 60px);
@@ -871,6 +868,9 @@ a{color:inherit;text-decoration:none}
     align-items:center;
     justify-content:center;
   }
+  .hero .container{
+    padding:0 !important;
+  }
   .hero-inner{
     overflow:visible;
     display:flex;
@@ -878,18 +878,13 @@ a{color:inherit;text-decoration:none}
     align-items:center;
     justify-content:center;
     width:100%;
-    padding:0 !important;
-    max-width:100% !important;
   }
   .hero-logo{
     width:96vw !important;
     max-width:96vw !important;
-    min-width:96vw !important;
     height:auto !important;
     margin:0 auto -60px auto !important;
     display:block !important;
-    visibility:visible !important;
-    opacity:1 !important;
   }
   .hero-buttons{
     margin-top:0 !important;
@@ -898,7 +893,6 @@ a{color:inherit;text-decoration:none}
     flex-direction:column;
     gap:10px;
     width:calc(100% - 32px);
-    padding:0 16px;
   }
   .hero p{
     font-size:clamp(15px, 3.8vw, 18px); 
@@ -1308,31 +1302,11 @@ a{color:inherit;text-decoration:none}
 </footer>
 
 <script>
-  // Force scroll to top on page load/reload - mobile compatible
-  if (history.scrollRestoration) {
+  // Force scroll to top on all page loads
+  if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
-  
-  // Immediate scroll
   window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  
-  // Backup on page show (handles back button)
-  window.addEventListener('pageshow', function(event) {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  });
-  
-  // Final backup on full load
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 0);
-  });
   
   document.getElementById('year').textContent = new Date().getFullYear();
 

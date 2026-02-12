@@ -32,8 +32,8 @@
   --shadow-sm:0 10px 26px rgba(10,10,10,.08);
   --shadow-md:0 18px 60px rgba(10,10,10,.12);
   --max:1200px;
-  --cd-rail-h: clamp(86px, 12vw, 140px);
-  --cd-tile-w: clamp(190px, 24vw, 340px);
+  --cd-rail-h: clamp(140px, 18vw, 220px);
+  --cd-tile-w: clamp(280px, 32vw, 480px);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -924,14 +924,16 @@ a{color:inherit;text-decoration:none}
     width:100%;
   }
   .hero-logo{
-    width:96vw !important;
-    max-width:96vw !important;
+    width:100% !important;
+    max-width:100% !important;
     height:auto !important;
-    margin:0 auto -60px auto !important;
+    margin:0 auto -20px auto !important;
     display:block !important;
+    transform:scale(2.5);
+    transform-origin:center center;
   }
   .hero-buttons{
-    margin-top:0 !important;
+    margin-top:clamp(80px, 12vh, 120px) !important;
     margin-bottom:clamp(30px, 6vh, 60px);
     display:flex;
     flex-direction:column;
@@ -1248,18 +1250,23 @@ a{color:inherit;text-decoration:none}
 /* Premium animated pull-down (replaces instant hidden feel) */
 .dealer-expand{
   display:grid;
-  grid-template-rows: 0fr;
-  opacity:0;
-  transform: translateY(-6px);
-  transition: grid-template-rows .28s ease, opacity .22s ease, transform .22s ease;
-  background: var(--soft);
-  border-top: 1px solid rgba(10,10,10,.08);
-}
-
-.dealer-expand[data-open="true"]{
   grid-template-rows: 1fr;
   opacity:1;
   transform: translateY(0);
+  transition: grid-template-rows .28s ease, opacity .22s ease, transform .22s ease;
+  background: linear-gradient(135deg, 
+    rgba(255, 245, 245, 0.6) 0%,
+    rgba(255, 250, 240, 0.6) 25%,
+    rgba(245, 245, 255, 0.6) 50%,
+    rgba(250, 245, 255, 0.6) 75%,
+    rgba(255, 245, 250, 0.6) 100%);
+  border-top: 1px solid rgba(10,10,10,.08);
+}
+
+.dealer-expand[data-open="false"]{
+  grid-template-rows: 0fr;
+  opacity:0;
+  transform: translateY(-6px);
 }
 
 .dealer-expand > .dealer-scroll{
@@ -1451,8 +1458,8 @@ a{color:inherit;text-decoration:none}
           <p class="dealer-block-subtitle">Dialed fitment. Clean finishes. Built for Houston streets and weekend trails.</p>
         </div>
 
-        <button class="dealer-toggle" type="button" aria-expanded="false" aria-controls="dealerWheelsPanel" id="dealerWheelsBtn">
-          <span class="dealer-toggle-label">View all brands</span>
+        <button class="dealer-toggle" type="button" aria-expanded="true" aria-controls="dealerWheelsPanel" id="dealerWheelsBtn">
+          <span class="dealer-toggle-label">Hide brands</span>
           <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
         </button>
       </div>
@@ -1484,8 +1491,8 @@ a{color:inherit;text-decoration:none}
           <p class="dealer-block-subtitle">Lift, level, armor, and essentials — installed right, aligned right, and road‑tested.</p>
         </div>
 
-        <button class="dealer-toggle" type="button" aria-expanded="false" aria-controls="dealerSuspPanel" id="dealerSuspBtn">
-          <span class="dealer-toggle-label">View all brands</span>
+        <button class="dealer-toggle" type="button" aria-expanded="true" aria-controls="dealerSuspPanel" id="dealerSuspBtn">
+          <span class="dealer-toggle-label">Hide brands</span>
           <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
         </button>
       </div>
@@ -1830,9 +1837,9 @@ a{color:inherit;text-decoration:none}
 
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       
-      // Allow animation
-      panel.hidden = false;
+      // Set data-open for CSS animation
       panel.dataset.open = open ? 'true' : 'false';
+      panel.hidden = false;
       
       // Hide after animation when closing
       if(!open){
@@ -1851,8 +1858,8 @@ a{color:inherit;text-decoration:none}
     }
 
     toggles.forEach(btn=>{
-      // make sure hidden panels are hidden on load
-      setOpen(btn, false);
+      // Initialize panels as OPEN by default
+      setOpen(btn, true);
 
       btn.addEventListener('click', ()=>{
         const isOpen = btn.getAttribute('aria-expanded') === 'true';

@@ -623,6 +623,10 @@ a{color:inherit;text-decoration:none}
   margin:0;
   text-shadow:0 2px 8px rgba(0,0,0,.4);
 }
+/* Ensure service titles always render (fix missing titles on some devices) */
+.service-card-title-banner,
+.service-card-title-banner h3{display:block !important; visibility:visible !important; opacity:1 !important;}
+
 
 @media (max-width:768px){
   .service-card-title-banner{
@@ -1083,9 +1087,9 @@ a{color:inherit;text-decoration:none}
     margin-top:0 !important;
     margin-bottom:0 !important;
   }
-.btn-primary, .btn-secondary{
+.hero-buttons .btn-primary, .hero-buttons .btn-secondary{
   padding:18px 22px !important;
-  font-size:30px !important;
+  font-size:21px !important;
   line-height:1.1 !important;
   width:100% !important;
   letter-spacing:0.7px;
@@ -1555,8 +1559,7 @@ a{color:inherit;text-decoration:none}
   <div class="container">
     <h2 class="section-title">Our <span class="highlight">Services</span></h2>
     
-    <div class="services-grid">
-            <div class="service-card">
+    <div class="services-grid"><div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
             <img src="images/service-lighting.png" alt="Lighting Systems" loading="lazy">
@@ -1581,10 +1584,7 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
       </div>
-
-      
-
-      <div class="service-card">
+<div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
             <img src="images/service-tire-wheel.webp" alt="Tire & Wheel Packages" loading="lazy">
@@ -1609,66 +1609,7 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
       </div>
-
-      
-
-      <div class="service-card">
-        <div class="service-card-inner">
-          <div class="service-card-front">
-            <img src="images/service-suspension.webp" alt="Suspension Upgrades" loading="lazy">
-            <div class="service-card-title-banner">
-              <h3>Suspension Upgrades</h3>
-            </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="service-card-back">
-            <span class="service-icon">🛠️</span>
-            <h3>Suspension Upgrades</h3>
-            <p>Performance suspension systems for on-road comfort and off-road capability.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
-
-      <div class="service-card">
-        <div class="service-card-inner">
-          <div class="service-card-front">
-            <img src="images/service-custom-builds.png" alt="Custom Builds" loading="lazy">
-            <div class="service-card-title-banner">
-              <h3>Custom Builds</h3>
-            </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
-          <div class="service-card-back">
-            <span class="service-icon">🎯</span>
-            <h3>Custom Builds</h3>
-            <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
-
-      <div class="service-card">
+<div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
             <img src="images/service-consultation.png" alt="Expert Consultation" loading="lazy">
@@ -1693,8 +1634,57 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
       </div>
-
-      <div class="service-card">
+<div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-suspension.webp" alt="Suspension Upgrades" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Suspension Upgrades</h3>
+            </div>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">🛠️</span>
+            <h3>Suspension Upgrades</h3>
+            <p>Performance suspension systems for on-road comfort and off-road capability.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <img src="images/service-custom-builds.png" alt="Custom Builds" loading="lazy">
+            <div class="service-card-title-banner">
+              <h3>Custom Builds</h3>
+            </div>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M12 3l9 9-9 9"/>
+              </svg>
+            </div>
+          </div>
+          <div class="service-card-back">
+            <span class="service-icon">🎯</span>
+            <h3>Custom Builds</h3>
+            <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
+            <div class="flip-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12H3M12 21l-9-9 9-9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="service-card">
         <div class="service-card-inner">
           <div class="service-card-front">
             <img src="images/service-lift-kits.png" alt="Lift Kits" loading="lazy">
@@ -1718,11 +1708,7 @@ a{color:inherit;text-decoration:none}
             </div>
           </div>
         </div>
-      </div>
-
-      
-
-    </div>
+      </div></div>
   </div>
 </section>
 
@@ -2192,6 +2178,17 @@ a{color:inherit;text-decoration:none}
     });
   })();
 
+
+  // Remove any broken brand logos (prevents blank tiles)
+  (function(){
+    const imgs = document.querySelectorAll('.dealer-logos-grid img, .dealer-featured img');
+    imgs.forEach(img=>{
+      img.addEventListener('error', ()=>{
+        const card = img.closest('.dealer-logo-card');
+        if(card) card.remove();
+      }, { once:true });
+    });
+  })();
 </script>
 
 </body>

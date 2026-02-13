@@ -1438,8 +1438,8 @@ modalVideo.addEventListener("loadedmetadata", playNow, { once: true });
 modalVideo.addEventListener("canplay", playNow, { once: true });
 
 // Also attempt right away (best chance for mobile Safari)
-playNow();
 modalVideo.load();
+playNow();
 
 document.body.style.overflow = "hidden";
   }

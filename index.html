@@ -219,7 +219,6 @@ a{color:inherit;text-decoration:none}
   min-height:auto;
 }
 .hero::before{
-  z-index:0;
   content:'';
   position:absolute;
   inset:-220px -220px auto -220px;
@@ -614,13 +613,10 @@ a{color:inherit;text-decoration:none}
   position:relative;
   width:100%;
   background:linear-gradient(180deg, rgba(10,10,10,.72) 0%, rgba(10,10,10,.94) 100%);
-  padding:14px 18px 14px;
-  min-height:74px;
+  padding:16px 18px 14px;
+  min-height:68px;
   display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  align-items:flex-start;
-  gap:4px;
+  align-items:flex-end;
   z-index:3;
 }
 
@@ -633,16 +629,6 @@ a{color:inherit;text-decoration:none}
   margin:0;
   text-shadow:0 2px 8px rgba(0,0,0,.4);
 }
-
-.service-card-desc{
-  color:rgba(255,255,255,.88);
-  font-size:13px;
-  font-weight:650;
-  line-height:1.25;
-  margin:0;
-  max-width:100%;
-}
-
 /* Ensure service titles always render (fix missing titles on some devices) */
 .service-card-title-banner,
 .service-card-title-banner h3{display:block !important; visibility:visible !important; opacity:1 !important;}
@@ -688,8 +674,6 @@ a{color:inherit;text-decoration:none}
   margin:0 auto 18px;
   display:block;
 }
-/* Remove back-face icon (cleaner back panels) */
-.service-card-back .service-icon{display:none !important;}
 
 .service-card-back h3{
   font-size:22px;
@@ -744,8 +728,6 @@ a{color:inherit;text-decoration:none}
   border-color:var(--orange);
   box-shadow:var(--shadow-md);
 }
-
-.service-card:hover .service-card-front img{ transform:scale(0.92); }
 
 /* Products Grid */
 .products-grid{
@@ -1088,7 +1070,7 @@ a{color:inherit;text-decoration:none}
     height:auto !important;
     margin:0 auto 0 auto !important;
     display:block !important;
-    --logo-base-transform: scale(1.82);
+    transform:scale(1.82);
     transform-origin:center center;
     padding-top:40px;
   }
@@ -1522,20 +1504,6 @@ a{color:inherit;text-decoration:none}
   filter: brightness(1.1);
 }
 
-
-/* Transparent/white logo support (adds subtle pearly backdrop + contrast) */
-.dealer-logo-card{ position:relative; }
-.dealer-logo-card::before{
-  content:'';
-  position:absolute; inset:0;
-  background:
-    radial-gradient(closest-side, rgba(10,10,10,.10), rgba(10,10,10,0) 70%),
-    linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(250,250,250,1) 45%, rgba(245,246,248,1) 100%);
-  opacity:.9;
-  pointer-events:none;
-}
-.dealer-logo-card > *{ position:relative; z-index:1; }
-
 .dealer-logo-fallback{
   font-weight:900;
   font-size:12px;
@@ -1548,81 +1516,6 @@ a{color:inherit;text-decoration:none}
 
 
 
-
-
-
-/* ============================
-   HERO ANIMATIONS (ALL DEVICES)
-   ============================ */
-.hero-logo{
-  --logo-base-transform: none;
-  transform: var(--logo-base-transform);
-  transform-origin: 50% 55%;
-  animation: logoRock 2.2s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes logoRock{
-  0%   { transform: var(--logo-base-transform) rotate(0deg) translate3d(0,0,0); }
-  10%  { transform: var(--logo-base-transform) rotate(-2.8deg) translate3d(-3px, 2px, 0); }
-  20%  { transform: var(--logo-base-transform) rotate(3.2deg) translate3d(3px, -2px, 0); }
-  30%  { transform: var(--logo-base-transform) rotate(-2.2deg) translate3d(-2px, 2px, 0); }
-  40%  { transform: var(--logo-base-transform) rotate(2.4deg) translate3d(2px, -2px, 0); }
-  50%  { transform: var(--logo-base-transform) rotate(-1.6deg) translate3d(-2px, 1px, 0); }
-  60%  { transform: var(--logo-base-transform) rotate(1.6deg) translate3d(2px, -1px, 0); }
-  70%  { transform: var(--logo-base-transform) rotate(-0.8deg) translate3d(-1px, 1px, 0); }
-  80%  { transform: var(--logo-base-transform) rotate(0.8deg) translate3d(1px, -1px, 0); }
-  100% { transform: var(--logo-base-transform) rotate(0deg) translate3d(0,0,0); }
-}
-  6%   { transform: var(--logo-base-transform) rotate(-1.2deg) translateX(-2px) translateY(1px); }
-  12%  { transform: var(--logo-base-transform) rotate(1.4deg) translateX(2px) translateY(-1px); }
-  18%  { transform: var(--logo-base-transform) rotate(-1.0deg) translateX(-1px) translateY(1px); }
-  24%  { transform: var(--logo-base-transform) rotate(1.0deg) translateX(1px) translateY(-1px); }
-  30%  { transform: var(--logo-base-transform) rotate(0deg) translateX(0) translateY(0); }
-  100% { transform: var(--logo-base-transform) rotate(0deg) translateX(0) translateY(0); }
-}
-
-/* Pearly, wavy hero background */
-.hero::after{
-  content:'';
-  position:absolute;
-  inset:-260px -260px -280px -260px;
-  background:
-    radial-gradient(closest-side at 16% 28%, rgba(255,255,255,.80), rgba(255,255,255,0) 62%),
-    radial-gradient(closest-side at 84% 20%, rgba(255,59,47,.16), rgba(255,59,47,0) 66%),
-    radial-gradient(closest-side at 40% 88%, rgba(120,200,255,.18), rgba(120,200,255,0) 64%),
-    radial-gradient(closest-side at 72% 78%, rgba(255,170,210,.16), rgba(255,170,210,0) 64%),
-    radial-gradient(closest-side at 58% 48%, rgba(255,220,140,.14), rgba(255,220,140,0) 66%),
-    linear-gradient(120deg, rgba(255,255,255,.40), rgba(255,255,255,0) 60%);
-  background-size: 240% 240%;
-  opacity:.80;
-  pointer-events:none;
-  filter: blur(22px) saturate(1.25) contrast(1.05);
-  mix-blend-mode: screen;
-  transform: translate3d(0,0,0);
-  animation: pearlyWave 9.5s ease-in-out infinite;
-  z-index:0;
-}
-
-/* Keep hero content above animated background */
-.hero-inner{ position:relative; z-index:1; }
-
-@keyframes pearlyWave{
-  0%   { background-position: 0% 55%; transform: translate3d(0,0,0) rotate(0deg); }
-  25%  { background-position: 60% 35%; transform: translate3d(0,-6px,0) rotate(1.2deg); }
-  50%  { background-position: 100% 55%; transform: translate3d(0,0,0) rotate(0deg); }
-  75%  { background-position: 40% 75%; transform: translate3d(0,6px,0) rotate(-1.2deg); }
-  100% { background-position: 0% 55%; transform: translate3d(0,0,0) rotate(0deg); }
-}
-  50%  { background-position: 100% 45%; }
-  100% { background-position: 0% 55%; }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .hero-logo{ animation: none !important; }
-  .hero::after{ animation: none !important; }
-}
 
 </style>
 </head>
@@ -1691,7 +1584,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-lighting.png" alt="Lighting Systems" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Lighting Systems</h3>
-              <p class="service-card-desc">LED bars, rock lights, and clean installs.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1717,7 +1609,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-tire-wheel.webp" alt="Tire & Wheel Packages" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Tire & Wheel Packages</h3>
-              <p class="service-card-desc">Fitment-matched sets, mounted and balanced.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1743,7 +1634,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-consultation.png" alt="Expert Consultation" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Expert Consultation</h3>
-              <p class="service-card-desc">Free guidance on parts, fitment, and builds.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1769,7 +1659,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-suspension.webp" alt="Suspension Upgrades" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Suspension Upgrades</h3>
-              <p class="service-card-desc">Lift, level, and ride tuning done right.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1795,7 +1684,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-custom-builds.png" alt="Custom Builds" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Custom Builds</h3>
-              <p class="service-card-desc">Full builds tailored to your goals and budget.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1821,7 +1709,6 @@ a{color:inherit;text-decoration:none}
             <img src="images/service-lift-kits.png" alt="Lift Kits" loading="lazy">
             <div class="service-card-title-banner">
               <h3>Lift Kits</h3>
-              <p class="service-card-desc">From leveling kits to 6"+ lifts installed.</p>
             </div>
             <div class="flip-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -2307,77 +2194,6 @@ a{color:inherit;text-decoration:none}
       card.addEventListener('click', function() {
         this.classList.toggle('flipped');
       });
-    });
-  })();
-
-
-
-  // Auto carousel for brand rails (tap/click to pause/resume)
-  (function(){
-    const rails = document.querySelectorAll('.dealer-logos-grid');
-    if(!rails.length) return;
-
-    rails.forEach((rail)=>{
-      // Duplicate children for seamless loop
-      const original = Array.from(rail.children);
-      if(original.length < 2) return;
-
-      // Avoid double-init
-      if(rail.dataset.carouselInit === 'true') return;
-      rail.dataset.carouselInit = 'true';
-
-      original.forEach(node => rail.appendChild(node.cloneNode(true)));
-
-      let playing = true;
-      let rafId = null;
-      const speed = 0.45; // px per frame (~27px/s at 60fps)
-
-      function step(){
-        if(!playing) return;
-        rail.scrollLeft += speed;
-
-        const half = rail.scrollWidth / 2;
-        if(rail.scrollLeft >= half){
-          rail.scrollLeft -= half;
-        }
-        rafId = requestAnimationFrame(step);
-      }
-
-      function setPlaying(next){
-        playing = next;
-        rail.dataset.playing = playing ? 'true' : 'false';
-        if(playing){
-          if(rafId) cancelAnimationFrame(rafId);
-          rafId = requestAnimationFrame(step);
-        }else{
-          if(rafId) cancelAnimationFrame(rafId);
-          rafId = null;
-        }
-      }
-
-      // Start running
-      setPlaying(true);
-
-      // Tap/click rail to toggle
-      rail.addEventListener('click', (e)=>{
-        // Don't toggle when user clicks a link (none here) or is selecting text
-        setPlaying(!playing);
-      });
-
-      // Pause during drag/scroll interaction, resume after
-      let resumeT = null;
-      function pauseTemp(){
-        setPlaying(false);
-        if(resumeT) clearTimeout(resumeT);
-        resumeT = setTimeout(()=> setPlaying(true), 1400);
-      }
-      rail.addEventListener('pointerdown', pauseTemp, {passive:true});
-      rail.addEventListener('wheel', pauseTemp, {passive:true});
-      rail.addEventListener('touchstart', pauseTemp, {passive:true});
-      rail.addEventListener('scroll', ()=>{
-        // If user manually scrolls, pause briefly to avoid fighting the swipe
-        if(!rail.matches(':hover')) pauseTemp();
-      }, {passive:true});
     });
   })();
 

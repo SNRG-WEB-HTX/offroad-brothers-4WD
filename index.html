@@ -249,6 +249,45 @@ a{color:inherit;text-decoration:none}
   object-fit:contain;
   margin:0;
   filter:drop-shadow(0 18px 46px rgba(255,59,47,.22));
+
+  /* Offroad Brothers: drop + impact + rumble */
+  --ob-logo-scale: 1;
+  will-change: transform;
+  transform: translateY(0) scale(var(--ob-logo-scale));
+}
+
+/* Run animation only when JS adds the class (avoids timing/override issues) */
+.hero-logo.ob-anim{
+  animation:
+    obLogoDropImpact 1.05s cubic-bezier(.18, .94, .3, 1.02) both,
+    obLogoRumble 0.085s linear 1.05s 28;
+}
+
+/* Drop + land: uses scale var so mobile scaling never overrides */
+@keyframes obLogoDropImpact{
+  0%   { transform: translateY(-120vh) scale(var(--ob-logo-scale)); }
+  68%  { transform: translateY(10px)   scale(var(--ob-logo-scale)); }
+  78%  { transform: translateY(-7px)   scale(var(--ob-logo-scale)); }
+  90%  { transform: translateY(4px)    scale(var(--ob-logo-scale)); }
+  100% { transform: translateY(0)      scale(var(--ob-logo-scale)); }
+}
+
+/* Rumble after landing (2.3–2.6s effective based on device timing) */
+@keyframes obLogoRumble{
+  0%   { transform: translate(0,0)        scale(var(--ob-logo-scale)); }
+  20%  { transform: translate(-3px, 1px)  scale(var(--ob-logo-scale)); }
+  40%  { transform: translate(3px, -1px)  scale(var(--ob-logo-scale)); }
+  60%  { transform: translate(-2px, 1px)  scale(var(--ob-logo-scale)); }
+  80%  { transform: translate(2px, 0px)   scale(var(--ob-logo-scale)); }
+  100% { transform: translate(0,0)        scale(var(--ob-logo-scale)); }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .hero-logo, .hero-logo.ob-anim{
+    animation:none !important;
+    transform: translateY(0) scale(var(--ob-logo-scale)) !important;
+  }
 }
 
 .hero p{
@@ -2214,6 +2253,35 @@ a{color:inherit;text-decoration:none}
       }, { once:true });
     });
   })();
+
+  // Offroad Brothers Hero Logo: drop + rumble animation (all hero sections / all devices)
+  (function(){
+    const run = () => {
+      const logos = document.querySelectorAll('.hero .hero-logo');
+      if(!logos || logos.length === 0) return;
+
+      logos.forEach(logo=>{
+        // reset to ensure consistent replay on bfcache / reload
+        logo.classList.remove('ob-anim');
+        // force reflow
+        void logo.offsetWidth;
+        // trigger
+        logo.classList.add('ob-anim');
+      });
+    };
+
+    // Run after full load so layout is stable across devices
+    window.addEventListener('load', () => {
+      // two rafs ensures transforms apply after any responsive CSS
+      requestAnimationFrame(()=>requestAnimationFrame(run));
+    });
+
+    // If user returns via back/forward cache, re-run
+    window.addEventListener('pageshow', (e) => {
+      if(e.persisted) run();
+    });
+  })();
+
 </script>
 
 </body>

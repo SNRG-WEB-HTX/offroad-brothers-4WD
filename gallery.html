@@ -1389,6 +1389,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const modalVideo = document.getElementById("modalVideo");
   const modalTitle = document.getElementById("modalTitle");
 
+  // Mobile playback helper: tapping the video should always play (and unmute if it was muted for autoplay fallback)
+  modalVideo.addEventListener("click", () => {
+    if (modalVideo.paused) modalVideo.play().catch(()=>{});
+    if (modalVideo.muted) {
+      modalVideo.muted = false;
+      modalVideo.removeAttribute("muted");
+    }
+  });
+
   function openModal(item) {
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
@@ -1407,10 +1416,29 @@ modalVideo.controls = true;
 
 modalVideo.src = item.src;
 
-const tryPlay = () => modalVideo.play().catch(()=>{});
-modalVideo.addEventListener("loadedmetadata", tryPlay, { once: true });
-modalVideo.addEventListener("canplay", tryPlay, { once: true });
+// Try to play IMMEDIATELY while we're still inside the user's tap/click gesture.
+// iOS will often block play() if it's deferred to loadedmetadata/canplay handlers.
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
+function playNow(){
+  const p = modalVideo.play();
+  if (p && typeof p.catch === "function") {
+    p.catch(() => {
+      // Fallback: if iOS blocks unmuted playback, try muted.
+      if (isIOS) {
+        modalVideo.muted = true;
+        modalVideo.setAttribute("muted", "");
+        modalVideo.play().catch(()=>{});
+      }
+    });
+  }
+}
+
+modalVideo.addEventListener("loadedmetadata", playNow, { once: true });
+modalVideo.addEventListener("canplay", playNow, { once: true });
+
+// Also attempt right away (best chance for mobile Safari)
+playNow();
 modalVideo.load();
 
 document.body.style.overflow = "hidden";

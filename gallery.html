@@ -962,6 +962,24 @@ a{color:inherit;text-decoration:none}
   font-weight:1000;
   font-size:16px;
 }
+
+.duration-badge{
+  position:absolute;
+  left:10px;
+  bottom:10px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.22);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color:#fff;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.2px;
+}
+.duration-badge:empty{ display:none; }
+
 .cap{
   padding:10px 12px 12px;
   font-weight:900;
@@ -1131,7 +1149,7 @@ a{color:inherit;text-decoration:none}
     <nav class="nav" id="mainNav">
       <a href="index.html#services">Services</a>
       <a href="index.html#products">Products</a>
-      <a href="index.html#brands">Brands</a>
+      <a href="index.html">Home</a>
       <a href="index.html#reviews">Reviews</a>
       <a href="index.html#contact">Contact</a>
       
@@ -1176,7 +1194,7 @@ a{color:inherit;text-decoration:none}
       <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     </div>
     <div class="modal-body">
-      <video id="modalVideo" class="modal-video" controls playsinline preload="metadata"></video>
+      <video id="modalVideo" class="modal-video" controls playsinline webkit-playsinline preload="metadata"></video>
     </div>
   </div>
 </div>
@@ -1186,7 +1204,7 @@ a{color:inherit;text-decoration:none}
     <nav class="footer-nav">
       <a href="index.html#services">Services</a>
       <a href="index.html#products">Products</a>
-      <a href="index.html#brands">Brands</a>
+      <a href="index.html">Home</a>
       <a href="index.html#contact">Contact</a>
 </nav>
 
@@ -1374,23 +1392,36 @@ document.getElementById('year').textContent = new Date().getFullYear();
   function openModal(item) {
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
-    modalTitle.textContent = item.title || "Video";
+    modalTitle.textContent = "";
     modalVideo.pause();
-    modalVideo.innerHTML = "";
-    const srcEl = document.createElement("source");
-    srcEl.src = item.src;
-    srcEl.type = "video/mp4";
-    modalVideo.appendChild(srcEl);
-    modalVideo.load();
-    modalVideo.play().catch(()=>{});
-    document.body.style.overflow = "hidden";
+
+/* iOS/Safari can be picky when swapping <source> nodes dynamically.
+   Setting .src directly + waiting for loadedmetadata improves reliability. */
+modalVideo.removeAttribute("src");
+modalVideo.load();
+
+modalVideo.setAttribute("playsinline", "");
+modalVideo.setAttribute("webkit-playsinline", "");
+modalVideo.preload = "metadata";
+modalVideo.controls = true;
+
+modalVideo.src = item.src;
+
+const tryPlay = () => modalVideo.play().catch(()=>{});
+modalVideo.addEventListener("loadedmetadata", tryPlay, { once: true });
+modalVideo.addEventListener("canplay", tryPlay, { once: true });
+
+modalVideo.load();
+
+document.body.style.overflow = "hidden";
   }
 
   function closeModal() {
     modal.classList.remove("show");
     modal.setAttribute("aria-hidden", "true");
     modalVideo.pause();
-    modalVideo.innerHTML = "";
+    modalVideo.removeAttribute("src");
+    modalVideo.load();
     document.body.style.overflow = "";
   }
 
@@ -1399,6 +1430,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal.classList.contains("show")) closeModal();
   });
+
+  function formatTime(totalSeconds){
+    const s = Math.max(0, Math.floor(totalSeconds || 0));
+    const m = Math.floor(s / 60);
+    const r = s % 60;
+    return `${m}:${String(r).padStart(2,"0")}`;
+  }
+
 
   VIDEOS.forEach((item) => {
     const card = document.createElement("div");
@@ -1432,33 +1471,38 @@ badge.className = "play-badge";
 badge.textContent = "▶";
 thumb.appendChild(badge);
 
-const cap = document.createElement("div");
-cap.className = "cap";
+// Duration badge (loads metadata in background)
+const durationBadge = document.createElement("div");
+durationBadge.className = "duration-badge";
+durationBadge.textContent = "";
+thumb.appendChild(durationBadge);
 
-// Smart label: use saved make from localStorage (uniform across sessions)
-const makeKey = "make:" + item.src;
-const savedMake = localStorage.getItem(makeKey);
-cap.textContent = (savedMake && savedMake.trim()) ? savedMake.trim() : (item.title || "Build Video");
-
-const edit = document.createElement("button");
-edit.type = "button";
-edit.className = "edit-badge";
-edit.setAttribute("aria-label", "Set vehicle make");
-edit.textContent = "✎";
-edit.addEventListener("click", (e) => {
-  e.stopPropagation();
-  const current = localStorage.getItem(makeKey) || "";
-  const val = prompt("Vehicle make (example: Toyota, Ford, Jeep):", current);
-  if (val === null) return;
-  const cleaned = val.trim();
-  if (cleaned) localStorage.setItem(makeKey, cleaned);
-  else localStorage.removeItem(makeKey);
-  cap.textContent = cleaned ? cleaned : (item.title || "Build Video");
+// Try to fetch duration (best-effort, safe on mobile)
+const probe = document.createElement("video");
+probe.preload = "metadata";
+probe.muted = true;
+probe.playsInline = true;
+probe.setAttribute("playsinline","");
+probe.setAttribute("webkit-playsinline","");
+probe.src = item.src;
+probe.style.position = "absolute";
+probe.style.width = "1px";
+probe.style.height = "1px";
+probe.style.opacity = "0";
+probe.style.pointerEvents = "none";
+document.body.appendChild(probe);
+probe.addEventListener("loadedmetadata", () => {
+  if (isFinite(probe.duration) && probe.duration > 0) {
+    durationBadge.textContent = formatTime(probe.duration);
+  }
+  probe.remove();
 });
-thumb.appendChild(edit);
+probe.addEventListener("error", () => {
+  durationBadge.textContent = "";
+  probe.remove();
+});
 
 card.appendChild(thumb);
-card.appendChild(cap);
 grid.appendChild(card);
 });
 })();

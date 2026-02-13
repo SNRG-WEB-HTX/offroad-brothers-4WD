@@ -596,11 +596,17 @@ a{color:inherit;text-decoration:none}
 /* Image area stays inside the card frame and never overlaps the title */
 .service-card-front img{
   width:100%;
-  flex:1;
-  height:auto;
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
   object-fit:cover;
   display:block;
 }
+
+/* Prevent image/title overlap + fix iOS 3D/backface rendering quirks */
+.service-card-title-banner{ flex:0 0 auto; }
+.service-card-inner{ -webkit-transform-style:preserve-3d; will-change:transform; }
+.service-card-front, .service-card-back{ transform:translateZ(0); -webkit-transform:translateZ(0); }
 
 /* Title banner (separate row – no overlap with image) */
 .service-card-title-banner{
@@ -1088,12 +1094,13 @@ a{color:inherit;text-decoration:none}
     margin-bottom:0 !important;
   }
 .hero-buttons .btn-primary, .hero-buttons .btn-secondary{
-  padding:18px 22px !important;
-  font-size:21px !important;
-  line-height:1.1 !important;
+  padding:14px 18px !important;
+  font-size:15px !important;
+  line-height:1.15 !important;
   width:100% !important;
-  letter-spacing:0.7px;
-  border-radius:999px !important;
+  min-height:48px;
+  letter-spacing:0.9px;
+  border-radius:14px !important;
 }
   .section{padding:64px 0}
   .section-title{margin-bottom:42px}
@@ -1470,9 +1477,10 @@ a{color:inherit;text-decoration:none}
   align-items: center;
   justify-content: center;
   padding: 12px;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.06);
   transition: transform .25s ease, opacity .25s ease;
 }
 
@@ -1488,13 +1496,24 @@ a{color:inherit;text-decoration:none}
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: grayscale(0%);
+  filter: grayscale(0%) drop-shadow(0 2px 3px rgba(0,0,0,.35));
   transition: filter .25s ease;
 }
 
 .dealer-expand .dealer-logos-grid .dealer-logo-card:hover img{
   filter: brightness(1.1);
 }
+
+.dealer-logo-fallback{
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color:var(--ink);
+  opacity:.75;
+  text-align:center;
+}
+
 
 
 
@@ -2179,13 +2198,19 @@ a{color:inherit;text-decoration:none}
   })();
 
 
-  // Remove any broken brand logos (prevents blank tiles)
+  // Handle broken brand logos gracefully (show brand name instead of blank space)
   (function(){
     const imgs = document.querySelectorAll('.dealer-logos-grid img, .dealer-featured img');
     imgs.forEach(img=>{
       img.addEventListener('error', ()=>{
         const card = img.closest('.dealer-logo-card');
-        if(card) card.remove();
+        if(!card) return;
+        const label = (img.getAttribute('alt') || 'Brand').trim();
+        img.remove();
+        const span = document.createElement('span');
+        span.className = 'dealer-logo-fallback';
+        span.textContent = label;
+        card.appendChild(span);
       }, { once:true });
     });
   })();

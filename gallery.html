@@ -1404,14 +1404,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
     modalTitle.textContent = "";
     modalVideo.pause();
 
-    // iOS/mobile reliability: start muted + autoplay inside the user gesture, then user can unmute via tap/controls
-    modalVideo.muted = true;
-    modalVideo.setAttribute("muted", "");
-    modalVideo.autoplay = true;
-    modalVideo.setAttribute("autoplay", "");
-    modalVideo.playsInline = true;
-
-
 /* iOS/Safari can be picky when swapping <source> nodes dynamically.
    Setting .src directly + waiting for loadedmetadata improves reliability. */
 modalVideo.removeAttribute("src");

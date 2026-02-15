@@ -2533,6 +2533,166 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+
+/* Service card backs: unified "Lighting Systems" premium spec */
+.service-card-back{
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.service-card-back p{
+  margin-top: 10px;
+  font-weight: 800;
+  opacity: .84;
+}
+.service-meta .meta-row{
+  box-shadow: 0 10px 26px rgba(2,6,23,.06);
+}
+
+
+
+
+
+/* Google Reviews – elite manual slider (Apple-clean + Offroad) */
+.g-title-row{ display:inline-flex; align-items:center; gap:10px; }
+.gmark{ width:20px; height:20px; fill: rgba(2,6,23,.88); opacity:.9; }
+
+.g-slider-shell{
+  margin-top: 16px;
+  position: relative;
+  border-radius: 28px;
+}
+
+.g-slider{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 32px) / 3); /* desktop: 3 cards visible */
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 4px 56px 10px; /* room for nav buttons */
+  -webkit-overflow-scrolling: touch;
+}
+.g-slider::-webkit-scrollbar{ height: 8px; }
+.g-slider::-webkit-scrollbar-thumb{ background: rgba(2,6,23,.18); border-radius: 999px; }
+.g-slide{ scroll-snap-align: start; }
+
+.g-review{
+  border-radius: 24px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(2,6,23,.10);
+  box-shadow: 0 18px 50px rgba(2,6,23,.08);
+  padding: 18px 18px 16px;
+  height: 100%;
+}
+
+.g-head{ display:flex; align-items:center; gap:12px; }
+.g-avatar{
+  width:44px; height:44px; border-radius: 14px;
+  display:grid; place-items:center;
+  background: rgba(2,6,23,.04);
+  border:1px solid rgba(2,6,23,.08);
+  font-weight: 950;
+}
+.g-meta{ flex:1; min-width:0; }
+.g-name{ font-weight: 950; letter-spacing:-.01em; }
+.g-sub{ font-weight: 850; opacity:.65; font-size:12px; margin-top:2px; }
+.g-stars{ margin-top: 10px; display:flex; align-items:center; gap:8px; }
+.star{ font-size: 12px; line-height:1; color: var(--orange); }
+.g-badge{
+  margin-left:auto;
+  font-weight: 950;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(2,6,23,.04);
+  border:1px solid rgba(2,6,23,.08);
+}
+.g-text{
+  margin-top: 10px;
+  font-weight: 850;
+  opacity: .86;
+  line-height: 1.55;
+  font-size: 13px;
+}
+.g-reply{
+  margin-top: 12px;
+  border-top: 1px solid rgba(2,6,23,.08);
+  padding-top: 12px;
+  display:grid;
+  gap:6px;
+}
+.g-reply-k{
+  font-weight: 950;
+  font-size: 11px;
+  letter-spacing:.10em;
+  text-transform: uppercase;
+  opacity:.7;
+}
+.g-reply-v{ font-weight: 850; opacity:.82; font-size: 12px; line-height:1.5; }
+
+.g-nav{
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(2,6,23,.12);
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display:grid; place-items:center;
+  font-weight: 950;
+  font-size: 26px;
+  line-height: 1;
+  box-shadow: 0 14px 38px rgba(2,6,23,.10);
+  cursor: pointer;
+}
+.g-nav span{ transform: translateY(-1px); }
+.g-prev{ left: 10px; }
+.g-next{ right: 10px; }
+.g-nav:active{ transform: translateY(-50%) scale(.98); }
+
+.g-dots{
+  margin-top: 10px;
+  display:flex;
+  gap: 8px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.g-dot{
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(2,6,23,.18);
+  background: rgba(2,6,23,.10);
+  cursor:pointer;
+}
+.g-dot.active{
+  width: 22px;
+  background: rgba(255,59,47,.18);
+  border-color: rgba(255,59,47,.28);
+}
+
+.g-more{ margin-top: 18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+/* Tablet: 2 cards visible */
+@media (max-width: 980px){
+  .g-slider{ grid-auto-columns: calc((100% - 16px) / 2); padding-left: 52px; padding-right: 52px; }
+}
+/* Mobile: 1 card visible, nav buttons still usable */
+@media (max-width: 768px){
+  .g-slider{ grid-auto-columns: 100%; padding-left: 52px; padding-right: 52px; }
+}
+
+
+
+/* Thin orange trim for Google review cards */
+.g-review{
+  border-top: 3px solid var(--orange);
+}
+
 </style>
 </head>
 <body>
@@ -2630,7 +2790,7 @@ D LEFT -->
 <div class="hero-buttons">
       <a href="tel:+12814068738" class="btn-primary" id="btnCall" 
          data-en="Call Now" 
-         data-es="Llamar Ahora">Call Now</a>
+         data-es="Llamar Ahora">Get a Quote</a>
       <a href="#services" class="btn-secondary" id="btnExplore" 
          data-en="Explore Services" 
          data-es="Explorar Servicios">Explore Services</a>
@@ -2650,12 +2810,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Lighting Systems</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Lighting Systems</h3>
             <p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
@@ -2674,12 +2829,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Tire & Wheel Packages</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Tire & Wheel Packages</h3>
             <p>Complete tire and wheel packages with expert fitment guidance. We ensure perfect compatibility.</p>
@@ -2693,12 +2843,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Expert Consultation</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Expert Consultation</h3>
             <p>Free expert advice on parts selection, fitment, and build planning for your project.</p>
@@ -2712,12 +2857,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Suspension Upgrades</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Suspension Upgrades</h3>
             <p>Performance suspension systems for on-road comfort and off-road capability.</p>
@@ -2731,12 +2871,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Custom Builds</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Custom Builds</h3>
             <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
@@ -2750,12 +2885,7 @@ D LEFT -->
             <div class="service-card-title-banner">
               <h3>Lift Kits</h3>
             </div>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M12 3l9 9-9 9"/>
-              </svg>
-            </div>
-          </div>
+</div>
           <div class="service-card-back">
 <h3>Lift Kits</h3>
             <p>Professional lift kit installation for all makes and models. From 2" leveling kits to 6"+ lifts.</p>
@@ -2919,22 +3049,445 @@ D LEFT -->
 </section>
 
 <!-- Reviews Section -->
+
+
 <section class="section" id="reviews">
   <div class="container">
-    <h2 class="section-title">Customer <span class="highlight">Reviews</span></h2>
-    
-    <div class="reviews-wrapper">
-      <div class="reviews-track" id="reviewTrack"></div>
-      
-      <div class="carousel-controls">
-        <button class="car-btn prev">‹</button>
-        <button class="car-btn next">›</button>
+    <h2 class="section-title">
+      <span class="g-title-row">Google <span class="highlight">Reviews</span></span>
+    </h2>
+
+    <div class="g-slider-shell" aria-label="Google reviews slider">
+      <button class="g-nav g-prev" type="button" aria-label="Previous review">
+        <span aria-hidden="true">‹</span>
+      </button>
+
+      <div class="g-slider" id="gReviewSlider" tabindex="0">
+        <div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">D</div>
+          <div class="g-meta">
+            <div class="g-name">David Saldana</div>
+            <div class="g-sub">2 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio and his Offroad Brothers team are top-notch. Brought in a Tundra TRD PRO for a 3in lift and a tire upgrade, they did an amazing job at a great price. Would definitely recommend their services to anyone!</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much David and welcome to our family</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">J</div>
+          <div class="g-meta">
+            <div class="g-name">Justin Miller</div>
+            <div class="g-sub">4 days ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">This is my go-to place to have anything done to my 4Runner. Recently had a suspension upgrade done, they've also installed lights and rock sliders for me. These guys are friendly, knowledgeable and reliable. Highly recommend this shop.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank you so much justin, here is your 4runner home.</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">B</div>
+          <div class="g-meta">
+            <div class="g-name">Blair Paul</div>
+            <div class="g-sub">3 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Quite happy with Julio at Offroad Brothers. Clear communication and his knowledge about final outcome was paramount in my decision on what to install. Would highly recommend. Great service, price and turn around time.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much Blair enjoy your beautiful 4runner</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">C</div>
+          <div class="g-meta">
+            <div class="g-name">Carlo Palomino</div>
+            <div class="g-sub">4 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">An excellent experience! Julio helped me a lot with the type of tire for my truck, the proper lift, and much more. Highly recommended. Personalized time so your truck looks and drives great.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much carlo, welcome to our family</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">T</div>
+          <div class="g-meta">
+            <div class="g-name">Troy Gannod</div>
+            <div class="g-sub">6 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio is the best! He squeezed me in during a busy week to get me rolling for the weekend. I had the parts and needed a reputable shop—glad I chose Offroad Brothers.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much Troy and welcome to offroadbrothers family</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">M</div>
+          <div class="g-meta">
+            <div class="g-name">Matthew Russell</div>
+            <div class="g-sub">6 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio is simply the best. His work is fantastic, incredibly knowledgeable, and did an amazing job on my 5th Gen 4Runner. Could not be happier.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank so much sr and welcome to offroadbrothers family</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">D</div>
+          <div class="g-meta">
+            <div class="g-name">Dave DeRouen</div>
+            <div class="g-sub">10 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Extremely satisfied with the customer service and the work performed on my Tundra. We had a plan within an hour—parts ordered and truck scheduled. Clean, professional work.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much boss, offroadbrothers is your family now</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">G</div>
+          <div class="g-meta">
+            <div class="g-name">Gonzalo Galdamez</div>
+            <div class="g-sub">11 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Exceptional service and honest pricing. Needed upper control arms and alignment—excellent communication and quality work.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank so much gonzalo, was a pleasure work in your truck...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">J</div>
+          <div class="g-meta">
+            <div class="g-name">James Benton</div>
+            <div class="g-sub">4 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Had Offroad Brothers install a rally bar and lights on my 2025 Subaru Forester Wilderness. They did a great job.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank so much Mr James, was a pleasure meet you and work in your cool subaru...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">M</div>
+          <div class="g-meta">
+            <div class="g-name">Mauricio Torres</div>
+            <div class="g-sub">8 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio and Claudio were great to work with. Quick answers, peace of mind, and a great price on my Tundra TRD PRO work.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank you mauricio, you are part of our family and thank for trust your new tundra trd pro</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">A</div>
+          <div class="g-meta">
+            <div class="g-name">Adam Warner</div>
+            <div class="g-sub">5 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">This place was great. First Tacoma TRD Off-road and didn’t know much—Julio helped guide me and made upgrading easy.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank you so much adam, we are glad to help you</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">E</div>
+          <div class="g-meta">
+            <div class="g-name">Erik Gillen</div>
+            <div class="g-sub">2 years ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Got my Ironman Stage 2 lift done. Julio replied instantly with a quote and got me in the same day. Awesome experience.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Buddy thank you so much, offroadbrothers 4wd store is your home...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">J</div>
+          <div class="g-meta">
+            <div class="g-name">Jose Bellorin</div>
+            <div class="g-sub">4 years ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Great place! Julio listened, understood what I needed, and helped me save money. Knowledgeable and honest.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank so much sr, here is your home always ready for you</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">C</div>
+          <div class="g-meta">
+            <div class="g-name">Craig Workman</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Leveling, larger tires and alignment on our Silverado—terrific pre-consult, great work, and follow up call. We’ll be back.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much, you guys trust your silverado in our hands. Always welcome...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">A</div>
+          <div class="g-meta">
+            <div class="g-name">Austin Rupard</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Kickass job on my truck. Love the result—3.5" Ironman lift with Icon UCAs, wheels and Mickey Thompson tires. Looks incredible.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank so much Austin</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">D</div>
+          <div class="g-meta">
+            <div class="g-name">Douglass Simmons</div>
+            <div class="g-sub">2 years ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Brand new Tundra 1794—other shops weren’t helpful. Julio was passionate and knowledgeable. Great experience and results.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">hi mister Douglass... offroadbrothers 4wd its your home......</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">J</div>
+          <div class="g-meta">
+            <div class="g-name">J&S Lamoreaux</div>
+            <div class="g-sub">9 months ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio knew exactly what size tire would fit my TRX. Options, recommendations, and he listened to my preferences.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much, was a pleasure work on your fantastic trx...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">R</div>
+          <div class="g-meta">
+            <div class="g-name">RIVAL 4x4</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Highly recommend. Professional, customer-focused, responsive, fair pricing, delivers on promises.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much buddy</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">B</div>
+          <div class="g-meta">
+            <div class="g-name">Ben Thomas</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Can’t say enough good things about Julio and the team. If you want it done right, this is the place.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Omg Ben thank you so much, we always be here for you...</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">R</div>
+          <div class="g-meta">
+            <div class="g-name">Rachel S</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Julio helped me pick what I needed for my Sequoia based on terrain and what I wanted. Great guidance and service.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much rachel, offroadbrothers is your home.</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">D</div>
+          <div class="g-meta">
+            <div class="g-name">Diego Miranda</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Great service, communication and pricing. Lifted my JLU Rubicon and they did an awesome job.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank so much diego</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">M</div>
+          <div class="g-meta">
+            <div class="g-name">Michael Milino</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Great work at a competitive price. Lifted my 4Runner the right way—definitely back.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thnak you so much michael, welcome to the offroadbrothers family</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">F</div>
+          <div class="g-meta">
+            <div class="g-name">Frank Chance</div>
+            <div class="g-sub">a year ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Upgrades on our FJ Cruiser—Julio was great. Answered questions, great pricing, communication was excellent.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">Thank you so much guys, will be here for you any time</div>
+        </div>
+      </article></div><div class="g-slide"><article class="g-review">
+        <div class="g-head">
+          <div class="g-avatar">D</div>
+          <div class="g-meta">
+            <div class="g-name">David Laws</div>
+            <div class="g-sub">3 years ago</div>
+          </div>
+          <svg class="gmark" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M12 10.2v3.6h5.1c-.3 1.9-2 4.2-5.1 4.2a6 6 0 1 1 0-12c1.7 0 2.9.7 3.6 1.4l2.4-2.3C16.5 3.6 14.4 2.7 12 2.7 6.9 2.7 2.7 6.9 2.7 12S6.9 21.3 12 21.3c5.8 0 9.6-4.1 9.6-9.9 0-.7-.1-1.2-.2-1.7H12z"></path>
+</svg>
+        </div>
+        <div class="g-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="g-badge">5.0</span></div>
+        <p class="g-text">Great job. Same day service on the install. Great work! Going back for more custom work.</p>
+        <div class="g-reply">
+          <div class="g-reply-k">Owner</div>
+          <div class="g-reply-v">thank so much mister david, for trust your beautifull TRX in our hands.</div>
+        </div>
+      </article></div>
       </div>
-      
-      <div class="review-dots" id="reviewDots"></div>
+
+      <button class="g-nav g-next" type="button" aria-label="Next review">
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+
+    <div class="g-dots" id="gReviewDots" aria-label="Review pagination"></div>
+
+    <div class="g-more">
+      <a class="btn-primary" href="https://www.google.com/search?q=Offroad%20Brothers%204wd%20Store%20reviews" target="_blank" rel="noopener">Read more on Google</a>
     </div>
   </div>
 </section>
+
+
 
 <!-- Contact Section -->
 <section class="section" id="contact">
@@ -2973,7 +3526,7 @@ D LEFT -->
       <div class="visit-apple-actions">
         <div class="visit-cta-row">
           <a class="btn-primary visit-big" href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" rel="noopener">Directions</a>
-          <a class="btn-secondary visit-big" href="tel:+12814068738">Call Now</a>
+          <a class="btn-secondary visit-big" href="tel:+12814068738">Get a Quote</a>
         </div>
 
         <div class="visit-social-row" aria-label="Social links">
@@ -3314,6 +3867,60 @@ D LEFT -->
     activate('wheels');
   })();
 
+</script>
+
+
+<script>
+(function(){
+  const slider = document.getElementById('gReviewSlider');
+  if(!slider) return;
+  const prev = document.querySelector('.g-prev');
+  const next = document.querySelector('.g-next');
+  const dotsWrap = document.getElementById('gReviewDots');
+  const slides = Array.from(slider.querySelectorAll('.g-slide'));
+
+  function getStep(){
+    const first = slides[0];
+    if(!first) return slider.clientWidth;
+    const w = first.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(slider).columnGap || getComputedStyle(slider).gap || 0);
+    return w + gap;
+  }
+
+  function scrollByStep(dir){
+    slider.scrollBy({ left: dir * getStep(), behavior: 'smooth' });
+  }
+
+  prev && prev.addEventListener('click', ()=>scrollByStep(-1));
+  next && next.addEventListener('click', ()=>scrollByStep(1));
+
+  // Dots (one per slide)
+  if(dotsWrap){
+    dotsWrap.innerHTML = slides.map((_,i)=>'<button class="g-dot" type="button" aria-label="Go to review '+(i+1)+'"></button>').join('');
+    const dots = Array.from(dotsWrap.querySelectorAll('.g-dot'));
+
+    function setActiveByScroll(){
+      const step = getStep();
+      const idx = Math.round(slider.scrollLeft / step);
+      dots.forEach((d,i)=>d.classList.toggle('active', i===Math.max(0, Math.min(slides.length-1, idx))));
+    }
+
+    dots.forEach((d,i)=>{
+      d.addEventListener('click', ()=>{
+        slider.scrollTo({ left: i * getStep(), behavior: 'smooth' });
+      });
+    });
+
+    slider.addEventListener('scroll', ()=>{ window.requestAnimationFrame(setActiveByScroll); }, {passive:true});
+    setActiveByScroll();
+  }
+
+  // Keyboard support
+  slider.addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); scrollByStep(-1); }
+    if(e.key === 'ArrowRight'){ e.preventDefault(); scrollByStep(1); }
+  });
+})();
 </script>
 
 </body>

@@ -2124,6 +2124,113 @@ a{color:inherit;text-decoration:none}
   .visit-apple-status{ white-space:normal; }
   .visit-social-row{ grid-template-columns: 52px 52px 1fr; }
 }
+
+
+/* MOBILE PERFECTION: Hero + Visit card (mobile-only) */
+@media (max-width: 768px){
+
+  /* HERO: prevent crop under header + keep logo/CTAs centered and premium */
+  .hero{
+    padding-top: 210px !important; /* clears header on iOS Safari */
+    padding-bottom: 22px !important;
+  }
+  .hero .hero-logo{ margin-top: 14px !important; }
+  .hero .hero-logo img,
+  .hero .hero-logo svg{
+    width: min(92vw, 520px) !important;
+    max-height: 48vh !important;
+  }
+  .hero .hero-buttons{
+    transform: translateY(-110px) !important; /* tight to logo but not overlapping */
+  }
+  .hero .hero-buttons a,
+  .hero .hero-buttons .btn,
+  .hero .hero-buttons .btn-primary,
+  .hero .hero-buttons .btn-secondary{
+    width: min(92vw, 520px) !important;
+    max-width: 520px !important;
+    padding: 13px 18px !important;
+    font-size: 12px !important;
+  }
+
+  /* CONTACT: Visit card rebuilt for mobile (clean Apple sheet layout) */
+  #contact .contact-cards{ max-width: 560px !important; padding: 0 16px; }
+  #contact .visit-card-apple{
+    padding: 22px 18px 18px !important;
+    border-radius: 22px !important;
+    box-shadow: 0 24px 70px rgba(2,6,23,.08) !important;
+  }
+  #contact .visit-apple-header{
+    padding-bottom: 14px !important;
+    gap: 10px !important;
+    border-bottom: 1px solid rgba(2,6,23,.07) !important;
+  }
+  #contact .visit-apple-header h3{
+    font-size: 28px !important;
+    line-height: 1.1 !important;
+  }
+  #contact .visit-apple-sub{ font-size: 15px !important; }
+  #contact .visit-apple-status{
+    align-self: flex-start !important;
+    padding: 10px 14px !important;
+    font-size: 11px !important;
+    letter-spacing: .08em !important;
+  }
+
+  /* make body single column and reduce “divider” feel */
+  #contact .visit-apple-body{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    padding-top: 14px !important;
+  }
+
+  /* info rows become compact “label + value” blocks */
+  #contact .visit-line{
+    padding: 12px 0 !important;
+    border-bottom: 1px solid rgba(2,6,23,.06) !important;
+  }
+  #contact .visit-line:last-child{ border-bottom: 0 !important; }
+
+  #contact .visit-pill{
+    padding: 6px 10px !important;
+    font-size: 10px !important;
+  }
+  #contact .visit-value{
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+  #contact .visit-value a,
+  #contact a.visit-value{ text-decoration: none !important; }
+
+  /* actions: full width stacked, consistent heights */
+  #contact .visit-cta-row{
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+  #contact .visit-big{
+    padding: 14px 18px !important;
+    font-size: 12px !important;
+  }
+
+  /* socials + quote: icons left, quote right on one row */
+  #contact .visit-social-row{
+    grid-template-columns: 48px 48px 1fr !important;
+    gap: 10px !important;
+    margin-top: 12px !important;
+  }
+  #contact .visit-icon{
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 16px !important;
+  }
+  #contact .visit-icon svg{ width: 20px !important; height: 20px !important; }
+
+  #contact .visit-quote-apple{
+    padding: 14px 16px !important;
+    font-size: 12px !important;
+  }
+}
+
 </style>
 </head>
 <body>

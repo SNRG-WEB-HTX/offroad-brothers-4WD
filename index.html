@@ -2352,6 +2352,21 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+
+/* --- MOBILE FIX: restore CTA position, lower logo again same amount --- */
+@media (max-width: 768px){
+  /* Restore CTA vertical position exactly (remove unintended shift) */
+  .hero .hero-buttons{
+    margin-top: 0 !important;   /* remove any downward shift */
+  }
+
+  /* Lower logo again by same amount as last change */
+  .hero .hero-logo{
+    margin-top: 160px !important; /* previous 80px + same amount again */
+  }
+}
+
 </style>
 </head>
 <body>

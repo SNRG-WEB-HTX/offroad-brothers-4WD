@@ -2413,6 +2413,31 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+
+/* FINAL VIEWPORT OPTICAL CENTERING + MOBILE/LAPTOP MICRO SPACING */
+@supports (height: 100svh){
+  .hero{ min-height: 100svh; }
+}
+@supports not (height: 100svh){
+  .hero{ min-height: 100vh; }
+}
+
+/* Mobile: reduce hero section height by ~6% (5–7%) while keeping the now-perfect alignment */
+@media (max-width: 768px){
+  .hero{
+    padding-top: 170px !important;   /* was 180 */
+    padding-bottom: 9px !important;  /* was 10 */
+  }
+}
+
+/* Laptop: reduce space above hero logo only (keep alignment + CTAs) */
+@media (min-width: 981px) and (max-width: 1440px){
+  .hero{
+    padding-top: 225px !important; /* slightly less top padding for a higher optical center */
+  }
+}
+
 </style>
 </head>
 <body>

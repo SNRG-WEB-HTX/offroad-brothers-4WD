@@ -1392,27 +1392,43 @@ document.getElementById('year').textContent = new Date().getFullYear();
   
 
   // Video path resolver (GitHub Pages-safe): tries common folders until one plays
-  const VIDEO_PREFIXES = ["", "./", "videos/", "assets/videos/", "/videos/", "/assets/videos/"];
+  const VIDEO_PREFIXES = ["", "./", "videos/", "assets/videos/", "assets/", "media/", "/videos/", "/assets/videos/", "/assets/", "/media/", "../videos/", "../assets/videos/"];
   function setVideoSrcWithFallback(rawSrc){
     const src = (rawSrc || "").trim();
     if (!src) return;
+
     // absolute URL or data/blob: use as-is
     if (/^(https?:)?\/\//i.test(src) || /^blob:|^data:/i.test(src)){
       modalVideo.src = src;
       return;
     }
-    const cleaned = src.replace(/^\.\/+/,'');
+
+    const cleaned = src.replace(/^\.\/+/, "");
+
+    // Some exports keep "publer.com" in the *filename* even when the file is saved locally without it.
+    const variants = [cleaned];
+    if (cleaned.includes(".publer.com")) variants.push(cleaned.replace(".publer.com", ""));
+
+    const candidates = [];
+    for (const v of variants){
+      for (const p of VIDEO_PREFIXES){
+        candidates.push(p + v);
+      }
+    }
+
     let i = 0;
     const tryNext = () => {
-      const cand = VIDEO_PREFIXES[i] + cleaned;
+      const cand = candidates[i];
       i += 1;
       modalVideo.src = cand;
       modalVideo.load();
     };
+
     const onErr = () => {
-      if (i < VIDEO_PREFIXES.length) tryNext();
+      if (i < candidates.length) tryNext();
       else modalVideo.removeEventListener("error", onErr);
     };
+
     modalVideo.addEventListener("error", onErr);
     tryNext();
   }

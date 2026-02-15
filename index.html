@@ -2274,6 +2274,55 @@ a{color:inherit;text-decoration:none}
   footer{ margin-bottom: 0 !important; }
 }
 
+
+
+/* OVERRIDE v2 (requested): mobile hero fix + desktop/laptop CTA pull-up + restore mobile bg scheme */
+:root{ --ob-page-bg: radial-gradient(1200px 700px at 50% 18%, rgba(255,69,58,.09) 0%, rgba(255,255,255,0) 60%), #ffffff; }
+
+body{ background: var(--ob-page-bg) !important; }
+
+/* keep iOS overscroll from showing white below dark footer while preserving page bg */
+html{ background:#0b0b0c !important; }
+
+@media (max-width: 768px){
+  /* Restore the same light hero/page background as desktop/laptop */
+  body{ background: var(--ob-page-bg) !important; }
+
+  /* MOBILE HERO: smaller overall footprint (-10%), but push logo DOWN below header */
+  .hero{
+    padding-top: 250px !important; /* pulls logo down away from header */
+    padding-bottom: 14px !important; /* tighter section height */
+  }
+  .hero .hero-logo{ margin-top: 28px !important; }
+
+  /* logo size -10% from previous mobile values */
+  .hero .hero-logo img,
+  .hero .hero-logo svg{
+    width: min(88vw, 560px) !important;
+    max-height: 46vh !important;
+  }
+
+  /* lower CTAs (they were too high): reduce lift */
+  .hero .hero-buttons{
+    transform: translateY(-86px) !important;
+  }
+  .hero .hero-buttons a,
+  .hero .hero-buttons .btn,
+  .hero .hero-buttons .btn-primary,
+  .hero .hero-buttons .btn-secondary{
+    width: min(90vw, 520px) !important;
+    max-width: 520px !important;
+    padding: 13px 18px !important;
+  }
+}
+
+/* LAPTOP + DESKTOP: pull CTAs up closer to logo (do NOT move logos) */
+@media (min-width: 981px){
+  .hero .hero-buttons{
+    margin-top: -28px !important; /* negative margin pulls buttons upward */
+  }
+}
+
 </style>
 </head>
 <body>

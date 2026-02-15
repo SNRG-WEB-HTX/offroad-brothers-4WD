@@ -212,11 +212,18 @@ a{color:inherit;text-decoration:none}
 
 /* Hero with Logo */
 .hero{
-  padding:clamp(20px, 3vh, 30px) 0 clamp(8px, 1vh, 16px);
+  padding: var(--ob-hero-pad-top) 0 clamp(22px, 5vh, 44px) !important;
+/* Smart hero spacing (prevents logo hitting header + CTAs falling out) */
+  --ob-hero-pad-top: 120px;
+  --ob-cta-pull: 120px;
+  padding: var(--ob-hero-pad-top) 0 clamp(18px, 3vh, 30px);
   position:relative;
   overflow:hidden;
   background:var(--white);
-  min-height:auto;
+  min-height:calc(100vh - 92px);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
 }
 .hero::before{
   content:'';
@@ -243,13 +250,85 @@ a{color:inherit;text-decoration:none}
 }
 
 .hero-logo{
-  width:clamp(400px, 65vw, 1535px);
+  max-width: 100%;
+  height: auto;  width:clamp(440px, 70vw, 1688px); /* ~+10% feel on desktop without layout break */
   height:auto;
   max-width:100%;
   object-fit:contain;
-  margin:0;
+  margin:0 auto;
+  margin-bottom:0 !important;
+  display:block;
   filter:drop-shadow(0 18px 46px rgba(255,59,47,.22));
+
+  /* scale is controlled per device; animation composes with it */
+  --ob-logo-scale: 1.10; /* desktop default = +10% */
+  transform: translate3d(0,0,0) scale(var(--ob-logo-scale));
+  max-height: min(56vh, 520px);
+  width:auto;
+  height:auto;
+  transform-origin:center bottom;
+  will-change: transform;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
 }
+
+/* Only animate when JS applies class (prevents overrides / race conditions) */
+.hero-logo.ob-anim{
+  /* Drop first, then rumble starts only after the drop finishes */
+  --ob-drop-dur: 1.85s;
+  --ob-rumble-dur: 2.55s;
+  animation:
+    obLogoDropImpact var(--ob-drop-dur) cubic-bezier(.12, .95, .18, 1.02) both,
+    obLogoRumble var(--ob-rumble-dur) linear var(--ob-drop-dur) both;
+}
+
+/* Comical fall -> land -> immediate rumble (rumble starts right after drop finishes) */
+@keyframes obLogoDropImpact{
+  0%   { transform: translate3d(0,-140vh,0) rotate(-7deg) scale(var(--ob-logo-scale)); }
+  18%  { transform: translate3d(0,-95vh,0)  rotate(6deg)  scale(var(--ob-logo-scale)); }
+  36%  { transform: translate3d(0,-55vh,0)  rotate(-5deg) scale(var(--ob-logo-scale)); }
+  55%  { transform: translate3d(0,18px,0)   rotate(2deg)  scale(var(--ob-logo-scale)); } /* big overshoot */
+  58%  { transform: translate3d(0,0,0)      rotate(-1deg) scale(calc(var(--ob-logo-scale) * 1.02)); } /* tiny squash */
+  64%  { transform: translate3d(0,-22px,0)  rotate(1.6deg)scale(calc(var(--ob-logo-scale) * 0.99)); }
+  72%  { transform: translate3d(0,12px,0)   rotate(-1.2deg)scale(var(--ob-logo-scale)); }
+  80%  { transform: translate3d(0,-10px,0)  rotate(.9deg) scale(var(--ob-logo-scale)); }
+  88%  { transform: translate3d(0,6px,0)    rotate(-.6deg)scale(var(--ob-logo-scale)); }
+  94%  { transform: translate3d(0,-3px,0)   rotate(.35deg)scale(var(--ob-logo-scale)); }
+  100% { transform: translate3d(0,0,0)      rotate(0deg)  scale(var(--ob-logo-scale)); }
+}
+
+/* Offroad "spontaneous" rumble: irregular jitter (not a repeating robot shake) */
+@keyframes obLogoRumble{
+  0%   { transform: translate3d(0,0,0)        rotate(0deg)     scale(var(--ob-logo-scale)); }
+  4%   { transform: translate3d(-2px, 1px,0)  rotate(-0.25deg) scale(var(--ob-logo-scale)); }
+  9%   { transform: translate3d(3px, -1px,0)  rotate(0.22deg)  scale(var(--ob-logo-scale)); }
+  14%  { transform: translate3d(-1px, 2px,0)  rotate(-0.18deg) scale(var(--ob-logo-scale)); }
+  18%  { transform: translate3d(2px, 0px,0)   rotate(0.16deg)  scale(var(--ob-logo-scale)); }
+  23%  { transform: translate3d(-3px, 1px,0)  rotate(-0.28deg) scale(var(--ob-logo-scale)); }
+  27%  { transform: translate3d(1px, -2px,0)  rotate(0.20deg)  scale(var(--ob-logo-scale)); }
+  33%  { transform: translate3d(-2px, 0px,0)  rotate(-0.14deg) scale(var(--ob-logo-scale)); }
+  38%  { transform: translate3d(3px, 2px,0)   rotate(0.26deg)  scale(var(--ob-logo-scale)); }
+  44%  { transform: translate3d(-1px, -1px,0) rotate(-0.17deg) scale(var(--ob-logo-scale)); }
+  49%  { transform: translate3d(2px, 1px,0)   rotate(0.13deg)  scale(var(--ob-logo-scale)); }
+  55%  { transform: translate3d(-3px, 0px,0)  rotate(-0.22deg) scale(var(--ob-logo-scale)); }
+  61%  { transform: translate3d(1px, 2px,0)   rotate(0.18deg)  scale(var(--ob-logo-scale)); }
+  67%  { transform: translate3d(-2px, -2px,0) rotate(-0.15deg) scale(var(--ob-logo-scale)); }
+  74%  { transform: translate3d(3px, 1px,0)   rotate(0.24deg)  scale(var(--ob-logo-scale)); }
+  81%  { transform: translate3d(-1px, 0px,0)  rotate(-0.12deg) scale(var(--ob-logo-scale)); }
+  88%  { transform: translate3d(2px, -1px,0)  rotate(0.10deg)  scale(var(--ob-logo-scale)); }
+  94%  { transform: translate3d(-1px, 1px,0)  rotate(-0.08deg) scale(var(--ob-logo-scale)); }
+  100% { transform: translate3d(0,0,0)        rotate(0deg)     scale(var(--ob-logo-scale)); }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .hero-logo, .hero-logo.ob-anim{
+    animation:none !important;
+    transform: translate3d(0,0,0) scale(var(--ob-logo-scale)) !important;
+  }
+}
+
+
 
 .hero p{
   font-size:clamp(20px,2.6vw,28px);
@@ -260,20 +339,57 @@ a{color:inherit;text-decoration:none}
   line-height:1.35;
 }
 
-.hero-buttons{
+.hero .hero-buttons{
   display:flex;
-  gap:12px;
-  margin-top:-248px;
-  margin-bottom:clamp(80px, 15vh, 180px);
+  gap:8px;
+  margin:0 !important;
+  padding:0 !important;
   flex-wrap:wrap;
   justify-content:center;
-  padding-top:0;
+  align-items:center;
+
+  /* hard weld: pull CTAs up with transform (beats margin weirdness) */
+  transform: translateY(calc(-1 * var(--ob-cta-pull))) !important;
+  will-change: transform;
+}
+
+
+/* Apple-smart CTA sizing (tight, premium, not bulky) */
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary{
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  min-height: 44px;
+  line-height: 1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Primary stays bold; secondary stays light */
+.hero-buttons .btn-primary{
+  box-shadow: 0 14px 34px rgba(255,59,47,.22);
+}
+.hero-buttons .btn-secondary{
+  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+}
+
+/* Subtle "Apple" hover logic */
+@media (hover:hover){
+  .hero-buttons .btn-primary:hover{ transform: translateY(-2px); }
+  .hero-buttons .btn-secondary:hover{ transform: translateY(-2px); }
 }
 
 .btn-primary{
   background:var(--orange);
   color:var(--white);
-  padding:20px 44px;
+  padding:16px 26px;
   border-radius:12px;
   font-weight:900;
   font-size:16px;
@@ -294,7 +410,7 @@ a{color:inherit;text-decoration:none}
 .btn-secondary{
   background:var(--white);
   color:var(--ink);
-  padding:20px 44px;
+  padding:16px 26px;
   border-radius:12px;
   font-weight:900;
   font-size:16px;
@@ -506,7 +622,7 @@ a{color:inherit;text-decoration:none}
   display:flex;
   gap:12px;
   margin-top:24px;
-  padding-top:24px;
+  padding-top:0 !important;
   border-top:2px solid var(--line);
 }
 
@@ -1047,10 +1163,10 @@ a{color:inherit;text-decoration:none}
   }
   .hero{
     min-height:calc(100vh - 92px);
-    padding:clamp(110px, 20vh, 160px) 0 clamp(30px, 8vh, 60px);
+    padding: var(--ob-hero-pad-top) 0 clamp(22px, 5vh, 44px);
     overflow:hidden;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:center;
   }
   .hero .container{
@@ -1068,21 +1184,13 @@ a{color:inherit;text-decoration:none}
     width:100% !important;
     max-width:100% !important;
     height:auto !important;
-    margin:0 auto 0 auto !important;
+    margin:0 auto !important;
     display:block !important;
-    transform:scale(1.82);
-    transform-origin:center center;
-    padding-top:40px;
+    padding-top:0 !important;
+    transform-origin:center bottom;
+    --ob-logo-scale: 2.75; /* requested mobile size */
   }
-  .hero-buttons{
-    margin-top:10px !important;
-    margin-bottom:clamp(50px, 10vh, 90px);
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    width:calc(100% - 32px);
-  }
-  .hero p{
+    .hero p{
     font-size:clamp(15px, 3.8vw, 18px); 
     margin-bottom:clamp(20px, 4vh, 28px); 
     line-height:1.45;
@@ -1106,12 +1214,14 @@ a{color:inherit;text-decoration:none}
   .section-title{margin-bottom:42px}
 }
 
-/* Laptop/smaller desktop adjustment */
-@media (min-width:769px) and (max-width:1440px){
-  .hero-buttons{
-    margin-top:-150px;
-  }
+
+@media (max-width:420px){
+  .hero-buttons{ flex-direction:column !important; width:calc(100% - 32px) !important; }
+  .hero-buttons .btn-primary, .hero-buttons .btn-secondary{ width:100% !important; }
 }
+
+/* Laptop/smaller desktop adjustment */
+/* Laptop/smaller desktop adjustment */
 /* --- Certified Dealer: smart featured + pull-down scroll --- */
 .dealer-block.dealer-smart{
   max-width:1000px;
@@ -1517,13 +1627,559 @@ a{color:inherit;text-decoration:none}
 
 
 
+
+
+/* ============================
+   BRANDS — APPLE ELITE REVAMP
+   ============================ */
+.section.ob-brands{
+  background:
+    radial-gradient(1200px 500px at 20% 0%, rgba(255,59,47,.10), rgba(255,59,47,0) 55%),
+    radial-gradient(900px 420px at 80% 20%, rgba(0,0,0,.06), rgba(0,0,0,0) 60%),
+    linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+}
+
+.ob-brands-shell{
+  max-width: 1120px;
+  margin: 0 auto;
+  border-radius: 26px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(10,10,10,.08);
+  box-shadow: 0 22px 70px rgba(10,10,10,.10);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  overflow:hidden;
+}
+
+.ob-brands-top{
+  display:flex;
+  gap:18px;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding: 26px 26px 18px;
+  border-bottom: 1px solid rgba(10,10,10,.08);
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+}
+
+.ob-kicker{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color: rgba(10,10,10,.62);
+  margin-bottom:8px;
+}
+
+.ob-brands-sub{
+  margin:0;
+  font-size:15px;
+  font-weight:650;
+  color: var(--muted);
+  line-height:1.6;
+  max-width: 560px;
+}
+
+.ob-brands-tabs{
+  display:flex;
+  gap:10px;
+  background: rgba(245,246,248,.85);
+  border: 1px solid rgba(10,10,10,.08);
+  padding: 6px;
+  border-radius: 999px;
+  box-shadow: 0 10px 28px rgba(10,10,10,.06);
+}
+
+.ob-tab{
+  border:none;
+  cursor:pointer;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  color: rgba(10,10,10,.72);
+  background: transparent;
+  transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+.ob-tab:hover{ transform: translateY(-1px); }
+
+.ob-tab.active{
+  background: rgba(255,255,255,.98);
+  color: var(--orange);
+  box-shadow: 0 10px 26px rgba(255,59,47,.14);
+}
+
+.ob-brands-panels{
+  padding: 22px 26px 26px;
+}
+
+.ob-panel{ display:none; }
+.ob-panel.active{ display:block; }
+
+.ob-feature-grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.brand-tile{
+  grid-column: span 4;
+  height: 120px;
+  border-radius: 18px;
+  border: 1px solid rgba(10,10,10,.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
+  box-shadow: 0 14px 40px rgba(10,10,10,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 14px;
+  cursor: default;
+  transition: transform .20s ease, box-shadow .20s ease, border-color .20s ease, filter .20s ease;
+}
+
+.brand-tile:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 60px rgba(10,10,10,.12);
+  border-color: rgba(255,59,47,.22);
+}
+
+.brand-tile img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.30));
+}
+
+.ob-marquee{
+  border-radius: 20px;
+  border: 1px solid rgba(10,10,10,.08);
+  background: rgba(255,255,255,.62);
+  overflow:hidden;
+  position:relative;
+}
+
+.ob-marquee::before,
+.ob-marquee::after{
+  content:'';
+  position:absolute;
+  top:0; bottom:0;
+  width: 90px;
+  pointer-events:none;
+  z-index:2;
+}
+.ob-marquee::before{
+  left:0;
+  background: linear-gradient(90deg, rgba(255,255,255,.96), rgba(255,255,255,0));
+}
+.ob-marquee::after{
+  right:0;
+  background: linear-gradient(270deg, rgba(255,255,255,.96), rgba(255,255,255,0));
+}
+
+.ob-marquee-track{
+  display:flex;
+  gap: 18px;
+  padding: 16px 18px;
+  width:max-content;
+  animation: obMarquee 34s linear infinite;
+}
+
+@keyframes obMarquee{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.brand-chip{
+  width: 160px;
+  height: 74px;
+  border-radius: 16px;
+  border: 1px solid rgba(10,10,10,.08);
+  background: rgba(245,246,248,.60);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px;
+  box-shadow: 0 10px 26px rgba(10,10,10,.06);
+}
+
+.brand-chip img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.30));
+}
+
+.ob-brands-foot{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:space-between;
+  padding: 18px 26px 26px;
+  border-top: 1px solid rgba(10,10,10,.08);
+  background: linear-gradient(180deg, rgba(250,250,250,.70), rgba(255,255,255,.62));
+}
+
+.ob-foot-card{
+  flex:1;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(10,10,10,.08);
+  background: rgba(255,255,255,.72);
+  box-shadow: 0 14px 40px rgba(10,10,10,.08);
+}
+
+.ob-foot-title{
+  font-weight: 950;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+
+.ob-foot-sub{
+  font-weight:650;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.ob-foot-cta{
+  white-space:nowrap;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: var(--orange);
+  border: 2px solid var(--orange);
+  color: #fff;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  box-shadow: 0 16px 44px rgba(255,59,47,.26);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+.ob-foot-cta:hover{
+  transform: translateY(-2px);
+  background: var(--orange-dark);
+  border-color: var(--orange-dark);
+  box-shadow: 0 22px 56px rgba(255,59,47,.34);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .ob-brands-top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+  }
+}
+
+@media (max-width: 768px){
+  .ob-brands-shell{ border-radius: 22px; }
+  .ob-brands-top{ padding: 22px 16px 14px; }
+  .ob-brands-panels{ padding: 16px 16px 18px; }
+  .ob-brands-foot{ padding: 14px 16px 18px; flex-direction:column; align-items:stretch; }
+  .ob-foot-cta{ width:100%; }
+
+  .ob-feature-grid{ gap: 12px; }
+  .brand-tile{ grid-column: span 6; height: 96px; }
+  .brand-chip{ width: 140px; height: 64px; }
+  .ob-marquee-track{ animation-duration: 28s; }
+}
+
+
+
+
+
+
+@media (min-width: 981px){
+  .hero-logo{ margin-top: -10px !important; }
+}
+
+
+
+
+
+
+}
+
+
+
+/* Contact: remove quote card -> center remaining card; add inline quote button under socials */
+.contact-cards.contact-cards-single{
+  justify-content: center;
+}
+.social-quote{
+  margin-top: 14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--orange);
+  border: 2px solid var(--orange);
+  color:#fff;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  box-shadow: 0 16px 44px rgba(255,59,47,.22);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+  align-self:center;
+}
+@media (hover:hover){
+  .social-quote:hover{
+    transform: translateY(-2px);
+    background: var(--orange-dark);
+    border-color: var(--orange-dark);
+    box-shadow: 0 22px 56px rgba(255,59,47,.30);
+  }
+}
+
+
+
+/* Contact: single card center + quote button under socials */
+.contact-cards.contact-cards-single{ justify-content:center; }
+.social-quote{
+  margin-top: 14px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: var(--orange);
+  border: 2px solid var(--orange);
+  color:#fff;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  box-shadow: 0 16px 44px rgba(255,59,47,.22);
+  align-self:center;
+}
+
+
+
+  .hero-logo{ --ob-logo-scale: 1.60; max-height: 62vh; }
+}
+@media (min-width: 981px) and (max-width: 1440px){
+  .hero{ --ob-hero-pad-top: 255px; --ob-cta-pull: 118px; }
+  .hero-logo{ --ob-logo-scale: 2.17; max-height: 62vh; }
+}
+@media (min-width: 769px) and (max-width: 980px){
+  .hero{ --ob-hero-pad-top: 240px; --ob-cta-pull: 108px; }
+  .hero-logo{ --ob-logo-scale: 1.55; max-height: 60vh; }
+}
+@media (max-width: 768px){
+  .hero{ --ob-hero-pad-top: 205px; --ob-cta-pull: 96px; }
+  .hero-logo{ --ob-logo-scale: 2.05; max-height: 58vh; }
+}
+
+
+
+#contact .elite-card{
+  width: 100%;
+  padding: 34px 34px 30px;
+  border-radius: 26px;
+}
+#contact .elite-card h3{
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+#contact .elite-card .sub{
+  font-size: 15px;
+  opacity: .8;
+}
+#contact .card-actions{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+#contact .social-buttons{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+#contact .social-quote{
+  width: 100%;
+  margin-top: 12px;
+}
+@media (max-width: 768px){
+  #contact .elite-card{ padding: 26px 18px 22px; border-radius: 22px; }
+  #contact .card-actions{ grid-template-columns: 1fr; }
+  #contact .social-buttons{ grid-template-columns: 1fr 1fr; }
+}
+
+
+
+/* HERO FINAL (single source of truth) */
+.hero{
+  --ob-hero-pad-top: 200px;
+  --ob-cta-pull: 140px;
+  padding: var(--ob-hero-pad-top) 0 clamp(18px, 4vh, 34px) !important;
+}
+.hero .hero-buttons{
+  --ob-cta-pull-clamped: min(var(--ob-cta-pull), 220px);
+  transform: translateY(calc(-1 * var(--ob-cta-pull-clamped))) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+@media (min-width: 1441px){
+  .hero{ --ob-hero-pad-top: 340px; --ob-cta-pull: 175px; }
+}
+@media (min-width: 981px) and (max-width: 1440px){
+  .hero{ --ob-hero-pad-top: 300px; --ob-cta-pull: 170px; }
+}
+@media (min-width: 769px) and (max-width: 980px){
+  .hero{ --ob-hero-pad-top: 220px; --ob-cta-pull: 155px; }
+}
+@media (max-width: 768px){
+  .hero{ --ob-hero-pad-top: 185px; --ob-cta-pull: 140px; }
+}
+
+
+
+/* Desktop-only micro-tuning: a touch more breathing room above logo + tighter CTAs */
+@media (min-width: 1441px){
+  .hero .hero-logo{ margin-top: 8px !important; }
+  .hero .hero-buttons{ margin-top: -10px !important; }
+}
+
+
+
+/* Visit card FINAL alignment overrides (wins) */
+#contact .visit-card .visit-grid{ gap: 14px !important; }
+#contact .visit-card .visit-cta,
+#contact .visit-card .visit-social{ grid-template-columns: 1fr 1fr !important; }
+#contact .visit-card .visit-social{ border-top: 0 !important; padding-top: 0 !important; }
+#contact .visit-card .visit-quote{
+  grid-column: 1 / -1 !important;
+  justify-self: center !important;
+  max-width: 420px;
+}
+@media (min-width: 720px){
+  #contact .visit-card .visit-grid{
+    grid-template-columns: 1.2fr .9fr !important;
+    grid-template-areas:
+      "info cta"
+      "info social"
+      "info quote" !important;
+  }
+  #contact .visit-card .visit-info{ grid-area: info !important; }
+  #contact .visit-card .visit-cta{ grid-area: cta !important; }
+  #contact .visit-card .visit-social{ grid-area: social !important; }
+  #contact .visit-card .visit-quote{ grid-area: quote !important; }
+}
+@media (max-width: 768px){
+  #contact .visit-card .visit-cta{ grid-template-columns: 1fr !important; }
+  #contact .visit-card .visit-quote{ max-width: 100%; }
+}
+
+
+
+/* Global rhythm: less dead space between sections + under titles */
+.section{ padding: clamp(44px, 6vh, 72px) 0 !important; }
+.section-title{ margin-bottom: clamp(10px, 1.8vh, 18px) !important; }
+.section .subheading, .section p.lead{ margin-top: 8px !important; }
+
+/* Visit card – Apple elite (single source) */
+#contact .contact-cards{ max-width: 980px; margin: 0 auto; }
+.visit-card-apple{ width:100%; padding: 34px 34px 30px; border-radius: 26px; }
+.visit-apple-header{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding-bottom:18px; border-bottom:1px solid rgba(2,6,23,.08); }
+.visit-apple-header h3{ margin:0; font-size:30px; letter-spacing:-.02em; }
+.visit-apple-sub{ margin:6px 0 0; opacity:.78; font-weight:700; }
+.visit-apple-status{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background: rgba(2,6,23,.04); font-weight:900; font-size:12px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+.status-dot{ width:8px; height:8px; border-radius:50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255,59,47,.14); }
+
+.visit-apple-body{ display:grid; grid-template-columns: 1.25fr .95fr; gap:22px; padding-top:20px; align-items:start; }
+.visit-line{ display:grid; gap:8px; padding:12px 0; border-bottom:1px solid rgba(2,6,23,.06); }
+.visit-line:last-child{ border-bottom:0; padding-bottom:0; }
+.visit-pill{ display:inline-flex; align-items:center; justify-content:center; width:max-content; padding:6px 10px; border-radius:999px; background: rgba(2,6,23,.04); font-weight:950; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+.visit-value{ font-weight:850; line-height:1.55; font-size:13px; color: var(--ink); text-decoration:none; }
+.visit-phone{ color: var(--orange); }
+
+.visit-cta-row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.visit-big{ width:100%; text-align:center; padding:12px 18px; font-size:13px; }
+.visit-social-row{ margin-top:14px; display:grid; grid-template-columns: 52px 52px 1fr; gap:12px; align-items:center; }
+.visit-icon{ width:52px; height:52px; border-radius:16px; display:grid; place-items:center; background: rgba(2,6,23,.03); border:1px solid rgba(2,6,23,.08); transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.visit-icon svg{ width:22px; height:22px; fill: rgba(2,6,23,.82); }
+@media (hover:hover){
+  .visit-icon:hover{ transform: translateY(-2px); background: rgba(2,6,23,.05); box-shadow: 0 14px 36px rgba(2,6,23,.10); }
+}
+.visit-quote-apple{ width:100%; text-align:center; padding:14px 18px; border-radius:999px; font-size:13px; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
+
+@media (max-width: 900px){
+  .visit-apple-body{ grid-template-columns: 1fr; }
+  .visit-cta-row{ grid-template-columns: 1fr; }
+  .visit-social-row{ grid-template-columns: 52px 52px 1fr; }
+}
+@media (max-width: 768px){
+  .visit-card-apple{ padding: 26px 18px 22px; border-radius: 22px; }
+  .visit-apple-header{ flex-direction:column; align-items:flex-start; }
+  .visit-apple-status{ white-space:normal; }
+  .visit-social-row{ grid-template-columns: 52px 52px 1fr; }
+}
 </style>
 </head>
 <body>
 
 <header class="header">
   <div class="container header-inner">
-    <!-- Language Toggle - HARD LEFT -->
+    <!-- Language Toggle - HAR
+
+/* Visit card layout (Apple-clean, wide, aligned) */
+.visit-card{ padding: 34px 34px 28px; border-radius: 26px; width:100%; }
+.visit-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding-bottom:18px; border-bottom:1px solid rgba(2,6,23,.08); }
+.visit-head h3{ margin:0; font-size:30px; letter-spacing:-.02em; }
+.visit-sub{ margin:6px 0 0; opacity:.78; font-weight:700; }
+.visit-status{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background: rgba(2,6,23,.04); font-weight:900; font-size:12px; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; }
+.status-dot{ width:8px; height:8px; border-radius:50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255,59,47,.14); }
+
+.visit-grid{ display:grid; grid-template-columns: 1fr; gap:16px; padding-top:20px; }
+.visit-info{ display:grid; gap:14px; }
+.visit-row{ display:flex; gap:12px; align-items:flex-start; }
+.visit-ico{ font-size:20px; line-height:1; margin-top:2px; }
+.visit-text{ font-size:13px; font-weight:800; line-height:1.55; color:var(--ink); }
+.visit-phone{ font-weight:950; color:var(--orange); text-decoration:none; }
+
+.visit-cta, .visit-social{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.visit-social{ margin-top: 2px; padding-top: 0; border-top: 0; }
+.visit-btn{ width:100%; text-align:center; padding:12px 18px; font-size:13px; }
+.visit-quote{ display:flex; align-items:center; justify-content:center; width:100%; text-align:center; padding:14px 18px; border-radius:999px; font-size:13px; font-weight:950; letter-spacing:.08em; text-transform:uppercase; }
+
+@media (min-width: 980px){
+  .visit-grid{
+    grid-template-columns: 1.25fr .9fr;
+    grid-template-areas:
+      "info cta"
+      "info social"
+      "info quote";
+    align-items:start;
+  }
+  .visit-info{ grid-area: info; }
+  .visit-cta{ grid-area: cta; }
+  .visit-social{ grid-area: social; }
+  .visit-quote{ grid-area: quote; }
+}
+
+@media (max-width: 768px){
+  .visit-card{ padding: 26px 18px 22px; border-radius: 22px; }
+  .visit-head{ flex-direction:column; align-items:flex-start; }
+  .visit-status{ white-space:normal; }
+  .visit-cta{ grid-template-columns:1fr; }
+  .visit-social{ grid-template-columns:1fr 1fr; }
+}
+  .visit-head{ flex-direction:column; align-items:flex-start; }
+  .visit-cta{ grid-template-columns:1fr; }
+  .visit-social{ grid-template-columns:1fr 1fr; }
+}
+
+D LEFT -->
     <div class="lang-wrap">
       <button class="lang-btn active" data-lang="en">EN</button>
       <button class="lang-btn" data-lang="es">ES</button>
@@ -1732,81 +2388,152 @@ a{color:inherit;text-decoration:none}
 </section>
 
 <!-- Products Section -->
-<section class="section" id="products">
+<section class="section ob-brands" id="products">
   <div class="container">
-    <h2 class="section-title">Certified <span class="highlight">Dealer</span></h2>
+    <h2 class="section-title">Brands We <span class="highlight">Carry</span></h2>
 
-    <!-- Wheels -->
-    <div class="dealer-block dealer-smart" data-dealer="wheels">
-      <div class="dealer-block-head dealer-head-smart">
-        <div class="dealer-head-copy">
-          <h3 class="dealer-block-title">Wheels</h3>
-          <p class="dealer-block-subtitle">Dialed fitment. Clean finishes. Built for Houston streets and weekend trails.</p>
+    <div class="ob-brands-shell">
+      <div class="ob-brands-top">
+        <div class="ob-brands-copy">
+          <div class="ob-kicker">Certified • Trusted • Installed Right</div>
+          <p class="ob-brands-sub">
+            Apple‑elite presentation, real‑world brands — wheels, suspension, armor, accessories, and more.
+          </p>
         </div>
 
-        <button class="dealer-toggle" type="button" aria-expanded="true" aria-controls="dealerWheelsPanel" id="dealerWheelsBtn">
-          <span class="dealer-toggle-label">Hide brands</span>
-          <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
-        </button>
+        <div class="ob-brands-tabs" role="tablist" aria-label="Brand categories">
+          <button class="ob-tab active" type="button" role="tab" aria-selected="true" aria-controls="obPanelWheels" id="obTabWheels" data-panel="wheels">
+            Wheels
+          </button>
+          <button class="ob-tab" type="button" role="tab" aria-selected="false" aria-controls="obPanelSusp" id="obTabSusp" data-panel="susp">
+            Suspension &amp; Accessories
+          </button>
+        </div>
       </div>
 
-      <!-- Expandable (scrollable) -->
-      <div class="dealer-expand" id="dealerWheelsPanel" role="region" aria-labelledby="dealerWheelsBtn" hidden>
-        <div class="dealer-scroll">
-          <div class="dealer-logos-grid" aria-label="All wheel brands">
-            <div class="dealer-logo-card"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/american-traxx.webp" alt="American Traxx Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/black-rhino.webp" alt="Black Rhino Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/cali-offroad.webp" alt="Cali Offroad Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/dirty-life.webp" alt="Dirty Life Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
+      <!-- Panels -->
+      <div class="ob-brands-panels">
+        <!-- Wheels -->
+        <div class="ob-panel active" role="tabpanel" id="obPanelWheels" aria-labelledby="obTabWheels" data-panel="wheels">
+          <div class="ob-feature-grid" aria-label="Featured wheel brands">
+            <button class="brand-tile" type="button" aria-label="American Force Wheels">
+              <img src="images/american-force.webp" alt="American Force Wheels" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="American Traxx Wheels">
+              <img src="images/american-traxx.webp" alt="American Traxx Wheels" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Black Rhino Wheels">
+              <img src="images/black-rhino.webp" alt="Black Rhino Wheels" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Cali Offroad Wheels">
+              <img src="images/cali-offroad.webp" alt="Cali Offroad Wheels" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Dirty Life Wheels">
+              <img src="images/dirty-life.webp" alt="Dirty Life Wheels" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Fifteen52 Wheels">
+              <img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy">
+            </button>
+          </div>
+
+          <div class="ob-marquee" aria-label="All wheel brands">
+            <div class="ob-marquee-track">
+            <div class="brand-chip"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/american-traxx.webp" alt="American Traxx Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/black-rhino.webp" alt="Black Rhino Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/cali-offroad.webp" alt="Cali Offroad Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/dirty-life.webp" alt="Dirty Life Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/american-force.webp" alt="American Force Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/american-traxx.webp" alt="American Traxx Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/black-rhino.webp" alt="Black Rhino Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/cali-offroad.webp" alt="Cali Offroad Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/dirty-life.webp" alt="Dirty Life Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fifteen-52.webp" alt="Fifteen52 Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fuel-offroad.webp" alt="Fuel Offroad Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/mayhem.webp" alt="Mayhem Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/method-race-wheels.webp" alt="Method Race Wheels" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/xd.webp" alt="XD Wheels" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suspensions -->
+        <div class="ob-panel" role="tabpanel" id="obPanelSusp" aria-labelledby="obTabSusp" data-panel="susp">
+          <div class="ob-feature-grid" aria-label="Featured suspension and accessory brands">
+            <button class="brand-tile" type="button" aria-label="ARB">
+              <img src="images/arb.webp" alt="ARB" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="BDS Suspension">
+              <img src="images/bds.webp" alt="BDS Suspension" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Body Armor">
+              <img src="images/body-armor.webp" alt="Body Armor" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Cali Raised">
+              <img src="images/cali-raised.webp" alt="Cali Raised" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="Dobinsons">
+              <img src="images/dobinsons.webp" alt="Dobinsons" loading="lazy">
+            </button>
+            <button class="brand-tile" type="button" aria-label="FOX">
+              <img src="images/fox.webp" alt="FOX" loading="lazy">
+            </button>
+          </div>
+
+          <div class="ob-marquee" aria-label="All suspension and accessory brands">
+            <div class="ob-marquee-track">
+            <div class="brand-chip"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/bds.webp" alt="BDS Suspension" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/body-armor.webp" alt="Body Armor" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/cali-raised.webp" alt="Cali Raised" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/dobinsons.webp" alt="Dobinsons" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fox.webp" alt="FOX" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/ironman.webp" alt="Ironman 4x4" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/king-off-road.webp" alt="King Shocks" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/max-trac.webp" alt="MaxTrac Suspension" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/nitto.webp" alt="Nitto" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/omac.webp" alt="OMAC" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/rival.webp" alt="RIVAL 4x4" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/superlift-logo.webp" alt="Superlift" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/tjm.webp" alt="TJM" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/bluetti.webp" alt="Bluetti" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/bds.webp" alt="BDS Suspension" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/body-armor.webp" alt="Body Armor" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/cali-raised.webp" alt="Cali Raised" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/dobinsons.webp" alt="Dobinsons" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/fox.webp" alt="FOX" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/ironman.webp" alt="Ironman 4x4" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/king-off-road.webp" alt="King Shocks" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/max-trac.webp" alt="MaxTrac Suspension" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/nitto.webp" alt="Nitto" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/omac.webp" alt="OMAC" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/rival.webp" alt="RIVAL 4x4" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/superlift-logo.webp" alt="Superlift" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/tjm.webp" alt="TJM" loading="lazy"></div>
+            <div class="brand-chip"><img src="images/bluetti.webp" alt="Bluetti" loading="lazy"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Suspensions & Accessories -->
-    <div class="dealer-block dealer-smart" data-dealer="suspensions">
-      <div class="dealer-block-head dealer-head-smart">
-        <div class="dealer-head-copy">
-          <h3 class="dealer-block-title">Suspensions &amp; Accessories</h3>
-          <p class="dealer-block-subtitle">Lift, level, armor, and essentials — installed right, aligned right, and road‑tested.</p>
+      <div class="ob-brands-foot">
+        <div class="ob-foot-card">
+          <div class="ob-foot-title">Need a specific brand?</div>
+          <div class="ob-foot-sub">Call us — we can source and install what fits your build.</div>
         </div>
-
-        <button class="dealer-toggle" type="button" aria-expanded="true" aria-controls="dealerSuspPanel" id="dealerSuspBtn">
-          <span class="dealer-toggle-label">Hide brands</span>
-          <span class="dealer-toggle-icon" aria-hidden="true">▾</span>
-        </button>
-      </div>
-
-      <!-- Expandable (scrollable) -->
-      <div class="dealer-expand" id="dealerSuspPanel" role="region" aria-labelledby="dealerSuspBtn" hidden>
-        <div class="dealer-scroll">
-          <div class="dealer-logos-grid" aria-label="All suspension and accessory brands">
-            <div class="dealer-logo-card"><img src="images/arb.webp" alt="ARB" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/bds.webp" alt="BDS Suspension" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/body-armor.webp" alt="Body Armor" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/cali-raised.webp" alt="Cali Raised" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/dobinsons.webp" alt="Dobinsons" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/fox.webp" alt="FOX" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/icon.webp" alt="ICON Vehicle Dynamics" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/ironman.webp" alt="Ironman 4x4" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/king-off-road.webp" alt="King Shocks" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/max-trac.webp" alt="MaxTrac Suspension" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/nitto.webp" alt="Nitto" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/omac.webp" alt="OMAC" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/ready-lift.webp" alt="ReadyLIFT" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/rival.webp" alt="RIVAL 4x4" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/rough-country.webp" alt="Rough Country" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/superlift-logo.webp" alt="Superlift" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/tjm.webp" alt="TJM" loading="lazy"></div>
-            <div class="dealer-logo-card"><img src="images/bluetti.webp" alt="Bluetti" loading="lazy"></div>
-          </div>
-        </div>
+        <a class="ob-foot-cta" href="tel:+12814068738">Call (281) 406‑8738</a>
       </div>
     </div>
 
@@ -1836,104 +2563,55 @@ a{color:inherit;text-decoration:none}
   <div class="container">
     <h2 class="section-title">Contact <span class="highlight">Us</span></h2>
 
-    <div class="contact-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap:28px; max-width:900px; margin:0 auto;">
-      
-      <!-- Get a Quote Card -->
-      <div class="elite-card">
-        <div class="card-header">
-          <h3>Get a Quote</h3>
-          <p>Fast response on your build</p>
-          <div class="card-status">
-            <span class="status-dot"></span>
-            2 hour turnaround
-          </div>
-        </div>
-
-        <div class="card-body">
-          <form id="quoteForm">
-            <div style="display:grid; gap:12px">
-              <input required name="name" type="text" placeholder="Name *"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <input required name="email" type="email" placeholder="Email *"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <input name="phone" type="tel" placeholder="Phone"
-                style="width:100%; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; font-size:14px; transition:border .2s ease;">
-              
-              <textarea required name="details" placeholder="Vehicle & services needed *"
-                style="width:100%; min-height:90px; padding:12px 14px; border-radius:10px; border:2px solid var(--line); font-weight:600; font-family:'Satoshi',sans-serif; resize:vertical; font-size:14px; transition:border .2s ease;"></textarea>
-              
-              <button type="submit" class="btn-primary" style="width:100%; margin-top:8px">Request Quote</button>
-            </div>
-          </form>
-        </div>
+    
+<div class="contact-cards contact-cards-single">
+  <div class="elite-card visit-card-apple">
+    <div class="visit-apple-header">
+      <div>
+        <h3>Visit the Shop</h3>
+        <p class="visit-apple-sub">Come see us in Houston</p>
       </div>
-
-      <!-- Visit Shop Card -->
-      <div class="elite-card">
-        <div class="card-header">
-          <h3>Visit the Shop</h3>
-          <p>Come see us in Houston</p>
-          <div class="card-status">
-            <span class="status-dot"></span>
-            Open Now • Closes 6 PM
-          </div>
-        </div>
-
-        <div class="card-body">
-          <div style="display:grid; gap:14px">
-            
-            <div style="display:flex; gap:12px; align-items:start">
-              <span style="font-size:22px; margin-top:2px">📍</span>
-              <div>
-                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
-                  14300 Northwest Fwy<br>Suite A-23<br>Houston, TX 77040
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:12px; align-items:center">
-              <span style="font-size:22px">📞</span>
-              <div style="font-size:15px; font-weight:900; color:var(--orange)">
-                <a href="tel:+12814068738" style="text-decoration:none">(281) 406-8738</a>
-              </div>
-            </div>
-
-            <div style="display:flex; gap:12px; align-items:start">
-              <span style="font-size:22px; margin-top:2px">🕐</span>
-              <div>
-                <div style="font-size:13px; font-weight:700; color:var(--ink); line-height:1.5">
-                  Mon-Fri: 9 AM - 6 PM<br>Sat: 9 AM - 5 PM<br>Sun: Closed
-                </div>
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px">
-              <a href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" class="btn-primary" style="padding:12px 20px; font-size:13px; text-align:center">Directions</a>
-              <a href="tel:+12814068738" class="btn-secondary" style="padding:12px 20px; font-size:13px; text-align:center">Call Now</a>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px">
-              <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; background:var(--soft-2); border:2px solid var(--line); border-radius:10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.6px; transition:all .25s ease; text-decoration:none" onmouseover="this.style.background='var(--orange)'; this.style.borderColor='var(--orange)'; this.style.color='var(--white)'" onmouseout="this.style.background='var(--soft-2)'; this.style.borderColor='var(--line)'; this.style.color='inherit'">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                <span>Instagram</span>
-              </a>
-              <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; background:var(--soft-2); border:2px solid var(--line); border-radius:10px; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:.6px; transition:all .25s ease; text-decoration:none" onmouseover="this.style.background='var(--orange)'; this.style.borderColor='var(--orange)'; this.style.color='var(--white)'" onmouseout="this.style.background='var(--soft-2)'; this.style.borderColor='var(--line)'; this.style.color='inherit'">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span>Facebook</span>
-              </a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
+      <div class="visit-apple-status"><span class="status-dot"></span><span>Open Now • Closes 6 PM</span></div>
     </div>
+
+    <div class="visit-apple-body">
+      <div class="visit-apple-info">
+        <div class="visit-line">
+          <div class="visit-pill">Address</div>
+          <div class="visit-value">14300 Northwest Fwy, Suite A-23<br>Houston, TX 77040</div>
+        </div>
+
+        <div class="visit-line">
+          <div class="visit-pill">Phone</div>
+          <a class="visit-value visit-phone" href="tel:+12814068738">(281) 406-8738</a>
+        </div>
+
+        <div class="visit-line">
+          <div class="visit-pill">Hours</div>
+          <div class="visit-value">Mon–Fri: 9 AM – 6 PM<br>Sat: 9 AM – 5 PM<br>Sun: Closed</div>
+        </div>
+      </div>
+
+      <div class="visit-apple-actions">
+        <div class="visit-cta-row">
+          <a class="btn-primary visit-big" href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" target="_blank" rel="noopener">Directions</a>
+          <a class="btn-secondary visit-big" href="tel:+12814068738">Call Now</a>
+        </div>
+
+        <div class="visit-social-row" aria-label="Social links">
+          <a class="visit-icon" href="tel:+12814068738" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 7.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 7.25Z"/></svg>
+          </a>
+          <a class="visit-icon" href="tel:+12814068738" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6H16.7V4.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.7V11H7v3h2.5v8h4Z"/></svg>
+          </a>
+          <a class="btn-primary visit-quote-apple" href="#contact">Get a Quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   </div>
 </section>
 
@@ -2214,6 +2892,50 @@ a{color:inherit;text-decoration:none}
       }, { once:true });
     });
   })();
+
+  // Offroad Brothers Hero Logo: comical fall + immediate rumble (reliable across devices)
+  (function(){
+    const run = () => {
+      const logo = document.querySelector('.hero .hero-logo');
+      if(!logo) return;
+      logo.classList.remove('ob-anim');
+      void logo.offsetWidth; // force reflow
+      logo.classList.add('ob-anim');
+    };
+
+    window.addEventListener('load', () => {
+      requestAnimationFrame(()=>requestAnimationFrame(run));
+    });
+
+    window.addEventListener('pageshow', (e) => {
+      if(e.persisted) run();
+    });
+  })();
+
+
+
+// Brands (Apple-elite) tabs
+  (function(){
+    const tabs = document.querySelectorAll('.ob-tab');
+    const panels = document.querySelectorAll('.ob-panel');
+    if(!tabs || tabs.length === 0) return;
+
+    function activate(key){
+      tabs.forEach(t=>{
+        const on = t.dataset.panel === key;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach(p=>{
+        const on = p.dataset.panel === key;
+        p.classList.toggle('active', on);
+      });
+    }
+
+    tabs.forEach(t=> t.addEventListener('click', ()=> activate(t.dataset.panel)));
+    activate('wheels');
+  })();
+
 </script>
 
 </body>

@@ -2382,6 +2382,21 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+
+/* MOBILE HERO FINAL (from v4 base): -5% hero height, CTAs slightly lower, logo untouched */
+@media (max-width: 768px){
+  /* reduce hero vertical footprint by ~5% */
+  .hero{
+    padding-top: 180px !important;   /* was 190 */
+    padding-bottom: 10px !important; /* tighten bottom */
+  }
+  /* lower CTAs slightly (less aggressive lift) to avoid logo overlap */
+  .hero .hero-buttons{
+    margin-top: -140px !important;   /* was -160 */
+  }
+}
+
 </style>
 </head>
 <body>

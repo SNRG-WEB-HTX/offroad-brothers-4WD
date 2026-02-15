@@ -716,6 +716,10 @@ a{color:inherit;text-decoration:none}
   min-height:0;
   height:100%;
   object-fit:cover;
+  background:#0b0b0c;
+  transform:scale(0.88);
+  transform-origin:center;
+  will-change:transform;
   display:block;
 }
 
@@ -2456,6 +2460,79 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+
+/* Service cards: premium frame + front trim */
+.service-card-front::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:6px;
+  background:linear-gradient(90deg, var(--orange), var(--orange-light));
+  z-index:4;
+}
+.service-card-front{
+  box-shadow: 0 22px 60px rgba(2,6,23,.10);
+}
+.service-card-front img{
+  border-bottom:1px solid rgba(2,6,23,.10);
+}
+
+
+
+/* Service back: Apple-clean + off-road pro details */
+.service-card-back{
+  padding:30px 28px;
+}
+.service-card-back h3{
+  margin-top:2px;
+}
+.service-meta{
+  margin-top:16px;
+  display:grid;
+  gap:10px;
+}
+.service-meta .meta-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:10px 12px;
+  border-radius:14px;
+  background: rgba(2,6,23,.03);
+  border:1px solid rgba(2,6,23,.08);
+}
+.service-meta .k{
+  font-weight:950;
+  font-size:11px;
+  letter-spacing:.10em;
+  text-transform:uppercase;
+  opacity:.8;
+}
+.service-meta .v{
+  font-weight:900;
+  font-size:12px;
+  text-align:right;
+}
+
+
+
+/* MICRO LOGO TOP SPACING (Laptop + Mobile only) */
+
+/* Mobile */
+@media (max-width: 768px){
+  .hero .hero-logo{
+    margin-top: 200px !important; /* slight increase above logo */
+  }
+}
+
+/* Laptop */
+@media (min-width: 981px) and (max-width: 1440px){
+  .hero .hero-logo{
+    margin-top: 20px !important; /* small added breathing room */
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2580,15 +2657,14 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">💡</span>
-            <h3>Lighting Systems</h3>
+<h3>Lighting Systems</h3>
             <p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
+            <div class="service-meta">
+              <div class="meta-row"><span class="k">Built for</span><span class="v">Trucks • SUVs • Jeeps</span></div>
+              <div class="meta-row"><span class="k">Install</span><span class="v">Same‑Day Available</span></div>
+              <div class="meta-row"><span class="k">Shop standard</span><span class="v">Fitment‑First • Clean Finish</span></div>
             </div>
-          </div>
+</div>
         </div>
       </div>
 <div class="service-card">
@@ -2605,15 +2681,9 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">⚙️</span>
-            <h3>Tire & Wheel Packages</h3>
+<h3>Tire & Wheel Packages</h3>
             <p>Complete tire and wheel packages with expert fitment guidance. We ensure perfect compatibility.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
+</div>
         </div>
       </div>
 <div class="service-card">
@@ -2630,15 +2700,9 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">✅</span>
-            <h3>Expert Consultation</h3>
+<h3>Expert Consultation</h3>
             <p>Free expert advice on parts selection, fitment, and build planning for your project.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
+</div>
         </div>
       </div>
 <div class="service-card">
@@ -2655,15 +2719,9 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">🛠️</span>
-            <h3>Suspension Upgrades</h3>
+<h3>Suspension Upgrades</h3>
             <p>Performance suspension systems for on-road comfort and off-road capability.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
+</div>
         </div>
       </div>
 <div class="service-card">
@@ -2680,15 +2738,9 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">🎯</span>
-            <h3>Custom Builds</h3>
+<h3>Custom Builds</h3>
             <p>Complete custom 4x4 and overland builds tailored to your specific needs and budget.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
+</div>
         </div>
       </div>
 <div class="service-card">
@@ -2705,15 +2757,9 @@ D LEFT -->
             </div>
           </div>
           <div class="service-card-back">
-            <span class="service-icon">🔧</span>
-            <h3>Lift Kits</h3>
+<h3>Lift Kits</h3>
             <p>Professional lift kit installation for all makes and models. From 2" leveling kits to 6"+ lifts.</p>
-            <div class="flip-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12H3M12 21l-9-9 9-9"/>
-              </svg>
-            </div>
-          </div>
+</div>
         </div>
       </div></div>
   </div>

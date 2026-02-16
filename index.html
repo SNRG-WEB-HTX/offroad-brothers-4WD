@@ -2777,6 +2777,36 @@ html{ background:#0b0b0c !important; }
   transform-origin: center center !important;
 }
 
+
+/* =========================================================
+   TARGETED SCALE BOOST v4 (Precision Adjustments)
+   ========================================================= */
+
+/* Make these significantly larger */
+#products img[src*="fuel"],
+#products img[src*="method"],
+#products img[src*="american-force"],
+#products img[src*="american_force"],
+#products img[src*="mayhem"],
+#products img[src*="xd"],
+#products img[src*="cali"]{
+  transform: scale(1.45) !important;
+  transform-origin: center center !important;
+}
+
+/* Revert American Traxx to normal size (no scaling) */
+#products img[src*="american-traxx"],
+#products img[src*="americantraxx"]{
+  transform: scale(1) !important;
+}
+
+/* Make FOX smaller on mobile only */
+@media (max-width: 768px){
+  #products img[src*="fox"]{
+    transform: scale(0.8) !important;
+  }
+}
+
 </style>
 </head>
 <body>

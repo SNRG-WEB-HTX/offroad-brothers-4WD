@@ -3207,25 +3207,21 @@ html{ background: var(--ink); } /* only shows beyond body */
 
 
 /* =========================================================
-   MOBILE ONLY — FOOTER TIKTOK ICON WHITE (HARD LOCK)
-   Root cause: later CSS rules (generic svg fill rules) override footer icons on mobile.
-   Fix: ultra-specific selector + force currentColor on svg + paths.
+   FOOTER SOCIAL ICON LOCK — ALL DEVICES (TIKTOK FIX)
+   Root cause: generic svg/path rules overriding footer icon color.
+   Fix: ultra-specific footer selector + force currentColor on svg + children.
    ========================================================= */
-@media (max-width: 768px){
-  html{ background: var(--ink) !important; } /* prevents iOS overscroll showing white */
-  .footer, footer.footer{ background: var(--ink) !important; }
-  .footer .footer-social a.social{ color: rgba(255,255,255,.92) !important; }
-  .footer .footer-social a.social svg{ fill: currentColor !important; }
-  .footer .footer-social a.social svg *{ fill: currentColor !important; }
+footer .footer-social a.social,
+.footer .footer-social a.social{
+  color: rgba(255,255,255,.92) !important;
 }
-
-
-/* =========================================================
-   BRANDS SECTION — MATCH SERVICES BACKGROUND (NO GRADIENT)
-   ========================================================= */
-#brands{
-  background: var(--bg) !important;
-  background-image: none !important;
+footer .footer-social a.social svg,
+.footer .footer-social a.social svg{
+  fill: currentColor !important;
+}
+footer .footer-social a.social svg *,
+.footer .footer-social a.social svg *{
+  fill: currentColor !important;
 }
 </style>
 </head>
@@ -4079,7 +4075,7 @@ D LEFT -->
 </svg>
 </a>
 <a aria-label="TikTok" class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-  <svg fill="currentColor" aria-hidden="true" viewbox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" fill="currentColor" fill="currentColor"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+  <svg  aria-hidden="true" viewbox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" fill="currentColor" fill="currentColor"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
 </a>
 
 </div>

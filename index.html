@@ -3055,6 +3055,63 @@ html{ background:#0b0b0c !important; }
   color: rgba(255,255,255,.92) !important;
 }
 
+
+/* =========================================================
+   MOBILE FIXES — FOOTER GAP LOCK + CONTACT SOCIAL HIDE + CTA
+   ========================================================= */
+
+@media (max-width: 768px){
+  /* Remove white gap under footer and lock background */
+  html, body{ background:#000 !important; }
+  body{ margin:0 !important; padding-bottom:0 !important; overflow-x:hidden; }
+  footer, .footer{ margin-bottom:0 !important; }
+  /* iOS safe-area handled without showing white */
+  footer, .footer{
+    padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+    background:#000 !important;
+  }
+
+  /* Hide Visit the Shop social icons ONLY on mobile */
+  #contact .visit-social-row{ display:none !important; }
+
+  /* Force footer icons to stay white (including TikTok) */
+  .footer .footer-social a,
+  .footer-social a.social{
+    color: rgba(255,255,255,.92) !important;
+  }
+  .footer .footer-social a svg,
+  .footer-social a.social svg{
+    fill: currentColor !important;
+  }
+
+  /* Mobile header "Get a Quote" next to hamburger — smart Apple styling */
+  .mobile-cta{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height: 42px;
+    padding: 0 14px;
+    margin-left: 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.92);
+    font-weight: 900;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-size: 11px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 14px 36px rgba(0,0,0,.35);
+  }
+  .mobile-cta:active{ transform: scale(.98); }
+}
+
+/* Desktop: keep mobile-cta hidden */
+@media (min-width: 769px){
+  .mobile-cta{ display:none !important; }
+}
+
 </style>
 </head>
 <body>
@@ -3141,6 +3198,7 @@ D LEFT -->
 <a class="cta-button" href="#contact">Get a Quote</a>
 </nav>
 <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
+<a class="mobile-cta" href="#contact" aria-label="Get a Quote">Get a Quote</a>
 </div>
 </header>
 <!-- Hero Section with Large Logo -->
@@ -4357,6 +4415,32 @@ D LEFT -->
 
   update();
   setInterval(update, 30000);
+})();
+</script>
+
+
+<script>
+(function(){
+  const btn = document.getElementById('btnCall');
+  if(!btn) return;
+
+  function apply(){
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if(isMobile){
+      btn.textContent = 'Call Now';
+      btn.setAttribute('href','tel:+12814068738');
+      btn.setAttribute('data-en','Call Now');
+      btn.setAttribute('data-es','Llamar Ahora');
+    } else {
+      btn.textContent = 'Get a Quote';
+      btn.setAttribute('href','#contact');
+      btn.setAttribute('data-en','Get a Quote');
+      btn.setAttribute('data-es','Obtener Cotización');
+    }
+  }
+
+  apply();
+  window.addEventListener('resize', apply, {passive:true});
 })();
 </script>
 

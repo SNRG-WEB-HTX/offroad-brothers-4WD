@@ -22,7 +22,7 @@
   --orange-light:#FF5447;
   --ink:#0A0A0A;
   --white:#FFFFFF;
-  --bg:#FFFFFF;
+  --bg:#FAFAFA;
   --soft:#FAFAFA;
   --soft-2:#F5F6F8;
   --line:#E9ECF2;
@@ -39,7 +39,7 @@
 html{scroll-behavior:smooth}
 body{
   font-family:'Satoshi',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  background:var(--bg);
+  background: var(--soft);
   color:var(--ink);
   line-height:1.6;
   font-size:16px;
@@ -228,10 +228,8 @@ a{color:inherit;text-decoration:none}
   position:absolute;
   inset:-220px -220px auto -220px;
   height:420px;
-  background:
-    radial-gradient(closest-side, rgba(255,59,47,.12), rgba(255,59,47,0) 70%),
-    radial-gradient(closest-side, rgba(0,0,0,.04), rgba(0,0,0,0) 70%);
-  filter:blur(6px);
+  background: none;
+  filter: none;
   pointer-events:none;
 }
 
@@ -1527,12 +1525,7 @@ a{color:inherit;text-decoration:none}
   opacity:1;
   transform: translateY(0);
   transition: grid-template-rows .28s ease, opacity .22s ease, transform .22s ease;
-  background: linear-gradient(135deg, 
-    rgba(255, 245, 245, 0.6) 0%,
-    rgba(255, 250, 240, 0.6) 25%,
-    rgba(245, 245, 255, 0.6) 50%,
-    rgba(250, 245, 255, 0.6) 75%,
-    rgba(255, 245, 250, 0.6) 100%);
+  background: var(--soft);
   border-top: 1px solid rgba(10,10,10,.08);
 }
 
@@ -1635,10 +1628,7 @@ a{color:inherit;text-decoration:none}
    BRANDS — APPLE ELITE REVAMP
    ============================ */
 .section.ob-brands{
-  background:
-    radial-gradient(1200px 500px at 20% 0%, rgba(255,59,47,.10), rgba(255,59,47,0) 55%),
-    radial-gradient(900px 420px at 80% 20%, rgba(0,0,0,.06), rgba(0,0,0,0) 60%),
-    linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%);
+  background: var(--soft);
 }
 
 .ob-brands-shell{
@@ -2279,16 +2269,16 @@ a{color:inherit;text-decoration:none}
 
 
 /* OVERRIDE v2 (requested): mobile hero fix + desktop/laptop CTA pull-up + restore mobile bg scheme */
-:root{ --ob-page-bg: radial-gradient(1200px 700px at 50% 18%, rgba(255,69,58,.09) 0%, rgba(255,255,255,0) 60%), #ffffff; }
+:root{ --ob-page-bg: #FAFAFA; }
 
-body{ background: var(--ob-page-bg) !important; }
+body{ background: #FAFAFA !important; }
 
 /* keep iOS overscroll from showing white below dark footer while preserving page bg */
 html{ background:#0b0b0c !important; }
 
 @media (max-width: 768px){
   /* Restore the same light hero/page background as desktop/laptop */
-  body{ background: var(--ob-page-bg) !important; }
+  body{ background: #FAFAFA !important; }
 
   /* MOBILE HERO: smaller overall footprint (-10%), but push logo DOWN below header */
   .hero{
@@ -3245,6 +3235,41 @@ footer .footer-social a.social svg *,
 .footer .footer-social a.social svg *{
   fill: currentColor !important;
 }
+
+/* =========================================
+   Service Card Flip Indicator (Apple Subtle)
+   ========================================= */
+
+.service-card-title-banner{
+  position:relative;
+  padding-right:38px;
+}
+
+.service-card-title-banner::after{
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
+  width:14px;
+  height:14px;
+  transform:translateY(-50%) rotate(0deg);
+  opacity:.35;
+  transition:transform .35s ease, opacity .25s ease;
+  background:currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>  <path d='M9 6l6 6-6 6' stroke='black' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/>  </svg>") center / contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>  <path d='M9 6l6 6-6 6' stroke='black' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/>  </svg>") center / contain no-repeat;
+}
+
+.service-card:hover .service-card-title-banner::after{
+  opacity:.6;
+  transform:translateY(-50%) translateX(2px);
+}
+
+.service-card.flipped .service-card-title-banner::after{
+  transform:translateY(-50%) rotate(90deg);
+  opacity:.7;
+}
+
 </style>
 </head>
 <body>

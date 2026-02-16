@@ -2733,6 +2733,36 @@ html{ background:#0b0b0c !important; }
   transform: translateZ(0);
 }
 
+
+/* Targeted upscaling for logos with extra whitespace (match Dirty Life visual weight) */
+#products .brand-tile img[alt*="Fuel"],
+#products .brand-chip img[alt*="Fuel"],
+#products .brand-tile img[alt*="Mayhem"],
+#products .brand-chip img[alt*="Mayhem"],
+#products .brand-tile img[alt*="American Force"],
+#products .brand-chip img[alt*="American Force"],
+#products .brand-tile img[alt*="Cali Offroad"],
+#products .brand-chip img[alt*="Cali Offroad"]{
+  transform: translateZ(0) scale(1.18) !important;
+}
+
+/* Slightly reduce padding for those brands only, to increase perceived size without distortion */
+#products .brand-tile:has(img[alt*="Fuel"]),
+#products .brand-tile:has(img[alt*="Mayhem"]),
+#products .brand-tile:has(img[alt*="American Force"]),
+#products .brand-tile:has(img[alt*="Cali Offroad"]),
+#products .brand-chip:has(img[alt*="Fuel"]),
+#products .brand-chip:has(img[alt*="Mayhem"]),
+#products .brand-chip:has(img[alt*="American Force"]),
+#products .brand-chip:has(img[alt*="Cali Offroad"]){
+  padding: clamp(8px, 1.2vw, 14px) !important;
+}
+
+/* Fallback for browsers without :has() support — keeps scale fix working everywhere */
+@supports not selector(.x:has(.y)){
+  /* no-op: scale rules above still apply */
+}
+
 </style>
 </head>
 <body>

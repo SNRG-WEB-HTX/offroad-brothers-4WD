@@ -3223,6 +3223,28 @@ footer .footer-social a.social svg *,
 .footer .footer-social a.social svg *{
   fill: currentColor !important;
 }
+
+
+/* =========================================================
+   FOOTER ICON COLOR — ABSOLUTE LOCK (ALL DEVICES)
+   Root cause: later rules set link color on footer socials; TikTok inherits black.
+   Fix: force footer social link color white + svg children currentColor with max specificity.
+   ========================================================= */
+footer.footer .footer-social a.social,
+footer .footer-social a.social,
+.footer .footer-social a.social{
+  color: #ffffff !important;
+}
+footer.footer .footer-social a.social svg,
+footer .footer-social a.social svg,
+.footer .footer-social a.social svg{
+  fill: currentColor !important;
+}
+footer.footer .footer-social a.social svg *,
+footer .footer-social a.social svg *,
+.footer .footer-social a.social svg *{
+  fill: currentColor !important;
+}
 </style>
 </head>
 <body>

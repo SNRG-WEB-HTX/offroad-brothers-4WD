@@ -3096,6 +3096,42 @@ html{ background: var(--ink); } /* only shows beyond body */
   .mobile-cta{ display:none !important; }
 }
 
+
+
+/* =========================================================
+   MOBILE HEADER + FOOTER — NO WHITE UNDER FOOTER (LOCKED)
+   ========================================================= */
+@media (max-width: 980px){
+  /* Put Get a Quote pill to the LEFT of hamburger; hamburger hard-right */
+  .header-inner{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .mobile-cta{
+    order: 1;
+    margin-left: auto;
+  }
+  .mobile-menu-btn{
+    order: 2;
+    margin-left: 10px !important;
+  }
+}
+
+/* iOS Safari bottom "white" is the HTML overscroll area. Match it to footer ink without touching page bg. */
+@media (max-width: 768px){
+  html{ background: var(--ink) !important; }
+  body{ background: var(--bg) !important; margin:0; }
+
+  /* Keep footer tight but safe-area correct (padding INSIDE footer) */
+  .footer{
+    margin-bottom: 0 !important;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* Hide Visit-the-Shop social icons row on mobile ONLY */
+  #contact .visit-social-row{ display:none !important; }
+
+  /* Footer icons: force white + TikTok inherits */
+  .footer-social a{ color: rgba(255,255,255,.92) !important; }
+  .footer-social a svg{ fill: currentColor !important; }
+}
 </style>
 </head>
 <body>
@@ -3175,7 +3211,7 @@ D LEFT -->
 </svg>
 </a>
 <a aria-label="TikTok" class="nav-social-icon" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-  <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+  <svg aria-hidden="true" viewbox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
 </a>
 
 </div>
@@ -3190,7 +3226,7 @@ D LEFT -->
 <div class="container hero-inner">
 <img alt="Offroad Brothers 4WD Store Logo" class="hero-logo" loading="eager" src="offroadbrotherlogo.png"/>
 <div class="hero-buttons">
-<a class="btn-primary" data-en="Call Now" data-es="Llamar Ahora" href="tel:+12814068738" id="btnCall">Get a Quote</a>
+<a class="btn-primary" data-en="Call Now" data-es="Llamar Ahora" href="tel:+12814068738" id="btnCall">Call Now</a>
 <a class="btn-secondary" data-en="Explore Services" data-es="Explorar Servicios" href="#services" id="btnExplore">Explore Services</a>
 </div>
 </div>
@@ -3918,7 +3954,7 @@ D LEFT -->
     <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6H16.7V4.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.7V11H7v3h2.5v8h4Z"></path></svg>
   </a>
   <a class="visit-icon" aria-label="TikTok" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-    <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
   </a>
 </div>
 </div>
@@ -3948,7 +3984,7 @@ D LEFT -->
 </svg>
 </a>
 <a aria-label="TikTok" class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-  <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+  <svg aria-hidden="true" viewbox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
 </a>
 
 </div>

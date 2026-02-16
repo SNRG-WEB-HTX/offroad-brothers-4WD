@@ -1248,27 +1248,20 @@ a{color:inherit;text-decoration:none}
   fill: currentColor !important;
 }
 
-/* Video error banner (diagnoses GitHub Pages issues) */
-.video-error{
-  display:none;
-  margin: 0 0 10px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,59,47,.22);
-  background: rgba(255,59,47,.08);
-  color: rgba(2,6,23,.88);
-  font-weight: 900;
-  font-size: 12px;
-  line-height: 1.35;
-}
-.video-error.show{ display:block; }
 
-/* Mobile footer TikTok/Icons hard lock to white */
-@media (max-width: 768px){
-  .footer .footer-social a.social{ color: rgba(255,255,255,.92) !important; }
-  .footer .footer-social a.social svg{ fill: currentColor !important; }
-  .footer .footer-social a.social svg *{ fill: currentColor !important; }
-}
+/* Pager UI */
+.gallery-pager{display:flex;justify-content:center;align-items:center;gap:12px;margin:18px auto 0;max-width:1100px}
+.pager-btn{width:48px;height:48px;border-radius:999px;border:2px solid var(--line);background:var(--white);font-weight:1000;font-size:20px;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px rgba(10,10,10,.08);transition:.2s ease}
+.pager-btn:hover{transform:translateY(-2px);border-color:rgba(255,59,47,.35);box-shadow:0 16px 40px rgba(10,10,10,.12)}
+.pager-btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.pager-mid{font-weight:900;letter-spacing:.04em;text-transform:uppercase;font-size:12px;color:var(--muted);padding:0 6px}
+/* Video error banner */
+.video-error{display:none;margin:0 0 10px;padding:10px 12px;border-radius:14px;border:1px solid rgba(255,59,47,.22);background:rgba(255,59,47,.08);color:rgba(2,6,23,.88);font-weight:900;font-size:12px;line-height:1.35}
+.video-error.show{display:block}
+/* Footer icon lock */
+.footer .footer-social a.social{color:#fff !important}
+.footer .footer-social a.social svg{fill:currentColor !important}
+.footer .footer-social a.social svg *{fill:currentColor !important}
 
 </style>
 </head>
@@ -1349,7 +1342,6 @@ a{color:inherit;text-decoration:none}
       <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     </div>
     <div class="modal-body">
-      <div class="video-error" id="videoError" role="status" aria-live="polite"></div>
       <video id="modalVideo" class="modal-video" controls playsinline webkit-playsinline preload="metadata"></video>
     </div>
   </div>
@@ -1377,7 +1369,7 @@ a{color:inherit;text-decoration:none}
       </a>
     
       <a class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" target="_blank" rel="noopener" aria-label="TikTok">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" fill="currentColor" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" fill="currentColor">
   <path d="M21 8.2c-1.8 0-3.3-.6-4.6-1.7v7.8c0 3.4-2.8 6.2-6.2 6.2S4 17.7 4 14.3c0-3.4 2.8-6.2 6.2-6.2.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h3.1c.1 2.6 2.2 4.7 4.8 4.8v3.4z"/>
 </svg>
       </a>
@@ -1540,32 +1532,15 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const modalClose = document.getElementById('modalClose');
   const modalVideo = document.getElementById('modalVideo');
   const modalTitle = document.getElementById('modalTitle');
-  const videoError = document.getElementById('videoError');
 
   // IMPORTANT (GitHub Pages root-cause fix):
   // When your site is served from a repo subpath (e.g. /offroadbrothers/),
   // plain filenames can resolve incorrectly depending on where the page lives.
   // Always resolve to an absolute URL relative to the current page.
   function absUrl(src){
-    // Base-path support for GitHub Pages project sites.
-    // You can set: window.OB_VIDEO_BASE = "videos/"
-    const base = (window.OB_VIDEO_BASE || "").trim();
-    const cleaned = (src || "").trim();
-    const withBase = (base && !/^(https?:)?\/\//i.test(cleaned) && !cleaned.startsWith('/') ? (base.replace(/\/?$/,'/') + cleaned.replace(/^\.\//,'')) : cleaned);
-    const normalized = (!/^(https?:)?\/\//i.test(withBase) && !withBase.startsWith('/') && !withBase.startsWith('./')) ? ('./' + withBase) : withBase;
-    try { return new URL(normalized, window.location.href).href; }
-    catch(e){ return normalized; }
+    try { return new URL(src, window.location.href).href; }
+    catch(e){ return src; }
   }
-  
-  async function checkUrl(url){
-    try{
-      const res = await fetch(url, {method:'HEAD', cache:'no-store'});
-      return {ok: res.ok, status: res.status, type: (res.headers.get('content-type')||'')};
-    }catch(e){
-      return {ok:false, status:0, type:'', err:String(e)};
-    }
-  }
-
 
   // Add your video entries here. For scale: you can generate this list server-side later.
   // Keep src paths consistent (recommend: put videos in /videos/ and posters in /posters/).
@@ -1637,57 +1612,31 @@ document.getElementById('year').textContent = new Date().getFullYear();
         modal.setAttribute('aria-hidden','false');
         const src = absUrl(v.src);
 
-        // Diagnostics for GitHub Pages: 404, wrong case, LFS pointer, wrong MIME
-        if(videoError){ videoError.classList.remove('show'); videoError.textContent=''; }
-        checkUrl(src).then(info=>{
-          if(!info.ok){
-            const msg = (info.status===404)
-              ? 'Video file not found (404). On GitHub Pages this usually means the .mp4 was not committed, the path is wrong, or filename CASE does not match.'
-              : (info.status===0)
-                ? 'Video request failed (network/CORS). If videos are on another domain, it must allow cross-origin requests.'
-                : `Video request failed (HTTP ${info.status}).`;
-            if(videoError){ videoError.textContent = msg + ' Try opening the file directly: ' + src; videoError.classList.add('show'); }
-          } else {
-            if(info.type && !info.type.toLowerCase().includes('video')){
-              if(videoError){
-                videoError.textContent = `Video is being served as "${info.type}" (not video). If you used Git LFS, Pages may be serving a pointer file instead of the real .mp4.`;
-                videoError.classList.add('show');
-              }
-            }
-          }
-        });
-
         // Clear first to force reload across browsers
         modalVideo.pause();
         modalVideo.removeAttribute('src');
         modalVideo.load();
 
         modalTitle && (modalTitle.textContent = v.title || 'Video');
-        // Always drive playback through a <source> element (more reliable on Safari/GitHub Pages)
-        modalTitle && (modalTitle.textContent = v.title || 'Video');
-
-        // Remove old sources
-        modalVideo.pause();
-        modalVideo.removeAttribute('src');
-        [...modalVideo.querySelectorAll('source')].forEach(s=>s.remove());
-
-        const s = document.createElement('source');
-        s.src = src;
-        s.type = 'video/mp4';
-        modalVideo.appendChild(s);
-
+        modalVideo.setAttribute('src', src);
         modalVideo.setAttribute('playsinline','');
         modalVideo.setAttribute('webkit-playsinline','');
         modalVideo.setAttribute('controls','');
         modalVideo.setAttribute('preload','metadata');
 
+        // Some hosts require explicit type to avoid mime sniff issues
+        if(!modalVideo.querySelector('source')){
+          const s = document.createElement('source');
+          s.src = src;
+          s.type = 'video/mp4';
+          modalVideo.appendChild(s);
+        }else{
+          const s = modalVideo.querySelector('source');
+          s.src = src;
+          s.type = 'video/mp4';
+        }
+
         modalVideo.load();
-        modalVideo.onerror = function(){
-          if(videoError){
-            videoError.textContent = 'Playback error. On GitHub Pages the top causes are: missing mp4, Git LFS pointer file, filename case mismatch, or the server not sending a video content-type. Direct link: ' + (modalVideo.querySelector('source')?.src || '');
-            videoError.classList.add('show');
-          }
-        };
 
         // Try autoplay (user click counts as gesture); if blocked, controls still work.
         const p = modalVideo.play();
@@ -1736,5 +1685,153 @@ document.getElementById('year').textContent = new Date().getFullYear();
   render();
 })();
 </script>
+
+<script>
+(function(){
+  const grid = document.getElementById('videoGrid');
+  if(!grid) return;
+
+  const pager = document.getElementById('galleryPager');
+  const btnPrev = document.getElementById('pagePrev');
+  const btnNext = document.getElementById('pageNext');
+  const pageLabel = document.getElementById('pageLabel');
+
+  const modal = document.getElementById('videoModal');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalClose = document.getElementById('modalClose');
+  const modalVideo = document.getElementById('modalVideo');
+  const modalTitle = document.getElementById('modalTitle');
+  const videoError = document.getElementById('videoError');
+
+  function absUrl(src){
+    const base = (window.OB_VIDEO_BASE || "").trim();
+    const cleaned = (src || "").trim();
+    const withBase = (base && !/^(https?:)?\/\//i.test(cleaned) && !cleaned.startsWith('/') ? (base.replace(/\/?$/,'/') + cleaned.replace(/^\.\//,'')) : cleaned);
+    const normalized = (!/^(https?:)?\/\//i.test(withBase) && !withBase.startsWith('/') && !withBase.startsWith('./')) ? ('./' + withBase) : withBase;
+    try { return new URL(normalized, window.location.href).href; } catch(e){ return normalized; }
+  }
+
+  async function headSameOrigin(url){
+    try{
+      const u = new URL(url, window.location.href);
+      const isHttp = (u.protocol==='http:'||u.protocol==='https:');
+      const sameOrigin = (u.origin === window.location.origin);
+      if(!isHttp || !sameOrigin) return {skip:true, ok:true, status:0, type:''};
+      const res = await fetch(u.href, {method:'HEAD', cache:'no-store'});
+      return {skip:false, ok:res.ok, status:res.status, type:(res.headers.get('content-type')||'')};
+    }catch(e){ return {skip:false, ok:false, status:0, type:'', err:String(e)}; }
+  }
+
+  const FALLBACK = [{ src: "1770841872568.publer.com.mp4", title: "Offroad Build", poster: null, duration: "" }];
+  const VIDEOS = (window.OB_VIDEOS && Array.isArray(window.OB_VIDEOS) && window.OB_VIDEOS.length) ? window.OB_VIDEOS : FALLBACK;
+
+  function pageSize(){ return window.matchMedia('(min-width: 980px)').matches ? 15 : 12; }
+  let page = 1;
+  function pages(){ return Math.max(1, Math.ceil(VIDEOS.length / pageSize())); }
+  function clamp(p){ return Math.min(Math.max(1,p), pages()); }
+
+  function setPager(){
+    if(!pager) return;
+    const tp = pages();
+    page = clamp(page);
+    if(pageLabel) pageLabel.textContent = 'Page ' + page + ' of ' + tp;
+    if(btnPrev) btnPrev.disabled = page<=1;
+    if(btnNext) btnNext.disabled = page>=tp;
+  }
+
+  const PLACEHOLDER = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'> <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'> <stop stop-color='#0b0b0b'/><stop offset='1' stop-color='#1b1b1b'/> </linearGradient></defs> <rect width='300' height='300' fill='url(%23g)'/> <circle cx='245' cy='245' r='34' fill='rgba(255,255,255,0.12)'/> <path d='M235 228l30 17-30 17z' fill='rgba(255,255,255,0.9)'/> </svg>";
+
+  function render(){
+    const size = pageSize();
+    const start = (page-1)*size;
+    const slice = VIDEOS.slice(start, start+size);
+    grid.innerHTML = '';
+    slice.forEach((v,i)=>{
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.tabIndex = 0;
+      const src = absUrl(v.src);
+
+      const poster = v.poster || PLACEHOLDER;
+      card.innerHTML =
+        '<div class="thumb">' +
+          '<div class="thumb-bg" style="background-image:url(\'' + poster + '\')"></div>' +
+          '<img class="thumb-img" src="' + poster + '" alt="">' +
+          '<div class="duration-badge">' + (v.duration||'') + '</div>' +
+          '<div class="play-badge">▶</div>' +
+        '</div>';
+
+      function open(){
+        if(!modal || !modalVideo) return;
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+        if(videoError){ videoError.classList.remove('show'); videoError.textContent=''; }
+        if(modalTitle) modalTitle.textContent = v.title || 'Video';
+
+        modalVideo.pause();
+        modalVideo.removeAttribute('src');
+        Array.from(modalVideo.querySelectorAll('source')).forEach(s=>s.remove());
+
+        const s = document.createElement('source');
+        s.src = src;
+        s.type = 'video/mp4';
+        modalVideo.appendChild(s);
+        modalVideo.setAttribute('playsinline','');
+        modalVideo.setAttribute('webkit-playsinline','');
+        modalVideo.setAttribute('controls','');
+        modalVideo.setAttribute('preload','metadata');
+        modalVideo.load();
+
+        headSameOrigin(src).then(info=>{
+          if(info.skip) return;
+          if(!info.ok){
+            const msg = info.status===404
+              ? 'Video not found (404). On GitHub Pages this means the mp4 path/case is wrong or the file wasn’t committed.'
+              : 'Video request failed (HTTP ' + (info.status||'0') + ').';
+            if(videoError){ videoError.textContent = msg + ' Direct link: ' + src; videoError.classList.add('show'); }
+          } else if(info.type && !info.type.toLowerCase().includes('video')){
+            if(videoError){ videoError.textContent = 'Video served as "' + info.type + '" (not video). If you used Git LFS, Pages may be serving a pointer file instead of the real mp4.'; videoError.classList.add('show'); }
+          }
+        });
+
+        const p = modalVideo.play();
+        if(p && p.catch) p.catch(()=>{});
+        modalVideo.onerror = function(){
+          if(videoError){ videoError.textContent = 'Playback error. GitHub causes: missing mp4, Git LFS pointer, case mismatch, or wrong content-type. Direct link: ' + src; videoError.classList.add('show'); }
+        };
+      }
+
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } });
+      grid.appendChild(card);
+    });
+    setPager();
+  }
+
+  function close(){
+    if(!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    if(modalVideo){
+      modalVideo.pause();
+      modalVideo.removeAttribute('src');
+      Array.from(modalVideo.querySelectorAll('source')).forEach(s=>s.remove());
+      modalVideo.load();
+    }
+  }
+  if(modalBackdrop) modalBackdrop.addEventListener('click', close);
+  if(modalClose) modalClose.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+
+  if(btnPrev) btnPrev.addEventListener('click', ()=>{ page=clamp(page-1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+  if(btnNext) btnNext.addEventListener('click', ()=>{ page=clamp(page+1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+
+  let t=null;
+  window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(()=>{ page=clamp(page); render(); }, 120); });
+
+  render();
+})();
+</script>
+
 </body>
 </html>

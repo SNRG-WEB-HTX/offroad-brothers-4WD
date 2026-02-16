@@ -16,6 +16,7 @@
 <style>
 
 
+
 :root{
   --orange:#FF3B2F;
   --orange-dark:#E6342A;
@@ -1246,6 +1247,29 @@ a{color:inherit;text-decoration:none}
 .footer-social a.social svg{
   fill: currentColor !important;
 }
+
+/* Video error banner (diagnoses GitHub Pages issues) */
+.video-error{
+  display:none;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,59,47,.22);
+  background: rgba(255,59,47,.08);
+  color: rgba(2,6,23,.88);
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 1.35;
+}
+.video-error.show{ display:block; }
+
+/* Mobile footer TikTok/Icons hard lock to white */
+@media (max-width: 768px){
+  .footer .footer-social a.social{ color: rgba(255,255,255,.92) !important; }
+  .footer .footer-social a.social svg{ fill: currentColor !important; }
+  .footer .footer-social a.social svg *{ fill: currentColor !important; }
+}
+
 </style>
 </head>
 <body>
@@ -1325,6 +1349,7 @@ a{color:inherit;text-decoration:none}
       <button class="modal-close" id="modalClose" aria-label="Close">×</button>
     </div>
     <div class="modal-body">
+      <div class="video-error" id="videoError" role="status" aria-live="polite"></div>
       <video id="modalVideo" class="modal-video" controls playsinline webkit-playsinline preload="metadata"></video>
     </div>
   </div>
@@ -1352,7 +1377,7 @@ a{color:inherit;text-decoration:none}
       </a>
     
       <a class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" target="_blank" rel="noopener" aria-label="TikTok">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" fill="currentColor" fill="currentColor">
   <path d="M21 8.2c-1.8 0-3.3-.6-4.6-1.7v7.8c0 3.4-2.8 6.2-6.2 6.2S4 17.7 4 14.3c0-3.4 2.8-6.2 6.2-6.2.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h3.1c.1 2.6 2.2 4.7 4.8 4.8v3.4z"/>
 </svg>
       </a>
@@ -1515,15 +1540,32 @@ document.getElementById('year').textContent = new Date().getFullYear();
   const modalClose = document.getElementById('modalClose');
   const modalVideo = document.getElementById('modalVideo');
   const modalTitle = document.getElementById('modalTitle');
+  const videoError = document.getElementById('videoError');
 
   // IMPORTANT (GitHub Pages root-cause fix):
   // When your site is served from a repo subpath (e.g. /offroadbrothers/),
   // plain filenames can resolve incorrectly depending on where the page lives.
   // Always resolve to an absolute URL relative to the current page.
   function absUrl(src){
-    try { return new URL(src, window.location.href).href; }
-    catch(e){ return src; }
+    // Base-path support for GitHub Pages project sites.
+    // You can set: window.OB_VIDEO_BASE = "videos/"
+    const base = (window.OB_VIDEO_BASE || "").trim();
+    const cleaned = (src || "").trim();
+    const withBase = (base && !/^(https?:)?\/\//i.test(cleaned) && !cleaned.startsWith('/') ? (base.replace(/\/?$/,'/') + cleaned.replace(/^\.\//,'')) : cleaned);
+    const normalized = (!/^(https?:)?\/\//i.test(withBase) && !withBase.startsWith('/') && !withBase.startsWith('./')) ? ('./' + withBase) : withBase;
+    try { return new URL(normalized, window.location.href).href; }
+    catch(e){ return normalized; }
   }
+  
+  async function checkUrl(url){
+    try{
+      const res = await fetch(url, {method:'HEAD', cache:'no-store'});
+      return {ok: res.ok, status: res.status, type: (res.headers.get('content-type')||'')};
+    }catch(e){
+      return {ok:false, status:0, type:'', err:String(e)};
+    }
+  }
+
 
   // Add your video entries here. For scale: you can generate this list server-side later.
   // Keep src paths consistent (recommend: put videos in /videos/ and posters in /posters/).
@@ -1595,31 +1637,57 @@ document.getElementById('year').textContent = new Date().getFullYear();
         modal.setAttribute('aria-hidden','false');
         const src = absUrl(v.src);
 
+        // Diagnostics for GitHub Pages: 404, wrong case, LFS pointer, wrong MIME
+        if(videoError){ videoError.classList.remove('show'); videoError.textContent=''; }
+        checkUrl(src).then(info=>{
+          if(!info.ok){
+            const msg = (info.status===404)
+              ? 'Video file not found (404). On GitHub Pages this usually means the .mp4 was not committed, the path is wrong, or filename CASE does not match.'
+              : (info.status===0)
+                ? 'Video request failed (network/CORS). If videos are on another domain, it must allow cross-origin requests.'
+                : `Video request failed (HTTP ${info.status}).`;
+            if(videoError){ videoError.textContent = msg + ' Try opening the file directly: ' + src; videoError.classList.add('show'); }
+          } else {
+            if(info.type && !info.type.toLowerCase().includes('video')){
+              if(videoError){
+                videoError.textContent = `Video is being served as "${info.type}" (not video). If you used Git LFS, Pages may be serving a pointer file instead of the real .mp4.`;
+                videoError.classList.add('show');
+              }
+            }
+          }
+        });
+
         // Clear first to force reload across browsers
         modalVideo.pause();
         modalVideo.removeAttribute('src');
         modalVideo.load();
 
         modalTitle && (modalTitle.textContent = v.title || 'Video');
-        modalVideo.setAttribute('src', src);
+        // Always drive playback through a <source> element (more reliable on Safari/GitHub Pages)
+        modalTitle && (modalTitle.textContent = v.title || 'Video');
+
+        // Remove old sources
+        modalVideo.pause();
+        modalVideo.removeAttribute('src');
+        [...modalVideo.querySelectorAll('source')].forEach(s=>s.remove());
+
+        const s = document.createElement('source');
+        s.src = src;
+        s.type = 'video/mp4';
+        modalVideo.appendChild(s);
+
         modalVideo.setAttribute('playsinline','');
         modalVideo.setAttribute('webkit-playsinline','');
         modalVideo.setAttribute('controls','');
         modalVideo.setAttribute('preload','metadata');
 
-        // Some hosts require explicit type to avoid mime sniff issues
-        if(!modalVideo.querySelector('source')){
-          const s = document.createElement('source');
-          s.src = src;
-          s.type = 'video/mp4';
-          modalVideo.appendChild(s);
-        }else{
-          const s = modalVideo.querySelector('source');
-          s.src = src;
-          s.type = 'video/mp4';
-        }
-
         modalVideo.load();
+        modalVideo.onerror = function(){
+          if(videoError){
+            videoError.textContent = 'Playback error. On GitHub Pages the top causes are: missing mp4, Git LFS pointer file, filename case mismatch, or the server not sending a video content-type. Direct link: ' + (modalVideo.querySelector('source')?.src || '');
+            videoError.classList.add('show');
+          }
+        };
 
         // Try autoplay (user click counts as gesture); if blocked, controls still work.
         const p = modalVideo.play();

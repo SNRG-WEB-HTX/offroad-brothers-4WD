@@ -2807,6 +2807,64 @@ html{ background:#0b0b0c !important; }
   }
 }
 
+
+/* =========================================================
+   BRANDS LOGOS v5 — FINAL TUNING (AF + Fuel) + Mobile Glitch Fix
+   ========================================================= */
+
+/* Fix: prevent Cali Raised (susp panel) from inheriting Cali Offroad scaling */
+#products img[src*="cali-raised"]{
+  transform: scale(1) !important;
+}
+
+/* Explicit Cali Offroad scaling only (wheels) */
+#products img[src*="cali-offroad"]{
+  transform: scale(1.45) !important;
+  transform-origin: center center !important;
+}
+
+/* Desktop + Tablet: make American Force + Fuel bigger in BOTH tile + marquee */
+@media (min-width: 769px){
+  #products .brand-tile img[src*="american-force"],
+  #products .brand-chip img[src*="american-force"]{
+    transform: scale(1.75) !important;
+    transform-origin: center center !important;
+  }
+  #products .brand-tile img[src*="fuel-offroad"],
+  #products .brand-chip img[src*="fuel-offroad"]{
+    transform: scale(1.65) !important;
+    transform-origin: center center !important;
+  }
+}
+
+/* Mobile: keep American Force static tile as-is, but boost ONLY the sliding chip.
+   Fuel gets boosted on both tile + chip. */
+@media (max-width: 768px){
+  /* American Force: static tile stays at current size */
+  #products .brand-tile img[src*="american-force"]{
+    transform: scale(1.45) !important;
+    transform-origin: center center !important;
+  }
+  /* American Force: sliding chip bigger on mobile */
+  #products .brand-chip img[src*="american-force"]{
+    transform: scale(1.90) !important;
+    transform-origin: center center !important;
+  }
+
+  /* Fuel: bigger on BOTH static + sliding on mobile */
+  #products .brand-tile img[src*="fuel-offroad"],
+  #products .brand-chip img[src*="fuel-offroad"]{
+    transform: scale(1.70) !important;
+    transform-origin: center center !important;
+  }
+}
+
+/* Safety lock: keep American Traxx at baseline size (do not touch) */
+#products img[src*="american-traxx"],
+#products img[src*="americantraxx"]{
+  transform: scale(1) !important;
+}
+
 </style>
 </head>
 <body>

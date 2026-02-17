@@ -1214,7 +1214,7 @@ main,.page{flex:1 0 auto;}
       <button class="modal-close" id="modalClose" aria-label="Close">&#215;</button>
     </div>
     <div class="modal-body">
-      <video id="modalVideo" class="modal-video" playsinline webkit-playsinline preload="none" tabindex="0" disablepictureinpicture></video>
+      <video id="modalVideo" class="modal-video" playsinline webkit-playsinline preload="auto" tabindex="0"></video>
     </div>
     <div id="videoError" class="video-error" role="alert"></div>
   </div>
@@ -1443,8 +1443,9 @@ const OB_VIDEOS = [
 
   function isOffline(){ return !navigator.onLine; }
   function isVerySlow(){
-    const c=navigator.connection||{};
-    return !!c.saveData||/^(slow-2g|2g)$/i.test(c.effectiveType||'')||((c.downlink||99)<0.5);
+    // Only block on explicitly unusable connections, NOT regular 2g/3g/4g/LTE
+    const c = navigator.connection || {};
+    return !!c.saveData;
   }
   function pageSize(){
     if(window.matchMedia('(min-width:1200px)').matches) return 30;
@@ -1478,68 +1479,47 @@ const OB_VIDEOS = [
       card.innerHTML=`<div class="thumb"><img src="${v.poster}" alt="" loading="lazy" decoding="async"><div class="play-badge">&#9654;</div></div>`;
 
       function openModal(){
-        if(!modal||!modalVideo) return;
+        if(!modal || !modalVideo) return;
         setError('');
         if(isOffline()){ modal.classList.add('show'); setError('No connection — videos require internet.'); return; }
 
         modal.classList.add('show');
         modal.setAttribute('aria-hidden','false');
-
-        // Lock scroll on body BUT preserve iOS scroll ability inside modal
         document.documentElement.style.overflow = 'hidden';
         document.documentElement.style.position = 'relative';
 
-        // Hard reset player
+        // Full reset
         modalVideo.pause();
-        // Remove ALL source children first
-        while(modalVideo.firstChild) modalVideo.removeChild(modalVideo.firstChild);
         modalVideo.removeAttribute('src');
-        modalVideo.removeAttribute('poster');
-
-        // Set poster
+        modalVideo.load();
         modalVideo.setAttribute('poster', v.poster);
 
-        // Critical: set src DIRECTLY on element (most reliable across iOS/Android/Chrome)
-        // Do NOT use <source> child element — iOS Safari handles direct src better
+        // Set src directly - most reliable on ALL mobile browsers
         modalVideo.src = v.src;
 
-        // All platform attributes — must be set before load()
+        // These MUST be set every time for iOS Safari
         modalVideo.setAttribute('playsinline', '');
         modalVideo.setAttribute('webkit-playsinline', '');
-        modalVideo.setAttribute('x5-playsinline', '');
-        modalVideo.setAttribute('x5-video-player-type', 'h5');
         modalVideo.setAttribute('controls', '');
         modalVideo.setAttribute('preload', 'auto');
         modalVideo.muted = false;
 
-        // Error handler
-        modalVideo.onerror = function(e){
-          const code = modalVideo.error ? modalVideo.error.code : '?';
-          // Code 2 = network, 3 = decode, 4 = format/CORS
-          const msg = code == 4
-            ? 'Video blocked — check CORS policy on R2 bucket (videos.snrgweb.com)'
-            : code == 2
-            ? 'Network error — check your connection'
-            : 'Playback error (code ' + code + '): ' + v.src.split('/').pop();
-          setError(msg);
+        // Error handler with specific codes
+        modalVideo.onerror = function(){
+          const code = (modalVideo.error || {}).code || 0;
+          setError(
+            code === 4 ? 'Format/CORS error — check R2 CORS policy' :
+            code === 2 ? 'Network error — check connection' :
+            'Playback error — tap to retry'
+          );
         };
 
-        // Load then play — this sequence is critical for iOS
+        // load() then play() — the only sequence that works on ALL mobile
         modalVideo.load();
-
-        // Play after load event fires (more reliable than immediate play on mobile)
-        const playWhenReady = function(){
-          modalVideo.removeEventListener('loadedmetadata', playWhenReady);
-          const p = modalVideo.play();
-          if(p && p.catch) p.catch(function(){
-            // Autoplay blocked — user sees controls and taps play themselves
-            // This is fine and expected on some mobile browsers
-          });
-        };
-
-        if(!isVerySlow()){
-          modalVideo.addEventListener('loadedmetadata', playWhenReady);
-        }
+        const p = modalVideo.play();
+        if(p && p.catch) p.catch(function(){
+          // Autoplay blocked by browser — user taps play button, totally fine
+        });
       }
 
       card.addEventListener('click',openModal);

@@ -1502,7 +1502,21 @@ const OB_VIDEOS = [
         modalVideo.setAttribute('webkit-playsinline', '');
         modalVideo.setAttribute('controls', '');
         modalVideo.setAttribute('preload', 'auto');
-        modalVideo.muted = false;
+
+        // Mobile fix: allow programmatic playback reliably (iOS/Android often block
+        // play() unless the video is muted/autoplay). Desktop stays unchanged.
+        const isMobile = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) ||
+                         /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if(isMobile){
+          modalVideo.muted = true;
+          modalVideo.setAttribute('muted','');
+          modalVideo.setAttribute('autoplay','');
+        }else{
+          modalVideo.muted = false;
+          modalVideo.removeAttribute('muted');
+          modalVideo.removeAttribute('autoplay');
+        }
 
         // Error handler with specific codes
         modalVideo.onerror = function(){
@@ -1518,7 +1532,15 @@ const OB_VIDEOS = [
         modalVideo.load();
         const p = modalVideo.play();
         if(p && p.catch) p.catch(function(){
-          // Autoplay blocked by browser — user taps play button, totally fine
+          // If a mobile browser still blocks playback, keep it muted and let the user tap once.
+          // (Muted + autoplay is the most compatible combo for iOS Safari.)
+          if(typeof isMobile !== 'undefined' && isMobile){
+            try{
+              modalVideo.muted = true;
+              modalVideo.setAttribute('muted','');
+              modalVideo.play().catch(function(){ /* user can tap play */ });
+            }catch(e){}
+          }
         });
       }
 

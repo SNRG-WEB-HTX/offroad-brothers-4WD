@@ -995,14 +995,6 @@ a{color:inherit;text-decoration:none}
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);
 }
-/* iOS Safari: backdrop-filter on a sibling causes <video> to go black.
-   Remove it on mobile — the dark overlay is still opaque enough. */
-@media (max-width:600px) {
-  .modal-backdrop {
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
-  }
-}
 
 /* Portrait sheet — tight, no wasted space */
 .modal-sheet {
@@ -1088,46 +1080,39 @@ a{color:inherit;text-decoration:none}
 /* ── Mobile: full-screen immersive ── */
 @media (max-width:600px){
   .modal {
-    align-items:flex-end;
-    /* iOS Safari: prevent modal from going under address bar */
+    align-items: flex-end;
     padding-bottom: env(safe-area-inset-bottom);
   }
   .modal-sheet {
-    width:100vw;
-    /* Layered: vh (widest support) → svh → dvh (most accurate, newest) */
-    height:100vh;
-    height:100svh;
-    height:100dvh;
-    border-radius:0;
-    max-height:100vh;
-    max-height:100svh;
-    max-height:100dvh;
-    /* Prevent body scroll bleed-through on iOS */
-    -webkit-overflow-scrolling: touch;
+    width: 100vw;
+    /* vh first (universal), dvh override where supported — never svh-only */
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    max-height: 100vh;
+    max-height: 100dvh;
     overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
   }
   .modal-body {
-    /* iOS needs explicit overflow on the scroll container */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    /* overflow:hidden — overflow-y:auto causes iOS to clip the video layer */
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
   }
   .modal-video {
-    aspect-ratio: auto;
+    /* Keep 9:16 ratio as shape fallback — never set aspect-ratio:auto with no height */
+    aspect-ratio: 9/16;
     width: 100%;
-    /* Layered fallbacks: vh → svh → dvh */
-    height: calc(100vh - 52px);
-    height: calc(100svh - 52px);
-    height: calc(100dvh - 52px);
+    /* Fill flex parent instead of fragile calc(100dvh-52px) */
+    height: 100%;
     object-fit: contain;
     max-height: none;
-    /* Critical for iOS: video element must not be position:absolute */
     position: relative;
     display: block;
-    /* Force own compositor layer — prevents backdrop-filter bleed causing black video */
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    isolation: isolate;
   }
 }
 
@@ -1509,10 +1494,8 @@ const OB_VIDEOS = [
         modalVideo.removeAttribute('src');
         modalVideo.load();
         modalVideo.setAttribute('poster', v.poster);
-
-        // Set src directly - most reliable on ALL mobile browsers
-        modalVideo.src = v.src;
-
+        // Always use v2 files (cache-bypass + mobile-safe)
+        modalVideo.src = v.src.replace(/(?:-v2)?\.mp4$/i, '-v2.mp4');
         // These MUST be set every time for iOS Safari
         modalVideo.setAttribute('playsinline', '');
         modalVideo.setAttribute('webkit-playsinline', '');

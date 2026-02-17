@@ -1,12 +1,14 @@
-/* Offline/weak-signal resilience service worker
-   - Network-first for HTML (so content stays fresh)
-   - Cache-first for images/fonts/videos (so UI/video still works when signal drops)
+/* Offline/weak-signal resilience service worker (Offroad Brothers)
+   Goals:
+   - Network-first for HTML (fresh content when online)
+   - Cache-first for static + media
+   - Safari/iOS friendly video playback via Range request support for cached MP4/WebM
 */
-const CACHE_VERSION = "offroad-v1-2026-02-16";
+const CACHE_VERSION = "offroad-v1-2026-02-17";
 const CORE_CACHE = `core-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
-// Add any same-origin core files you *always* want available offline.
+// Same-origin core files you always want offline.
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -23,11 +25,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((k) => !k.includes(CACHE_VERSION))
-          .map((k) => caches.delete(k))
-      )
+      Promise.all(keys.filter((k) => !k.includes(CACHE_VERSION)).map((k) => caches.delete(k)))
     )
   );
   self.clients.claim();
@@ -45,9 +43,53 @@ function isStatic(req){
   return /\.(png|jpg|jpeg|webp|gif|svg|ico|css|js|woff|woff2|ttf|otf)(\?|$)/i.test(url.pathname);
 }
 
+async function cachePutSafe(cacheName, request, response){
+  try{
+    const cache = await caches.open(cacheName);
+    await cache.put(request, response);
+  }catch(e){}
+}
+
+// Range support (Safari/iOS)
+async function serveRangeFromCache(event){
+  const req = event.request;
+  const range = req.headers.get("range");
+  if(!range) return null;
+
+  // Match by URL to ignore Range header in cache key.
+  const cached = await caches.match(req.url);
+  if(!cached) return null;
+
+  const buf = await cached.arrayBuffer();
+  const size = buf.byteLength;
+
+  // Parse: bytes=start-end
+  const m = /bytes=(\d*)-(\d*)/i.exec(range);
+  if(!m) return cached;
+
+  let start = m[1] ? parseInt(m[1], 10) : 0;
+  let end = m[2] ? parseInt(m[2], 10) : (size - 1);
+
+  // Clamp
+  if(Number.isNaN(start)) start = 0;
+  if(Number.isNaN(end) || end >= size) end = size - 1;
+  if(start > end) start = 0;
+
+  const chunk = buf.slice(start, end + 1);
+
+  const headers = new Headers(cached.headers);
+  headers.set("Content-Range", `bytes ${start}-${end}/${size}`);
+  headers.set("Accept-Ranges", "bytes");
+  headers.set("Content-Length", String(chunk.byteLength));
+
+  // Keep original content-type if present; otherwise guess mp4.
+  if(!headers.get("Content-Type")) headers.set("Content-Type", "video/mp4");
+
+  return new Response(chunk, { status: 206, statusText: "Partial Content", headers });
+}
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
-  // Only handle GET
   if(req.method !== "GET") return;
 
   // Network-first for HTML
@@ -55,8 +97,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CORE_CACHE).then((c) => c.put(req, copy)).catch(() => {});
+          cachePutSafe(CORE_CACHE, req, res.clone());
           return res;
         })
         .catch(() => caches.match(req).then((m) => m || caches.match("./index.html")))
@@ -64,23 +105,44 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Cache-first for media + static assets
-  if(isMedia(req) || isStatic(req)){
+  // Media (cache-first + Range support)
+  if(isMedia(req)){
+    event.respondWith((async () => {
+      // If it's a Range request, try cache-range first.
+      const ranged = await serveRangeFromCache(event);
+      if(ranged) return ranged;
+
+      // Otherwise normal cache-first.
+      const cached = await caches.match(req.url);
+      if(cached) return cached;
+
+      try{
+        const res = await fetch(req);
+        cachePutSafe(RUNTIME_CACHE, req.url, res.clone());
+        return res;
+      }catch(e){
+        return cached || new Response("", { status: 504, statusText: "Offline" });
+      }
+    })());
+    return;
+  }
+
+  // Static assets (cache-first)
+  if(isStatic(req)){
     event.respondWith(
-      caches.match(req).then((cached) => {
+      caches.match(req.url).then((cached) => {
         if(cached) return cached;
         return fetch(req)
           .then((res) => {
-            const copy = res.clone();
-            caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy)).catch(() => {});
+            cachePutSafe(RUNTIME_CACHE, req.url, res.clone());
             return res;
           })
-          .catch(() => cached);
+          .catch(() => cached || new Response("", { status: 504, statusText: "Offline" }));
       })
     );
     return;
   }
 
-  // Default: try network, fall back to cache
+  // Default: network, fallback cache
   event.respondWith(fetch(req).catch(() => caches.match(req)));
 });

@@ -1332,49 +1332,6 @@ main, .page{ flex: 1 0 auto; } /* keep footer at bottom even if content short/of
 }
 
 
-
-
-/* =========================================================
-   MOBILE FOOTER GAP FIX — NO SITE BG CHANGE (2026-02-17)
-   - Keeps your existing backgrounds exactly as-is
-   - Footer stays black
-   - Prevents iOS/Android white gap below footer (weak/offline/short content)
-   ========================================================= */
-html, body{ height:100%; }
-
-body{
-  min-height:100svh;
-  min-height:100dvh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* If you use a wrapper, let it grow; if not, harmless */
-main, .page{ flex:1 0 auto; }
-
-.footer{
-  flex-shrink:0;
-  margin-top:auto !important;
-  margin-bottom:0 !important;
-  background:var(--ink) !important;
-  padding-bottom:calc(32px + env(safe-area-inset-bottom));
-}
-
-/* iOS rubber-band area behind page (only visible on overscroll) */
-@supports (-webkit-touch-callout: none){
-  html{ background:var(--ink); }
-}
-
-
-/* =========================================================
-   MOBILE HERO -5% HEIGHT (GALLERY)
-   ========================================================= */
-@media (max-width:768px){
-  .hero{ padding:81px 0 40px !important; } /* -5% from 85/42 */
-  .hero-logo{ transform: scale(.95); transform-origin:center top; }
-  .hero-buttons{ margin-top:-4px !important; }
-}
-
 </style>
 </head>
 <body>

@@ -2262,24 +2262,15 @@ a{color:inherit;text-decoration:none}
   #contact .visit-social-row{ justify-content: center !important; }
 
   /* Remove "white area" below footer on iOS rubber-band/short pages by matching body bg */
-  html, body{ background: #0b0b0c !important; }
   footer{ margin-bottom: 0 !important; }
 }
 
 
 
 /* OVERRIDE v2 (requested): mobile hero fix + desktop/laptop CTA pull-up + restore mobile bg scheme */
-:root{ --ob-page-bg: #FAFAFA; }
-
-body{ background: #FAFAFA !important; }
-
 /* keep iOS overscroll from showing white below dark footer while preserving page bg */
-html{ background:#0b0b0c !important; }
-
 @media (max-width: 768px){
   /* Restore the same light hero/page background as desktop/laptop */
-  body{ background: #FAFAFA !important; }
-
   /* MOBILE HERO: smaller overall footprint (-10%), but push logo DOWN below header */
   .hero{
     padding-top: 250px !important; /* pulls logo down away from header */
@@ -3118,7 +3109,6 @@ html{ background: var(--ink); } /* only shows beyond body */
    below the body/viewport. If html is white anywhere, you get white under footer.
    Lock html to footer ink on mobile ONLY while keeping the page body background light. */
 @media (max-width: 768px){
-  html{ background: var(--ink) !important; }
   body{
     margin:0 !important;
     padding-bottom:0 !important;
@@ -3274,6 +3264,101 @@ footer .footer-social a.social svg *,
 /* TikTok icon mobile root fix: ensure SVG renders with viewBox + proper sizing */
 .nav-social-icon svg{ width:18px; height:18px; display:block; }
 .footer-social a.social svg{ width:20px; height:20px; display:block; }
+
+
+
+/* =========================================================
+   MOBILE FOOTER GAP FIX — NO SITE BG CHANGE (2026-02-17)
+   - Keeps your existing backgrounds exactly as-is
+   - Footer stays black
+   - Prevents iOS/Android white gap below footer (weak/offline/short content)
+   ========================================================= */
+html, body{ height:100%; }
+
+body{
+  min-height:100svh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* If you use a wrapper, let it grow; if not, harmless */
+main, .page{ flex:1 0 auto; }
+
+.footer{
+  flex-shrink:0;
+  margin-top:auto !important;
+  margin-bottom:0 !important;
+  background:var(--ink) !important;
+  padding-bottom:calc(32px + env(safe-area-inset-bottom));
+}
+
+/* iOS rubber-band area behind page (only visible on overscroll) */
+@supports (-webkit-touch-callout: none){
+  html{ background:var(--ink); }
+}
+
+
+/* =========================================================
+   MOBILE HERO -5% HEIGHT (LOGO + CTA OPTICALLY CENTERED)
+   Single-source override (wins over earlier experiments)
+   ========================================================= */
+@media (max-width:768px){
+  /* reduce hero vertical footprint ~5% without changing desktop */
+  .hero{
+    --ob-hero-pad-top: 176px !important; /* was ~185 */
+    --ob-cta-pull: 133px !important;     /* was ~140 */
+  }
+
+  /* keep optical centering */
+  .hero-inner{
+    align-items:center !important;
+    text-align:center !important;
+  }
+  .hero .hero-buttons{
+    justify-content:center !important;
+    align-items:center !important;
+  }
+}
+
+/* =========================================================
+   FIX: PAGE BG MUST STAY LIGHT (FOOTER ONLY BLACK)
+   + Remove giant dead space between Reviews -> Contact
+   ========================================================= */
+
+/* Force light page background everywhere; html stays ink for iOS overscroll only */
+body{
+  background: var(--soft) !important;
+}
+
+/* If any wrapper/section inherits dark bg, override */
+.section, section{
+  background: transparent;
+}
+
+/* Reviews + Contact must be on light background */
+#reviews, #contact{
+  background: var(--soft) !important;
+}
+
+/* Ensure non-highlight words are visible (they are var(--ink) by design) */
+#reviews .section-title,
+#contact .section-title{
+  color: var(--ink) !important;
+}
+
+/* Tighten the massive gap seen between the reviews CTA and the next section */
+#reviews{ 
+  padding-bottom: clamp(36px, 5vh, 56px) !important;
+}
+#contact{
+  padding-top: clamp(44px, 6vh, 72px) !important;
+}
+
+/* Keep footer black */
+.footer, footer{
+  background: var(--ink) !important;
+}
 
 </style>
 </head>

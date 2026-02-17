@@ -1296,6 +1296,42 @@ a{color:inherit;text-decoration:none}
   }
 }
 
+/* =========================
+   MOBILE OFFLINE + FOOTER GAP HOTFIX (2026-02-16)
+   - No white space under footer (flex layout + safe area)
+   - Prefer posters on slow/offline connections; avoid blank video tiles
+   ========================= */
+html, body{ height:100%; }
+body{
+  min-height: 100dvh;
+  display:flex;
+  flex-direction:column;
+}
+main, .page{ flex: 1 0 auto; } /* keep footer at bottom even if content short/offline */
+.footer{
+  margin-top:auto !important;
+  padding-bottom: calc(32px + env(safe-area-inset-bottom)) !important;
+}
+
+/* Kill iOS "rubber-band" white flash under dark footer */
+@supports (-webkit-touch-callout: none){
+  html{ background: var(--ink); }
+  body{ background: var(--bg); }
+}
+
+/* Mobile hero: reduce overall height ~5% while keeping optical centering */
+@media (max-width: 768px){
+  .hero{ padding: 81px 0 40px !important; } /* was 85/42 */
+  .hero-logo{ transform: scale(.95); transform-origin: center top; }
+  .hero-buttons{ margin-top: -4px !important; }
+}
+
+/* When user has Save-Data on, keep UI stable (no auto-playing thumbs) */
+@media (max-width: 520px){
+  .thumb video.thumb-img{ display:none !important; } /* fallback to poster injected by JS */
+}
+
+
 </style>
 </head>
 <body>
@@ -1602,6 +1638,20 @@ window.OB_VIDEOS = [
   const modalTitle = document.getElementById('modalTitle');
   const videoError = document.getElementById('videoError');
 
+  // Connection awareness (prevents blank tiles / failed plays on weak or offline)
+  function connInfo(){
+    const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const effectiveType = c && c.effectiveType ? String(c.effectiveType) : "";
+    const saveData = !!(c && c.saveData);
+    const downlink = c && typeof c.downlink === "number" ? c.downlink : null;
+    return { c, effectiveType, saveData, downlink };
+  }
+  function isOffline(){ return navigator.onLine === false; }
+  function isVerySlow(){
+    const ci = connInfo();
+    return ci.saveData || /(^|\b)(2g|slow-2g)(\b|$)/i.test(ci.effectiveType) || (ci.downlink !== null && ci.downlink < 0.6);
+  }
+
   if(!grid) return;
 
   // ==== CONFIG ====
@@ -1699,7 +1749,9 @@ window.OB_VIDEOS = [
         thumbInner = `<img class="thumb-img" src="${poster}" alt="">`;
       } else {
         // Use a lightweight video element (no controls, muted) as the thumbnail.
-        thumbInner = `<video class="thumb-img" muted playsinline webkit-playsinline preload="none" data-src="${src}"></video>`;
+        thumbInner = (isOffline() || isVerySlow())
+        ? `<img class="thumb-img" src="${poster}" alt="">`
+        : `<video class="thumb-img" muted playsinline webkit-playsinline preload="none" data-src="${src}"></video>`;
       }
 
       card.innerHTML = `
@@ -1719,6 +1771,14 @@ window.OB_VIDEOS = [
       function open(){
         if(!modal || !modalVideo) return;
         setError("");
+
+        // Offline/weak-signal guard
+        if(isOffline()){
+          // Keep modal UI stable (poster + message) instead of a blank/failed player.
+          if(modalVideo) modalVideo.setAttribute('poster', poster || "");
+          setError("Offline: videos can't stream without a connection. Connect to play.", src);
+          return;
+        }
 
         modal.classList.add('show');
         modal.setAttribute('aria-hidden','false');
@@ -1744,7 +1804,12 @@ window.OB_VIDEOS = [
         modalVideo.load();
 
         // Best-effort autoplay (click gesture usually allows it)
-        const p = modalVideo.play();
+        // On very slow connections, avoid forced autoplay (lets user control buffering)
+        let p = null;
+        if(!isVerySlow()){
+          p = modalVideo.play();
+        }
+
         if(p && p.catch) p.catch(()=>{});
 
         modalVideo.onerror = function(){
@@ -1789,7 +1854,17 @@ window.OB_VIDEOS = [
 
   render();
 })();
+</script></script>
+
+<script>
+(function(){
+  // Offline resilience: cache static assets + videos for replay when connection drops.
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js').catch(function(){});
+  }
+})();
 </script>
+
 
 </body>
 </html>

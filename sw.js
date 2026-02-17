@@ -60,7 +60,11 @@ async function serveRangeFromCache(event){
   const cached = await caches.match(req.url);
   if(!cached) return null;
 
-  const buf = await cached.arrayBuffer();
+  // If the cached response is opaque (no-cors), we cannot slice it for Range.
+  if(cached.type === 'opaque') return null;
+
+  let buf;
+  try{ buf = await cached.arrayBuffer(); }catch(e){ return null; }
   const size = buf.byteLength;
 
   // Parse: bytes=start-end

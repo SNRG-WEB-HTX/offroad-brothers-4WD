@@ -1214,11 +1214,6 @@ a{color:inherit;text-decoration:none}
   object-fit: cover;
   padding:0;
 }
-
-.thumb-placeholder{
-  position:absolute; inset:0;
-  background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,59,47,.08));
-}
 .thumb-bg{ opacity:.28; filter: blur(18px); }
 
 /* TikTok-style overlays */
@@ -1663,24 +1658,10 @@ window.OB_VIDEOS = [
   // Set your R2 public base once, then just add filenames:
   // window.OB_VIDEO_BASE = "https://pub-xxxxx.r2.dev";
   // window.OB_VIDEO_COUNT = 50; // optional
-  const BASE = (window.OB_VIDEO_BASE || "https://pub-ad79ca1983714c79ac6cd05485665c51.r2.dev")
-    .trim()
-    .replace(/\/+$/,'');
+  const BASE = (window.OB_VIDEO_BASE || "https://pub-ad79ca1983714c79ac6cd05485665c51.r2.dev").trim().replace(/\/+$/,'');
 
-  // Auto-generate a numbered list if you set:
-  //   window.OB_VIDEO_COUNT = 41;   // creates ob-001.mp4 .. ob-041.mp4
-  // Otherwise, we’ll use window.OB_VIDEOS (defined above) if present.
-  const GENERATED = [];
-  const COUNT = Number(window.OB_VIDEO_COUNT || 0);
-  if(Number.isFinite(COUNT) && COUNT > 0){
-    for(let i=1;i<=COUNT;i++){
-      const n = String(i).padStart(3,'0');
-      GENERATED.push({ title: "OB " + n, src: "ob-" + n + ".mp4" });
-    }
-  }
-
-  // Fallback to a safe empty list (prevents ReferenceError and blank page on GitHub Pages)
-  const FALLBACK = [];
+  // Auto-generate a numbered list by default (ob-001.mp4 ... ob-029.mp4)
+  // You can override entirely by defining 
 
   const VIDEOS = (window.OB_VIDEOS && Array.isArray(window.OB_VIDEOS) && window.OB_VIDEOS.length)
     ? window.OB_VIDEOS
@@ -1769,9 +1750,7 @@ window.OB_VIDEOS = [
       } else {
         // Use a lightweight video element (no controls, muted) as the thumbnail.
         thumbInner = (isOffline() || isVerySlow())
-        ? (poster
-            ? `<img class="thumb-img" src="${poster}" alt="">`
-            : `<div class="thumb-placeholder" aria-hidden="true"></div>`)
+        ? `<img class="thumb-img" src="${poster}" alt="">`
         : `<video class="thumb-img" muted playsinline webkit-playsinline preload="none" data-src="${src}"></video>`;
       }
 
@@ -1875,7 +1854,7 @@ window.OB_VIDEOS = [
 
   render();
 })();
-</script>
+</script></script>
 
 <script>
 (function(){

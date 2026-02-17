@@ -1079,19 +1079,39 @@ a{color:inherit;text-decoration:none}
 
 /* ── Mobile: full-screen immersive ── */
 @media (max-width:600px){
-  .modal { align-items:flex-end; }
+  .modal {
+    align-items:flex-end;
+    /* iOS Safari: prevent modal from going under address bar */
+    padding-bottom: env(safe-area-inset-bottom);
+  }
   .modal-sheet {
     width:100vw;
-    height:100dvh;
+    /* Use 100svh (small viewport) so iOS address bar doesn't overlap controls */
+    height:100svh;
+    height:100dvh; /* fallback for older browsers */
     border-radius:0;
-    max-height:100dvh;
+    max-height:100svh;
+    /* Prevent body scroll bleed-through on iOS */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .modal-body {
+    /* iOS needs explicit overflow on the scroll container */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .modal-video {
-    aspect-ratio:auto;
-    flex:1;
-    height:calc(100dvh - 52px);
-    object-fit:contain;
-    max-height:none;
+    aspect-ratio: auto;
+    width: 100%;
+    /* Fill remaining height after header */
+    height: calc(100svh - 52px);
+    height: calc(100dvh - 52px);
+    object-fit: contain;
+    max-height: none;
+    /* Critical for iOS: video element must not be position:absolute */
+    position: relative;
+    display: block;
   }
 }
 
@@ -1194,7 +1214,7 @@ main,.page{flex:1 0 auto;}
       <button class="modal-close" id="modalClose" aria-label="Close">&#215;</button>
     </div>
     <div class="modal-body">
-      <video id="modalVideo" class="modal-video" playsinline webkit-playsinline preload="auto" tabindex="0"></video>
+      <video id="modalVideo" class="modal-video" playsinline webkit-playsinline preload="none" tabindex="0" disablepictureinpicture></video>
     </div>
     <div id="videoError" class="video-error" role="alert"></div>
   </div>
@@ -1460,25 +1480,66 @@ const OB_VIDEOS = [
       function openModal(){
         if(!modal||!modalVideo) return;
         setError('');
-        if(isOffline()){ modal.classList.add('show'); setError('No connection.'); return; }
+        if(isOffline()){ modal.classList.add('show'); setError('No connection — videos require internet.'); return; }
+
         modal.classList.add('show');
         modal.setAttribute('aria-hidden','false');
-        document.body.style.overflow='hidden';
+
+        // Lock scroll on body BUT preserve iOS scroll ability inside modal
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.position = 'relative';
+
+        // Hard reset player
         modalVideo.pause();
+        // Remove ALL source children first
+        while(modalVideo.firstChild) modalVideo.removeChild(modalVideo.firstChild);
         modalVideo.removeAttribute('src');
-        [...modalVideo.querySelectorAll('source')].forEach(s=>s.remove());
-        modalVideo.setAttribute('poster',v.poster);
-        const s=document.createElement('source'); s.src=v.src; s.type='video/mp4';
-        modalVideo.appendChild(s);
-        modalVideo.setAttribute('playsinline','');
-        modalVideo.setAttribute('webkit-playsinline','');
-        modalVideo.setAttribute('x5-playsinline','');
-        modalVideo.setAttribute('x5-video-player-type','h5');
-        modalVideo.setAttribute('controls','');
-        modalVideo.setAttribute('preload','auto');
+        modalVideo.removeAttribute('poster');
+
+        // Set poster
+        modalVideo.setAttribute('poster', v.poster);
+
+        // Critical: set src DIRECTLY on element (most reliable across iOS/Android/Chrome)
+        // Do NOT use <source> child element — iOS Safari handles direct src better
+        modalVideo.src = v.src;
+
+        // All platform attributes — must be set before load()
+        modalVideo.setAttribute('playsinline', '');
+        modalVideo.setAttribute('webkit-playsinline', '');
+        modalVideo.setAttribute('x5-playsinline', '');
+        modalVideo.setAttribute('x5-video-player-type', 'h5');
+        modalVideo.setAttribute('controls', '');
+        modalVideo.setAttribute('preload', 'auto');
+        modalVideo.muted = false;
+
+        // Error handler
+        modalVideo.onerror = function(e){
+          const code = modalVideo.error ? modalVideo.error.code : '?';
+          // Code 2 = network, 3 = decode, 4 = format/CORS
+          const msg = code == 4
+            ? 'Video blocked — check CORS policy on R2 bucket (videos.snrgweb.com)'
+            : code == 2
+            ? 'Network error — check your connection'
+            : 'Playback error (code ' + code + '): ' + v.src.split('/').pop();
+          setError(msg);
+        };
+
+        // Load then play — this sequence is critical for iOS
         modalVideo.load();
-        modalVideo.onerror=function(){ setError('Error: '+v.src.split('/').pop()); };
-        if(!isVerySlow()){ const p=modalVideo.play(); if(p&&p.catch) p.catch(()=>{}); }
+
+        // Play after load event fires (more reliable than immediate play on mobile)
+        const playWhenReady = function(){
+          modalVideo.removeEventListener('loadedmetadata', playWhenReady);
+          const p = modalVideo.play();
+          if(p && p.catch) p.catch(function(){
+            // Autoplay blocked — user sees controls and taps play themselves
+            // This is fine and expected on some mobile browsers
+          });
+        };
+
+        if(!isVerySlow()){
+          modalVideo.addEventListener('loadedmetadata', playWhenReady);
+        }
       }
 
       card.addEventListener('click',openModal);
@@ -1492,7 +1553,7 @@ const OB_VIDEOS = [
     if(!modal) return;
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
+    document.documentElement.style.overflow = ''; document.documentElement.style.position = '';
     setError('');
     if(modalVideo){
       modalVideo.pause();

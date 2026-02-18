@@ -906,21 +906,18 @@ a{color:inherit;text-decoration:none}
 .gallery-sub { color:var(--muted); font-weight:600; margin-top:8px; font-size:15px; }
 
 /* ── TikTok profile grid ── */
-.grid{
+.grid {
   display:grid;
-  /* Mobile-first: fluid tiles that adapt to ANY width */
-  grid-template-columns:repeat(auto-fill,minmax(clamp(110px, 28vw, 220px), 1fr));
-  gap:clamp(2px, .6vw, 6px);
+  grid-template-columns:repeat(5,1fr);
+  gap:3px;
   max-width:1200px;
   margin:0 auto;
-  align-content:start;
 }
-@media (min-width:980px){
-  .grid{ grid-template-columns:repeat(auto-fill,minmax(180px, 1fr)); }
-}
+@media (max-width:980px){ .grid { grid-template-columns:repeat(4,1fr); gap:3px; } }
+@media (max-width:600px){ .grid { grid-template-columns:repeat(3,1fr); gap:2px; } }
 
 /* ── Card: square tile, zero border radius ── */
-.card{
+.card {
   position:relative;
   overflow:hidden;
   background:#111;
@@ -928,32 +925,19 @@ a{color:inherit;text-decoration:none}
   border-radius:0;
   display:block;
   -webkit-tap-highlight-color:transparent;
-  aspect-ratio:1 / 1;
-  contain:content;
-  transform:translateZ(0);
 }
-@media (hover:hover){
-  .card:hover .thumb video{ transform:scale(1.02); }
+.card::after {
+  content:'';
+  display:block;
+  padding-top:100%; /* 1:1 square */
 }
 
-.thumb{
+.thumb {
   position:absolute;
   inset:0;
   overflow:hidden;
   background:#111;
 }
-.thumb::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.08) 50%, rgba(255,255,255,0) 100%);
-  transform:translateX(-100%);
-  animation:shimmer 1.25s infinite;
-  opacity:.9;
-  pointer-events:none;
-}
-.thumb.is-ready::before{ display:none; }
-@keyframes shimmer{ 100%{ transform:translateX(100%);} }
 .thumb img {
   position:absolute;
   inset:0;
@@ -1180,23 +1164,69 @@ a{color:inherit;text-decoration:none}
   text-transform:uppercase; letter-spacing:.1em; color:var(--muted);
 }
 
-.infinite-sentinel{
-  height:1px;
-  width:100%;
-}
-@media (max-width:600px){
-  /* TikTok-ish flow: infinite scroll on phones, pager hidden */
-  .gallery-pager{ display:none; }
-  .gallery-wrap{ padding-bottom:32px; }
-}
-
-
 /* iOS rubber-band */
 @supports (-webkit-touch-callout:none){ html{background:var(--ink);} body{background:var(--bg);} }
 html,body{height:100%;}
 body{min-height:100dvh;display:flex;flex-direction:column;}
 main,.page{flex:1 0 auto;}
 .footer{margin-top:auto!important;padding-bottom:calc(32px + env(safe-area-inset-bottom))!important;}
+
+
+/* ================================================================
+   MOBILE POLISH v1 — world-class compact + smooth (mobile only)
+   ================================================================ */
+@media (max-width: 600px){
+  /* Tighten header so content isn't bulky */
+  .header-inner{ height:72px; gap:12px; }
+  .lang-wrap{ padding:3px; border-radius:9px; }
+  .lang-btn{ padding:7px 12px; font-size:12px; letter-spacing:1px; }
+  .mobile-menu-btn{ padding:8px 10px; border-radius:10px; font-size:20px; }
+
+  /* Keep dropdown aligned with new header height */
+  .nav.active{ top:72px; padding:18px 16px 22px; }
+
+  /* Match fixed header height */
+  .page{ padding-top:78px; }
+  .gallery-wrap{ padding:0 10px 46px; }
+  .gallery-head{ margin:12px auto 12px; }
+  .gallery-title{ font-size:clamp(22px,7vw,34px); letter-spacing:-.8px; }
+  .gallery-sub{ font-size:13px; line-height:1.35; margin-top:6px; }
+
+  /* Cleaner grid rhythm */
+  .grid{ gap:2px; }
+  @supports (padding: max(0px)){
+    .gallery-wrap{ padding-left:max(10px, env(safe-area-inset-left)); padding-right:max(10px, env(safe-area-inset-right)); }
+  }
+
+  /* Full-screen modal: stable on iOS/Android */
+  .modal-top{
+    padding-top:calc(10px + env(safe-area-inset-top));
+    height:auto;
+    min-height:52px;
+  }
+  .modal-sheet{
+    height:100vh;
+    height:100dvh;
+  }
+  .modal-video{
+    height:100%;
+    object-fit:cover; /* TikTok-style: fills the screen */
+  }
+
+  /* Footer density */
+  .footer{ padding:44px 0 26px; margin-top:64px; }
+  .footer-inner{ gap:22px; }
+  .footer-nav a{ font-size:13px; }
+  .footer-copy{ font-size:12px; line-height:1.7; }
+}
+
+/* Scroll lock when modal is open (prevents background scrolling + iOS jump) */
+body.modal-open{
+  position:fixed;
+  left:0; right:0;
+  width:100%;
+  overflow:hidden;
+}
 
 </style>
 </head>
@@ -1259,7 +1289,6 @@ main,.page{flex:1 0 auto;}
       <div class="pager-mid" id="pageLabel">Page 1 of 1</div>
       <button class="pager-btn" id="pageNext" aria-label="Next page" type="button">&#8250;</button>
     </div>
-    <div class="infinite-sentinel" id="infiniteSentinel" aria-hidden="true"></div>
   </div>
 </main>
 
@@ -1505,6 +1534,21 @@ const OB_VIDEOS = [
   const videoError = document.getElementById('videoError');
   if(!grid) return;
 
+  // World-class mobile scroll lock (prevents background jump + iOS rubber-band)
+  let __scrollY = 0;
+  function lockScroll(){
+    __scrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.classList.add('modal-open');
+    document.body.style.top = `-${__scrollY}px`;
+  }
+  function unlockScroll(){
+    document.body.classList.remove('modal-open');
+    const y = __scrollY;
+    document.body.style.top = '';
+    window.scrollTo(0, y);
+  }
+
+
   function isOffline(){ return !navigator.onLine; }
   function isVerySlow(){
     // Only block on explicitly unusable connections, NOT regular 2g/3g/4g/LTE
@@ -1592,161 +1636,159 @@ const OB_VIDEOS = [
     });
   }
 
-  
-  // ── Mobile-first loading: only hydrate thumbnails near the viewport (prevents jank on phones)
-  let __thumbIO = null;
-  function initThumbVideos(root){
+  function initThumbVideos(){
     if(!grid) return;
-    const scope = root || grid;
-    const vids = Array.from(scope.querySelectorAll('video.thumbVideo'));
+    const vids = Array.from(grid.querySelectorAll('video.thumbVideo'));
     if(!vids.length) return;
 
-    if(!('IntersectionObserver' in window)){
-      vids.forEach(v=>bindThumbVideo(v));
-      return;
-    }
+    // Start loading ALL thumbs immediately, but throttle concurrency to keep mobile smooth.
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+    const MAX = isMobile ? 3 : 6;
+    let i = 0, active = 0;
 
-    if(!__thumbIO){
-      __thumbIO = new IntersectionObserver((entries)=>{
-        entries.forEach(ent=>{
-          if(!ent.isIntersecting) return;
-          const v = ent.target;
-          __thumbIO.unobserve(v);
-          bindThumbVideo(v);
-        });
-      }, { root:null, rootMargin:'650px 0px', threshold:0.01 });
-    }
-
-    vids.forEach(v=>__thumbIO.observe(v));
+    const pump = ()=>{
+      while(active < MAX && i < vids.length){
+        const v = vids[i++];
+        active++;
+        // bindThumbVideo is synchronous but kicks async media work; stagger slightly to avoid bursty repaints.
+        bindThumbVideo(v);
+        setTimeout(()=>{ active--; pump(); }, isMobile ? 80 : 40);
+      }
+    };
+    pump();
   }
 
   function pageSize(){
-    // Keep pages small on mobile for smoother feel; desktop can show more.
     if(window.matchMedia('(min-width:1200px)').matches) return 30;
-    if(window.matchMedia('(min-width:980px)').matches)  return 24;
-    if(window.matchMedia('(min-width:600px)').matches)  return 18;
+    if(window.matchMedia('(min-width:980px)').matches)  return 20;
+    if(window.matchMedia('(min-width:600px)').matches)  return 16;
     return 12;
   }
-
-  function totalPages(){ return Math.max(1, Math.ceil(OB_VIDEOS.length / pageSize())); }
-  function clamp(p){ return Math.min(Math.max(1,p), totalPages()); }
-
-  // Modes:
-  // - mobile (<=600px): infinite scroll (TikTok-ish)
-  // - tablet/desktop: pager
-  function mode(){ return window.matchMedia('(max-width:600px)').matches ? 'infinite' : 'pager'; }
-
-  let pagerPage = 1;
-  let loadedPages = 0;
-
+  let page=1;
+  function totalPages(){ return Math.max(1,Math.ceil(OB_VIDEOS.length/pageSize())); }
+  function clamp(p){ return Math.min(Math.max(1,p),totalPages()); }
   function setPager(){
-    const tp = totalPages();
-    if(pageLabel){
-      if(mode()==='infinite'){
-        const shown = Math.min(OB_VIDEOS.length, loadedPages * pageSize());
-        pageLabel.textContent = `Showing ${shown} of ${OB_VIDEOS.length}`;
-      }else{
-        pagerPage = clamp(pagerPage);
-        pageLabel.textContent = 'Page ' + pagerPage + ' of ' + tp;
-      }
-    }
-    if(btnPrev) btnPrev.disabled = (mode()==='pager') ? (pagerPage<=1) : true;
-    if(btnNext) btnNext.disabled = (mode()==='pager') ? (pagerPage>=tp) : true;
+    page=clamp(page);
+    if(pageLabel) pageLabel.textContent='Page '+page+' of '+totalPages();
+    if(btnPrev) btnPrev.disabled=page<=1;
+    if(btnNext) btnNext.disabled=page>=totalPages();
   }
-
   function setError(msg){
     if(!videoError) return;
-    videoError.textContent = msg || '';
-    videoError.classList.toggle('show', !!msg);
+    videoError.textContent=msg||'';
+    videoError.classList.toggle('show',!!msg);
   }
 
-  function buildCard(v, absoluteIndex){
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.tabIndex = 0;
-    card.setAttribute('role','button');
-    card.setAttribute('aria-label','Play video ' + (absoluteIndex + 1));
+  function render(){
+    const size=pageSize(), start=(page-1)*size;
+    grid.innerHTML='';
+    OB_VIDEOS.slice(start,start+size).forEach((v,i)=>{
+      const card=document.createElement('div');
+      card.className='card'; card.tabIndex=0;
+      card.setAttribute('role','button');
+      card.setAttribute('aria-label','Play video '+(start+i+1));
+      const poster = posterFor(v, start+i);
+      const v2src = toV2(v && v.src);
+      card.innerHTML=`<div class="thumb"><video class="thumbVideo" muted playsinline preload="metadata" poster="${poster || BLANK_POSTER}" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
 
-    const poster = posterFor(v, absoluteIndex);
-    const v2src = toV2(v && v.src);
-
-    card.innerHTML = `<div class="thumb"><video class="thumbVideo" muted playsinline preload="none" poster="${poster || BLANK_POSTER}" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
-
-    function openModal(){
-      if(!modal || !modalVideo) return;
-      setError('');
-      if(isOffline()){
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden','false');
-        setError('No connection — videos require internet.');
-        return;
-      }
-      if(isVerySlow()){
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden','false');
-        setError('Data Saver is on — video playback may be blocked.');
-      }else{
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden','false');
+      // Smooth image reveal (prevents blink)
+      const imgEl = card.querySelector('img');
+      if(imgEl){
+        if(imgEl.complete) imgEl.classList.add('is-loaded');
+        else imgEl.addEventListener('load', ()=> imgEl.classList.add('is-loaded'), { once:true });
       }
 
-      // lock background scroll (iOS-friendly)
-      document.documentElement.style.overflow = 'hidden';
-      document.documentElement.style.position = 'fixed';
 
-      // Load video
-      try{
+      function openModal(){
+        if(!modal || !modalVideo) return;
+        setError('');
+        if(isOffline()){ modal.classList.add('show'); setError('No connection — videos require internet.'); return; }
+
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+        lockScroll();
+        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.position = 'relative';
+
+        // Full reset
         modalVideo.pause();
-        modalVideo.innerHTML = '';
         modalVideo.removeAttribute('src');
-        modalVideo.removeAttribute('poster');
-
-        const src = toV2(v && v.src);
-        const s = document.createElement('source');
-        s.src = src;
-        s.type = 'video/mp4';
-        modalVideo.appendChild(s);
         modalVideo.load();
+        modalVideo.setAttribute('poster', posterFor(v, start+i));
+        // Always use v2 files (cache-bypass + mobile-safe)
+        modalVideo.src = v.src.replace(/(?:-v2)?\.mp4$/i, '-v2.mp4');
+        // These MUST be set every time for iOS Safari
+        modalVideo.setAttribute('playsinline', '');
+        modalVideo.setAttribute('webkit-playsinline', '');
+        // NOTE: iOS/Safari sometimes flashes the video filename briefly before playback.
+        // To prevent that, we delay enabling native controls until playback actually starts.
+        modalVideo.setAttribute('preload', 'auto');
 
-        // Try autoplay on mobile (muted) for the Apple/TikTok vibe.
-        // If blocked, the user can tap play once.
-        const isMobile = window.matchMedia('(max-width:600px)').matches;
-        modalVideo.playsInline = true;
-        modalVideo.setAttribute('playsinline','');
-        modalVideo.setAttribute('webkit-playsinline','');
 
-        modalVideo.muted = isMobile;
-        if(isMobile) modalVideo.setAttribute('muted','');
-        else modalVideo.removeAttribute('muted');
+        // Mobile fix: allow programmatic playback reliably (iOS/Android often block
+        // play() unless the video is muted/autoplay). Desktop stays unchanged.
+        const isMobile = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) ||
+                         /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        modalVideo.addEventListener('loadedmetadata', ()=>{
-          if(isMobile){
-            modalVideo.play().catch(()=>{});
+        if(isMobile){
+          // Prevent iOS/Safari from flashing the source filename/URL before the first frame.
+          modalVideo.removeAttribute('controls');
+          modalVideo.addEventListener('playing', function enableControlsOnce(){
+            modalVideo.setAttribute('controls','');
+          }, { once:true });
+
+          modalVideo.muted = true;
+          modalVideo.setAttribute('muted','');
+          modalVideo.setAttribute('autoplay','');
+        }else{
+          // Desktop: keep controls immediately available
+          modalVideo.setAttribute('controls','');
+
+          modalVideo.muted = false;
+          modalVideo.removeAttribute('muted');
+          modalVideo.removeAttribute('autoplay');
+        }
+
+        // Error handler with specific codes
+        modalVideo.onerror = function(){
+          const code = (modalVideo.error || {}).code || 0;
+          setError(
+            code === 4 ? 'Format/CORS error — check R2 CORS policy' :
+            code === 2 ? 'Network error — check connection' :
+            'Playback error — tap to retry'
+          );
+        };
+
+        // load() then play() — the only sequence that works on ALL mobile
+        modalVideo.load();
+        const p = modalVideo.play();
+        if(p && p.catch) p.catch(function(){
+          // If a mobile browser still blocks playback, keep it muted and let the user tap once.
+          // (Muted + autoplay is the most compatible combo for iOS Safari.)
+          if(typeof isMobile !== 'undefined' && isMobile){
+            try{
+              modalVideo.muted = true;
+              modalVideo.setAttribute('muted','');
+              modalVideo.play().catch(function(){ /* user can tap play */ });
+            }catch(e){}
           }
-        }, { once:true });
-
-      }catch(e){
-        setError('Could not load this video.');
+        });
       }
-    }
 
-    card.addEventListener('click', openModal);
-    card.addEventListener('keydown', e=>{
-      if(e.key==='Enter' || e.key===' '){
-        e.preventDefault();
-        openModal();
-      }
+      card.addEventListener('click',openModal);
+      card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal();} });
+      grid.appendChild(card);
     });
-
-    return card;
+    initThumbVideos();
+    setPager();
   }
 
   function closeModal(){
     if(!modal) return;
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow = '';
-    document.documentElement.style.position = '';
+    document.documentElement.style.overflow = ''; document.documentElement.style.position = '';
+    unlockScroll();
     setError('');
     if(modalVideo){
       modalVideo.pause();
@@ -1757,99 +1799,27 @@ const OB_VIDEOS = [
     }
   }
 
-  if(modalBd)    modalBd.addEventListener('click', closeModal);
-  if(modalClose) modalClose.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
-
-  // ── Infinite scroll (mobile) ──
-  const sentinel = document.getElementById('infiniteSentinel');
-  let __infiniteIO = null;
-
-  function resetInfinite(){
-    loadedPages = 0;
-    grid.innerHTML = '';
-    loadMore(); // first chunk
-    setPager();
-    if(sentinel && ('IntersectionObserver' in window)){
-      if(__infiniteIO) __infiniteIO.disconnect();
-      __infiniteIO = new IntersectionObserver((entries)=>{
-        entries.forEach(ent=>{
-          if(ent.isIntersecting) loadMore();
-        });
-      }, { root:null, rootMargin:'900px 0px', threshold:0.0 });
-      __infiniteIO.observe(sentinel);
-    }
-  }
-
-  function loadMore(){
-    if(mode()!=='infinite') return;
-    const tp = totalPages();
-    if(loadedPages >= tp) return;
-
-    const nextPage = loadedPages + 1;
-    const size = pageSize();
-    const start = (nextPage - 1) * size;
-    const slice = OB_VIDEOS.slice(start, start + size);
-    if(!slice.length) return;
-
-    const frag = document.createDocumentFragment();
-    slice.forEach((v,i)=> frag.appendChild(buildCard(v, start + i)));
-    grid.appendChild(frag);
-
-    loadedPages = nextPage;
-    initThumbVideos(grid);
-    setPager();
-  }
-
-  // ── Pager (tablet/desktop) ──
-  function renderPager(){
-    pagerPage = clamp(pagerPage);
-    const size = pageSize();
-    const start = (pagerPage - 1) * size;
-    grid.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    OB_VIDEOS.slice(start, start + size).forEach((v,i)=> frag.appendChild(buildCard(v, start + i)));
-    grid.appendChild(frag);
-    initThumbVideos(grid);
-    setPager();
-  }
-
-  if(btnPrev) btnPrev.addEventListener('click', ()=>{
-    if(mode()!=='pager') return;
-    pagerPage = clamp(pagerPage - 1);
-    renderPager();
-    window.scrollTo({ top:0, behavior:'smooth' });
-  });
-
-  if(btnNext) btnNext.addEventListener('click', ()=>{
-    if(mode()!=='pager') return;
-    pagerPage = clamp(pagerPage + 1);
-    renderPager();
-    window.scrollTo({ top:0, behavior:'smooth' });
-  });
-
-  // ── Resize handling: avoid iOS scroll resize flicker; only react to real width changes ──
-  let __rt;
+  if(modalBd)    modalBd.addEventListener('click',closeModal);
+  if(modalClose) modalClose.addEventListener('click',closeModal);
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+  if(btnPrev) btnPrev.addEventListener('click',()=>{ page=clamp(page-1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+  if(btnNext) btnNext.addEventListener('click',()=>{ page=clamp(page+1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
+  // IMPORTANT (iOS): Safari fires `resize` while scrolling (address bar show/hide),
+  // which caused the whole grid to re-render and "blink/flicker".
+  // Only re-render when the *width* actually changes (orientation / real resize).
+  let rt;
   let __lastW = window.innerWidth;
   const __onResize = ()=>{
     const w = window.innerWidth;
-    if(Math.abs(w - __lastW) < 20) return;
+    if(Math.abs(w - __lastW) < 20) return; // ignore height-only / tiny changes
     __lastW = w;
-    clearTimeout(__rt);
-    __rt = setTimeout(()=>{
-      // Mode/page-size may have changed; reset gracefully.
-      if(mode()==='infinite') resetInfinite();
-      else renderPager();
-    }, 120);
+    clearTimeout(rt);
+    rt = setTimeout(()=>{ page = clamp(page); render(); }, 120);
   };
   window.addEventListener('resize', __onResize, { passive:true });
-  window.addEventListener('orientationchange', ()=>{ __lastW = window.innerWidth; clearTimeout(__rt); __rt=setTimeout(()=>{ (mode()==='infinite') ? resetInfinite() : renderPager(); }, 60); }, { passive:true });
-
-  // ── Boot ──
-  if(mode()==='infinite') resetInfinite();
-  else renderPager();
+  window.addEventListener('orientationchange', ()=>{ __lastW = window.innerWidth; clearTimeout(rt); rt=setTimeout(()=>{ page=clamp(page); render(); }, 60); }, { passive:true });
+  render();
 })();
-
 </script>
 </body>
 </html>

@@ -1521,6 +1521,9 @@ const OB_VIDEOS = [
     try{ v.muted = true; }catch(e){}
     try{ v.preload = 'metadata'; }catch(e){}
 
+    // Hard-hide until a decoded frame is ready (prevents iOS filename flashes)
+    try{ v.style.visibility = 'hidden'; }catch(e){}
+
     const src = v.dataset.src;
     if(src && !v.src){
       v.src = src;
@@ -1534,6 +1537,7 @@ const OB_VIDEOS = [
       if(revealed) return;
       revealed = true;
       try{ v.pause(); }catch(e){}
+      try{ v.style.visibility = 'visible'; }catch(e){}
       v.classList.add('ready');
       if(wrap)  wrap.classList.add('ready');
     };

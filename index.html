@@ -760,22 +760,21 @@ a{color:inherit;text-decoration:none}
   }
 }
 
-/* Back of card - current content */
+/* Back of card - upgraded layout */
 .service-card-back{
-  background:var(--white);
-  padding:32px;
+  background:linear-gradient(180deg, #0b0b0c 0%, #111215 100%);
+  color:var(--white);
+  padding:22px 22px 18px;
   transform:rotateY(180deg);
   display:flex;
   flex-direction:column;
-  justify-content:center;
-  text-align:center;
+  justify-content:space-between;
+  text-align:left;
   position:absolute;
   z-index:1;
 }
 
-.service-card.flipped .service-card-back{
-  z-index:2;
-}
+.service-card.flipped .service-card-back{ z-index:2; }
 
 .service-card-back::before{
   content:'';
@@ -785,26 +784,129 @@ a{color:inherit;text-decoration:none}
   background:linear-gradient(90deg, var(--orange), var(--orange-light));
 }
 
-.service-icon{
-  font-size:48px;
-  margin:0 auto 18px;
-  display:block;
+.service-back-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:4px;
 }
 
 .service-card-back h3{
-  font-size:22px;
-  font-weight:900;
-  margin-bottom:12px;
+  font-size:18px;
+  font-weight:950;
+  margin:0;
   text-transform:uppercase;
-  letter-spacing:.5px;
+  letter-spacing:.7px;
+  line-height:1.15;
+}
+
+.service-pill{
+  flex:0 0 auto;
+  background:rgba(255,59,47,.16);
+  border:1px solid rgba(255,59,47,.35);
+  color:#ffd7d4;
+  padding:8px 10px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  white-space:nowrap;
 }
 
 .service-card-back p{
-  color:var(--muted);
-  font-weight:600;
-  line-height:1.7;
+  margin:12px 0 0;
+  color:rgba(255,255,255,.78);
+  font-weight:650;
+  line-height:1.6;
+  font-size:14px;
 }
 
+.service-bullets{
+  list-style:none;
+  padding:0;
+  margin:14px 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.service-bullets li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.bullet-icon{
+  width:22px;
+  height:22px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  background:rgba(255,59,47,.18);
+  border:1px solid rgba(255,59,47,.35);
+  color:#ffe7e5;
+  font-weight:900;
+  font-size:13px;
+  line-height:1;
+  flex:0 0 auto;
+  margin-top:1px;
+}
+
+.bullet-text{
+  color:rgba(255,255,255,.86);
+  font-weight:700;
+  font-size:14px;
+  line-height:1.35;
+}
+
+.service-back-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:16px;
+}
+
+.service-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:linear-gradient(180deg, var(--orange-light) 0%, var(--orange) 100%);
+  color:var(--white);
+  text-decoration:none;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  font-size:12px;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 24px rgba(255,59,47,.22);
+  transition:transform .2s ease, filter .2s ease;
+}
+
+.service-card:hover .service-cta{
+  transform:translateY(-1px);
+  filter:saturate(1.05);
+}
+
+.service-note{
+  color:rgba(255,255,255,.55);
+  font-weight:700;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+@media (max-width:768px){
+  .service-card{ height:340px; }
+  .service-pill{ display:none; }
+  .service-back-footer{ flex-direction:column; align-items:stretch; }
+  .service-note{ text-align:center; }
+}
 /* Apple-style flip icon */
 .flip-icon{
   position:absolute;
@@ -3439,14 +3541,13 @@ D LEFT -->
 </svg>
 </a>
 <a aria-label="TikTok" class="nav-social-icon" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg" style="display:block" fill="none"><path fill="currentColor" d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+<svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
 </a>
-
 </div>
 <a class="cta-button" href="#contact">Get a Quote</a>
 </nav>
 <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
-<a class="mobile-cta" href="#contact" aria-label="Get a Quote">Get a Quote</a>
+<a aria-label="Get a Quote" class="mobile-cta" href="#contact">Get a Quote</a>
 </div>
 </header>
 <!-- Hero Section with Large Logo -->
@@ -3466,37 +3567,14 @@ D LEFT -->
 <div class="services-grid"><div class="service-card">
 <div class="service-card-inner">
 <div class="service-card-front">
-<img alt="Lighting Systems" loading="lazy" src="images/service-lighting.webp?v=20260218"/>
+<img alt="Lift Kits" loading="lazy" src="images/service-lift-kit.webp?v=20260218"/>
 <div class="service-card-title-banner">
-<h3>Lighting Systems</h3>
+<h3>Lift Kits</h3>
 </div>
 </div>
-<div class="service-card-back">
-<h3>Lighting Systems</h3>
-<p>LED light bars, rock lights, and complete lighting solutions for visibility and style.</p>
-<div class="service-meta">
-<div class="meta-row"><span class="k">Built for</span><span class="v">Trucks • SUVs • Jeeps</span></div>
-<div class="meta-row"><span class="k">Install</span><span class="v">Same‑Day Available</span></div>
-<div class="meta-row"><span class="k">Shop standard</span><span class="v">Fitment‑First • Clean Finish</span></div>
+<div class="service-card-back"><div class="service-back-top"><h3>Lift Kits</h3><span class="service-pill">Ride Height + Clearance</span></div><p>From mild leveling to full lifts—installed right with torque specs, alignment, and clearance checks.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">2" leveling to 6"+ lift options</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Proper geometry: UCAs, drop brackets, links</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Post‑install alignment + road test</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Get a lift quote</a><span class="service-note">Tap to flip back</span></div></div>
 </div>
-</div>
-</div>
-</div>
-<div class="service-card">
-<div class="service-card-inner">
-<div class="service-card-front">
-<img alt="Tire &amp; Wheel Packages" loading="lazy" src="images/service-tire-wheel.webp?v=20260218"/>
-<div class="service-card-title-banner">
-<h3>Tire &amp; Wheel Packages</h3>
-</div>
-</div>
-<div class="service-card-back">
-<h3>Tire &amp; Wheel Packages</h3>
-<p>Mount, balance, and dial in the perfect stance with proven off‑road fitment and road‑smooth results.</p>
-<div class="service-meta"><div class="meta-row"><span class="k">Built for</span><span class="v">17–20" setups • Off‑road tires</span></div><div class="meta-row"><span class="k">Install</span><span class="v">Mount/Balance • TPMS Ready</span></div><div class="meta-row"><span class="k">Shop standard</span><span class="v">Rub‑Free Fitment • Road‑Tested</span></div></div></div>
-</div>
-</div>
-<div class="service-card">
+</div><div class="service-card">
 <div class="service-card-inner">
 <div class="service-card-front">
 <img alt="Expert Consultation" loading="lazy" src="images/service-consultation.webp?v=20260218"/>
@@ -3504,27 +3582,9 @@ D LEFT -->
 <h3>Expert Consultation</h3>
 </div>
 </div>
-<div class="service-card-back">
-<h3>Expert Consultation</h3>
-<p>Build planning, part selection, and fitment advice from a shop that does this every day—no guesswork.</p>
-<div class="service-meta"><div class="meta-row"><span class="k">Built for</span><span class="v">First‑Time Builds • Upgrades</span></div><div class="meta-row"><span class="k">Install</span><span class="v">Same‑Day Plan • Fast Quotes</span></div><div class="meta-row"><span class="k">Shop standard</span><span class="v">No‑Upsell • Fitment‑First</span></div></div></div>
+<div class="service-card-back"><div class="service-back-top"><h3>Expert Consultation</h3><span class="service-pill">No‑Guesswork Build Plan</span></div><p>Tell us your goal + budget. We spec the right parts, fitment, and timeline—fast and honest.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">Fitment &amp; tire size planning</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Parts list + install estimate</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Houston‑ready daily drivability</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Talk to an expert</a><span class="service-note">Tap to flip back</span></div></div>
 </div>
-</div>
-<div class="service-card">
-<div class="service-card-inner">
-<div class="service-card-front">
-<img alt="Suspension Upgrades" loading="lazy" src="images/service-suspension.webp?v=20260218"/>
-<div class="service-card-title-banner">
-<h3>Suspension Upgrades</h3>
-</div>
-</div>
-<div class="service-card-back">
-<h3>Suspension Upgrades</h3>
-<p>Leveling, lift, and performance suspension tuned for ride quality, clearance, and safe geometry.</p>
-<div class="service-meta"><div class="meta-row"><span class="k">Built for</span><span class="v">Daily • Towing • Trails</span></div><div class="meta-row"><span class="k">Install</span><span class="v">Alignment‑Ready • Dialed In</span></div><div class="meta-row"><span class="k">Shop standard</span><span class="v">Safe Geometry • Clean Finish</span></div></div></div>
-</div>
-</div>
-<div class="service-card">
+</div><div class="service-card">
 <div class="service-card-inner">
 <div class="service-card-front">
 <img alt="Custom Builds" loading="lazy" src="images/service-custom-builds.webp?v=20260218"/>
@@ -3532,24 +3592,37 @@ D LEFT -->
 <h3>Custom Builds</h3>
 </div>
 </div>
-<div class="service-card-back">
-<h3>Custom Builds</h3>
-<p>Full custom builds—overland, show, or trail—executed with clean wiring, smart parts, and pro finish.</p>
-<div class="service-meta"><div class="meta-row"><span class="k">Built for</span><span class="v">Overland • 4x4 • Show</span></div><div class="meta-row"><span class="k">Install</span><span class="v">Phased Builds • Turn‑Key</span></div><div class="meta-row"><span class="k">Shop standard</span><span class="v">Clean Wiring • Pro Finish</span></div></div></div>
+<div class="service-card-back"><div class="service-back-top"><h3>Custom Builds</h3><span class="service-pill">SUVs • Trucks • Jeeps</span></div><p>Clean, believable builds for the street, the trail, or overland—done in phases or turnkey.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">Lighting, racks, suspension, wheels &amp; tires</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Wiring + mounting done clean</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Phased build schedule you can follow</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Start a build</a><span class="service-note">Tap to flip back</span></div></div>
 </div>
-</div>
-<div class="service-card">
+</div><div class="service-card">
 <div class="service-card-inner">
 <div class="service-card-front">
-<img alt="Lift Kits" loading="lazy" src="images/service-lift-kit.webp?v=20260218"/>
+<img alt="Suspension Upgrades" loading="lazy" src="images/service-suspension.webp?v=20260218"/>
 <div class="service-card-title-banner">
-<h3>Lift Kits</h3>
+<h3>Suspension Upgrades</h3>
 </div>
 </div>
-<div class="service-card-back">
-<h3>Lift Kits</h3>
-<p>From mild leveling to big lifts—installed right with proper torque, alignment, and clearance checks.</p>
-<div class="service-meta"><div class="meta-row"><span class="k">Built for</span><span class="v">2" Level • 6"+ Lift</span></div><div class="meta-row"><span class="k">Install</span><span class="v">Same‑Day Options</span></div><div class="meta-row"><span class="k">Shop standard</span><span class="v">Torque Spec • Alignment</span></div></div></div>
+<div class="service-card-back"><div class="service-back-top"><h3>Suspension Upgrades</h3><span class="service-pill">Ride Quality First</span></div><p>Leveling, performance shocks, and suspension upgrades tuned for comfort, clearance, and safety.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">Better handling + reduced body roll</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Dialed in for towing or daily commute</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Alignment‑ready setup</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Upgrade suspension</a><span class="service-note">Tap to flip back</span></div></div>
+</div>
+</div><div class="service-card">
+<div class="service-card-inner">
+<div class="service-card-front">
+<img alt="Tire &amp; Wheel Packages" loading="lazy" src="images/service-tire-wheel.webp?v=20260218"/>
+<div class="service-card-title-banner">
+<h3>Tire &amp; Wheel Packages</h3>
+</div>
+</div>
+<div class="service-card-back"><div class="service-back-top"><h3>Tire &amp; Wheel Packages</h3><span class="service-pill">Rub‑Free Fitment</span></div><p>Wheels and tires matched to your vehicle—mounted, balanced, TPMS‑ready, and road‑smooth.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">Pro mount/balance + TPMS service</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Fitment checks (no rub at full lock)</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Torque + re‑torque support</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Shop tire &amp; wheel</a><span class="service-note">Tap to flip back</span></div></div>
+</div>
+</div><div class="service-card">
+<div class="service-card-inner">
+<div class="service-card-front">
+<img alt="Lighting Systems" loading="lazy" src="images/service-lighting.webp?v=20260218"/>
+<div class="service-card-title-banner">
+<h3>Lighting Systems</h3>
+</div>
+</div>
+<div class="service-card-back"><div class="service-back-top"><h3>Lighting Systems</h3><span class="service-pill">Visibility + Style</span></div><p>LED light bars, pods, rock lights, and wiring—aimed, sealed, and installed clean.</p><ul class="service-bullets"><li><span class="bullet-icon">✓</span><span class="bullet-text">Light bars, pods, ditch &amp; fog lighting</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Relay/trigger wiring done right</span></li><li><span class="bullet-icon">✓</span><span class="bullet-text">Night‑aim + waterproofing</span></li></ul><div class="service-back-footer"><a class="service-cta" href="#contact">Add lighting</a><span class="service-note">Tap to flip back</span></div></div>
 </div>
 </div></div>
 </div>
@@ -3708,7 +3781,7 @@ D LEFT -->
 <div class="g-slider" id="gReviewSlider" tabindex="0">
 <div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">David Saldana</div>
 <div class="g-sub">2 months ago</div>
@@ -3725,7 +3798,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Justin Miller</div>
 <div class="g-sub">4 days ago</div>
@@ -3742,7 +3815,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Blair Paul</div>
 <div class="g-sub">3 months ago</div>
@@ -3759,7 +3832,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Carlo Palomino</div>
 <div class="g-sub">4 months ago</div>
@@ -3776,7 +3849,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Troy Gannod</div>
 <div class="g-sub">6 months ago</div>
@@ -3793,7 +3866,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Matthew Russell</div>
 <div class="g-sub">6 months ago</div>
@@ -3810,7 +3883,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Dave DeRouen</div>
 <div class="g-sub">10 months ago</div>
@@ -3827,7 +3900,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Gonzalo Galdamez</div>
 <div class="g-sub">11 months ago</div>
@@ -3844,7 +3917,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">James Benton</div>
 <div class="g-sub">4 months ago</div>
@@ -3861,7 +3934,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Mauricio Torres</div>
 <div class="g-sub">8 months ago</div>
@@ -3878,7 +3951,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Adam Warner</div>
 <div class="g-sub">5 months ago</div>
@@ -3895,7 +3968,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Erik Gillen</div>
 <div class="g-sub">2 years ago</div>
@@ -3912,7 +3985,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Jose Bellorin</div>
 <div class="g-sub">4 years ago</div>
@@ -3929,7 +4002,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Craig Workman</div>
 <div class="g-sub">a year ago</div>
@@ -3946,7 +4019,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Austin Rupard</div>
 <div class="g-sub">a year ago</div>
@@ -3963,7 +4036,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Douglass Simmons</div>
 <div class="g-sub">2 years ago</div>
@@ -3980,7 +4053,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">J&amp;S Lamoreaux</div>
 <div class="g-sub">9 months ago</div>
@@ -3997,7 +4070,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">RIVAL 4x4</div>
 <div class="g-sub">a year ago</div>
@@ -4014,7 +4087,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Ben Thomas</div>
 <div class="g-sub">a year ago</div>
@@ -4031,7 +4104,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Rachel S</div>
 <div class="g-sub">a year ago</div>
@@ -4048,7 +4121,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Diego Miranda</div>
 <div class="g-sub">a year ago</div>
@@ -4065,7 +4138,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Michael Milino</div>
 <div class="g-sub">a year ago</div>
@@ -4082,7 +4155,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">Frank Chance</div>
 <div class="g-sub">a year ago</div>
@@ -4099,7 +4172,7 @@ D LEFT -->
 </div>
 </article></div><div class="g-slide"><article class="g-review">
 <div class="g-head">
-<div class="g-avatar" aria-hidden="true"></div>
+<div aria-hidden="true" class="g-avatar"></div>
 <div class="g-meta">
 <div class="g-name">David Laws</div>
 <div class="g-sub">3 years ago</div>
@@ -4117,16 +4190,14 @@ D LEFT -->
 </article></div>
 </div>
 </div>
-
-<div class="g-controls" aria-label="Review navigation">
-  <button aria-label="Previous review" class="g-nav g-prev g-neo" type="button">
-    <svg aria-hidden="true" viewBox="0 0 24 24" class="g-neo-ico"><path d="M14.8 5.2a1.2 1.2 0 0 1 0 1.7L10.7 11l4.1 4.1a1.2 1.2 0 1 1-1.7 1.7l-5-5a1.2 1.2 0 0 1 0-1.7l5-5a1.2 1.2 0 0 1 1.7 0z"/></svg>
-  </button>
-  <button aria-label="Next review" class="g-nav g-next g-neo" type="button">
-    <svg aria-hidden="true" viewBox="0 0 24 24" class="g-neo-ico"><path d="M9.2 18.8a1.2 1.2 0 0 1 0-1.7L13.3 13 9.2 8.9a1.2 1.2 0 1 1 1.7-1.7l5 5a1.2 1.2 0 0 1 0 1.7l-5 5a1.2 1.2 0 0 1-1.7 0z"/></svg>
-  </button>
+<div aria-label="Review navigation" class="g-controls">
+<button aria-label="Previous review" class="g-nav g-prev g-neo" type="button">
+<svg aria-hidden="true" class="g-neo-ico" viewbox="0 0 24 24"><path d="M14.8 5.2a1.2 1.2 0 0 1 0 1.7L10.7 11l4.1 4.1a1.2 1.2 0 1 1-1.7 1.7l-5-5a1.2 1.2 0 0 1 0-1.7l5-5a1.2 1.2 0 0 1 1.7 0z"></path></svg>
+</button>
+<button aria-label="Next review" class="g-nav g-next g-neo" type="button">
+<svg aria-hidden="true" class="g-neo-ico" viewbox="0 0 24 24"><path d="M9.2 18.8a1.2 1.2 0 0 1 0-1.7L13.3 13 9.2 8.9a1.2 1.2 0 1 1 1.7-1.7l5 5a1.2 1.2 0 0 1 0 1.7l-5 5a1.2 1.2 0 0 1-1.7 0z"></path></svg>
+</button>
 </div>
-
 <div class="g-more">
 <a class="btn-primary" href="https://www.google.com/search?q=Offroad%20Brothers%204wd%20Store%20reviews" rel="noopener" target="_blank">Read more on Google</a>
 </div>
@@ -4161,29 +4232,23 @@ D LEFT -->
 </div>
 </div>
 <div class="visit-apple-actions">
-
-<div class="visit-map" aria-label="Map">
-  <iframe
-    title="Offroad Brothers 4WD Store Map"
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps?q=14300%20Northwest%20Fwy%20Suite%20A-23%20Houston%20TX%2077040&output=embed">
-  </iframe>
+<div aria-label="Map" class="visit-map">
+<iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=14300%20Northwest%20Fwy%20Suite%20A-23%20Houston%20TX%2077040&amp;output=embed" title="Offroad Brothers 4WD Store Map">
+</iframe>
 </div>
-
 <div class="visit-cta-row">
 <a class="btn-primary visit-big" href="https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040" rel="noopener" target="_blank">Directions</a>
 </div>
-<div class="visit-social-row" aria-label="Social links">
-  <a class="visit-icon" aria-label="Instagram" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
-    <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 7.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 7.25Z"></path></svg>
-  </a>
-  <a class="visit-icon" aria-label="Facebook" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener" target="_blank">
-    <svg aria-hidden="true" viewbox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6H16.7V4.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.7V11H7v3h2.5v8h4Z"></path></svg>
-  </a>
-  <a class="visit-icon" aria-label="TikTok" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-    <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg" style="display:block" fill="none"><path fill="currentColor" d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
-  </a>
+<div aria-label="Social links" class="visit-social-row">
+<a aria-label="Instagram" class="visit-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 7.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 7.25Z"></path></svg>
+</a>
+<a aria-label="Facebook" class="visit-icon" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener" target="_blank">
+<svg aria-hidden="true" viewbox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3H13.5V9.1c0-.9.3-1.6 1.7-1.6H16.7V4.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.7V11H7v3h2.5v8h4Z"></path></svg>
+</a>
+<a aria-label="TikTok" class="visit-icon" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
+</a>
 </div>
 </div>
 </div>
@@ -4212,9 +4277,8 @@ D LEFT -->
 </svg>
 </a>
 <a aria-label="TikTok" class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
-  <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg" style="display:block" fill="none"><path fill="currentColor" d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"/></svg>
+<svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
 </a>
-
 </div>
 <div class="footer-copy">
       © <span id="year"></span> Offroad Brothers 4WD Store • 14300 Northwest Fwy SUITE A-23, Houston, TX 77040 • (281) 406-8738
@@ -4566,7 +4630,6 @@ D LEFT -->
   });
 })();
 </script>
-
 <script>
 (function(){
   const statusText = document.getElementById('statusText');
@@ -4665,9 +4728,6 @@ D LEFT -->
   setInterval(update, 30000);
 })();
 </script>
-
-
-
 <script>
 (function(){
   function lockCTAs(){
@@ -4700,6 +4760,5 @@ D LEFT -->
   }, {passive:true});
 })();
 </script>
-
 </body>
 </html>

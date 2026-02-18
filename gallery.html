@@ -1725,7 +1725,20 @@ const OB_VIDEOS = [
   document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
   if(btnPrev) btnPrev.addEventListener('click',()=>{ page=clamp(page-1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
   if(btnNext) btnNext.addEventListener('click',()=>{ page=clamp(page+1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
-  let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ page=clamp(page); render(); },150); });
+  // IMPORTANT (iOS): Safari fires `resize` while scrolling (address bar show/hide),
+  // which caused the whole grid to re-render and "blink/flicker".
+  // Only re-render when the *width* actually changes (orientation / real resize).
+  let rt;
+  let __lastW = window.innerWidth;
+  const __onResize = ()=>{
+    const w = window.innerWidth;
+    if(Math.abs(w - __lastW) < 20) return; // ignore height-only / tiny changes
+    __lastW = w;
+    clearTimeout(rt);
+    rt = setTimeout(()=>{ page = clamp(page); render(); }, 120);
+  };
+  window.addEventListener('resize', __onResize, { passive:true });
+  window.addEventListener('orientationchange', ()=>{ __lastW = window.innerWidth; clearTimeout(rt); rt=setTimeout(()=>{ page=clamp(page); render(); }, 60); }, { passive:true });
   render();
 })();
 </script>

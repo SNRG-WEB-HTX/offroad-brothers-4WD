@@ -964,10 +964,13 @@ a{color:inherit;text-decoration:none}
   opacity:0;
   transition:opacity .18s ease;
   transform:translateZ(0);
+  -webkit-transform:translateZ(0);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
+  will-change:opacity;
 }
-.thumb video.thumbVideo.ready{ opacity:1; }
+.thumb video.thumbVideo.ready,
+.thumb video.thumbVideo.is-loaded{ opacity:1; }
 .thumb .thumb-label{
   position:absolute; inset:0;
   display:flex; align-items:center; justify-content:center;
@@ -1507,71 +1510,75 @@ const OB_VIDEOS = [
     return String(url || '').replace(/(?:-v2)?\.mp4$/i, '-v2.mp4');
   }
 
-  // Lazy-load video thumbnails (042+). Shows the first frame as a still thumbnail.
+  // Lazy-load video thumbnails. Seeks to 3 s so every thumb shows action content.
+  // Uses a unified `ready` class (matches CSS) and a timeupdate guard to prevent
+  // the blank-flash / flicker on iOS Safari and Android Chrome.
   let thumbObserver;
+
+  function bindThumbVideo(v){
+    if(v.dataset.bound) return;
+    v.dataset.bound = '1';
+
+    const SEEK_TIME = 3; // seconds — the frame shown as the thumbnail
+
+    const src = v.dataset.src;
+    if(src && !v.src){
+      v.src = src;
+      try{ v.load(); }catch(e){}
+    }
+
+    const wrap  = v.closest('.thumb');
+    const label = wrap ? wrap.querySelector('.thumb-label') : null;
+
+    let revealed = false;
+    const reveal = ()=>{
+      if(revealed) return;
+      revealed = true;
+      try{ v.pause(); }catch(e){}
+      v.classList.add('ready');
+      if(wrap)  wrap.classList.add('ready');
+      if(label) label.style.display = 'none';
+    };
+
+    // After data is available, seek to 3 s
+    v.addEventListener('loadeddata', ()=>{
+      // Clamp seek to duration if video is shorter than 3 s
+      const t = (v.duration && v.duration < SEEK_TIME) ? Math.max(0, v.duration - 0.1) : SEEK_TIME;
+      try{ v.currentTime = t; }catch(e){}
+      // Belt-and-suspenders: if seeked / timeupdate never fires within 900 ms, reveal anyway
+      setTimeout(reveal, 900);
+    }, { once:true });
+
+    // `seeked` fires when the seek completes — most reliable signal on desktop
+    v.addEventListener('seeked', ()=>{
+      // Small rAF delay lets the browser paint the decoded frame before we show it
+      requestAnimationFrame(()=> requestAnimationFrame(reveal));
+    }, { once:true });
+
+    // `timeupdate` is the fallback for iOS Safari which sometimes skips `seeked`
+    // on muted/offscreen videos. We only act once currentTime is past our target.
+    v.addEventListener('timeupdate', function onTU(){
+      if(v.currentTime >= Math.min(SEEK_TIME, (v.duration || SEEK_TIME)) - 0.5){
+        v.removeEventListener('timeupdate', onTU);
+        requestAnimationFrame(()=> requestAnimationFrame(reveal));
+      }
+    });
+  }
+
   function initThumbVideos(){
     if(!grid) return;
     const vids = grid.querySelectorAll('video.thumbVideo');
     if(!vids.length) return;
 
-    // Eager-load a chunk to reduce perceived "lazy" behavior on mobile (prevents blink/flash)
+    // Eager-load a generous chunk so above-fold thumbs never look blank on mobile
     const eagerCount = window.matchMedia('(max-width: 600px)').matches ? 20 : 28;
-    Array.from(vids).slice(0, eagerCount).forEach(v=>{
-      if(v.dataset.bound) return;
-      v.dataset.bound = '1';
-      const src = v.dataset.src;
-      if(src && !v.src){
-        v.src = src;
-        try{ v.load(); }catch(e){}
-      }
-      // Attach minimal readiness listeners (same as observer path)
-      const parent = v.closest('.thumb');
-      const label = parent ? parent.querySelector('.thumb-label') : null;
-      const markReady = ()=>{
-        v.classList.add('is-loaded');
-        if(label) label.style.opacity = '0';
-      };
-      v.addEventListener('loadeddata', ()=>{
-        try{ v.currentTime = 0.05; }catch(e){}
-        setTimeout(markReady, 450);
-      }, { once:true });
-      v.addEventListener('seeked', ()=>{
-        try{ v.pause(); }catch(e){}
-        markReady();
-      }, { once:true });
-    });
+    Array.from(vids).slice(0, eagerCount).forEach(bindThumbVideo);
 
     if(!thumbObserver){
       thumbObserver = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(!entry.isIntersecting) return;
-          const v = entry.target;
-          if(v.dataset.bound) return;
-          v.dataset.bound = '1';
-
-          const src = v.dataset.src;
-          if(src && !v.src){
-            v.src = src;
-            try{ v.load(); }catch(e){}
-          }
-
-          const markReady = ()=>{
-            v.classList.add('ready');
-            const wrap = v.closest('.thumb');
-            if(wrap) wrap.classList.add('ready');
-          };
-
-          v.addEventListener('loadeddata', ()=>{
-            // Force a tiny seek so Safari paints an actual frame
-            try{ v.currentTime = 0.05; }catch(e){}
-            // Safety fallback if seek events don't fire
-            setTimeout(markReady, 450);
-          }, { once:true });
-
-          v.addEventListener('seeked', ()=>{
-            try{ v.pause(); }catch(e){}
-            markReady();
-          }, { once:true });
+          bindThumbVideo(entry.target);
         });
       }, { root:null, rootMargin:'900px', threshold:0.01 });
     }

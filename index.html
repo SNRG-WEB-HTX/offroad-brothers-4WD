@@ -3653,6 +3653,49 @@ body{
 50%{opacity:.95}
 }
 
+
+/* =========================================================
+   HERO — OFFROAD FOREST BACKGROUND (added)
+   Keeps logo + CTA positioning exactly the same (background only)
+   ========================================================= */
+
+:root{
+  /* Update this path to your actual forest image */
+  --ob-hero-forest-image: url('hero-offroad-bg.png');
+}
+
+/* Background layer only (no layout shifts) */
+.hero{
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.35) 0%,
+      rgba(0,0,0,0.48) 45%,
+      rgba(0,0,0,0.68) 100%
+    ),
+    var(--ob-hero-forest-image) center / cover no-repeat !important;
+}
+
+/* Depth + vignette (purely visual) */
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(1200px 600px at 50% 25%, rgba(255,59,47,.10), transparent 60%),
+    radial-gradient(900px 500px at 50% 85%, rgba(0,0,0,.55), transparent 65%),
+    linear-gradient(to bottom, rgba(0,0,0,.10), rgba(0,0,0,.35));
+}
+
+/* Ensure content stays above overlays */
+.hero-inner,
+.hero .container{
+  position:relative;
+  z-index:1;
+}
+
 </style>
 </head>
 <body>

@@ -36,6 +36,8 @@
 <link href="ob-icon-512.png" rel="icon" sizes="512x512" type="image/png"/>
 <link href="ob-apple-touch.png" rel="apple-touch-icon" sizes="180x180"/>
 
+<!-- Hero background preload: ensures bg renders before first paint (LCP) -->
+<link rel="preload" as="image" href="images/hero-offroad-bg.png" fetchpriority="high"/>
 <link href="https://api.fontshare.com" rel="preconnect"/>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -240,20 +242,32 @@ a{color:inherit;text-decoration:none}
   padding: var(--ob-hero-pad-top) 0 clamp(18px, 3vh, 30px);
   position:relative;
   overflow:hidden;
-  background:var(--white);
+  /* Hero background image — covers all screen sizes, never repeats, anchors to center */
+  background-color:#0A0A0A; /* solid fallback while image loads */
+  background-image: url('images/hero-offroad-bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* scroll not fixed — avoids iOS parallax rendering bug */
   min-height:calc(100vh - 92px);
   display:flex;
   align-items:flex-start;
   justify-content:center;
 }
+/* Dark gradient overlay — lifts logo & CTAs off the background photo */
 .hero::before{
   content:'';
   position:absolute;
-  inset:-220px -220px auto -220px;
-  height:420px;
-  background: none;
-  filter: none;
+  inset:0;
+  height:100%;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.35) 50%,
+    rgba(0,0,0,.60) 100%
+  );
   pointer-events:none;
+  z-index:0;
 }
 
 .hero-inner{
@@ -262,6 +276,7 @@ a{color:inherit;text-decoration:none}
   align-items:center;
   text-align:center;
   position:relative;
+  z-index:1; /* sits above ::before dark overlay */
   max-width:1800px;
   margin:0 auto;
   gap:0;
@@ -351,11 +366,12 @@ a{color:inherit;text-decoration:none}
 
 .hero p{
   font-size:clamp(20px,2.6vw,28px);
-  color:var(--muted);
+  color:rgba(255,255,255,.88); /* white on dark bg — was var(--muted) on white */
   font-weight:600;
   margin-bottom:12px;
   max-width:780px;
   line-height:1.35;
+  text-shadow: 0 1px 8px rgba(0,0,0,.35); /* subtle lift off photo */
 }
 
 .hero .hero-buttons{
@@ -391,12 +407,14 @@ a{color:inherit;text-decoration:none}
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Primary stays bold; secondary stays light */
-.hero-buttons .btn-primary{
-  box-shadow: 0 14px 34px rgba(255,59,47,.22);
-}
+/* Secondary in hero: glass pill on dark photo bg */
 .hero-buttons .btn-secondary{
-  box-shadow: 0 10px 24px rgba(0,0,0,.06);
+  background: rgba(255,255,255,.12);
+  color: var(--white);
+  border-color: rgba(255,255,255,.55);
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 /* Subtle "Apple" hover logic */
@@ -427,24 +445,26 @@ a{color:inherit;text-decoration:none}
 }
 
 .btn-secondary{
-  background:var(--white);
-  color:var(--ink);
+  background:rgba(255,255,255,.12);
+  color:var(--white);
   padding:16px 26px;
   border-radius:12px;
   font-weight:900;
   font-size:16px;
   text-transform:uppercase;
   letter-spacing:1.1px;
-  border:2px solid var(--line);
-  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
   transition:all .25s ease;
   display:inline-flex; align-items:center; justify-content:center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .btn-secondary:hover{
-  background:var(--soft);
-  border-color:var(--muted);
+  background:rgba(255,255,255,.22);
+  border-color:rgba(255,255,255,.85);
   transform:translateY(-3px);
-  box-shadow:0 14px 32px rgba(0,0,0,.12);
+  box-shadow:0 14px 32px rgba(0,0,0,.25);
 }
 
 /* Apple-style elite cards */

@@ -329,7 +329,7 @@ a{color:inherit;text-decoration:none}
 .hero-logo.ob-anim {
   animation:
     obDrop   2.2s linear            0s    1 both,
-    obRumble 1.5s linear            2.2s  1 both;
+    obRumble 3.0s linear            2.2s  1 both;
 }
 
 /* ── PHASE 1: DROP ───────────────────────────────────────────────────
@@ -5085,78 +5085,21 @@ applyLang(htmlEl.getAttribute('lang') || 'en');
 
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   SCROLL TO TOP + LOGO ANIMATION — ALL DEVICES, ALL LOAD TYPES
-   Handles: fresh load, F5 refresh, back/forward cache (bfcache),
-   iOS Safari back-swipe, Android history pop, cached loads.
-   ═══════════════════════════════════════════════════════════ */
+/* Hero logo drop animation — ensure it fires on every load, including cached */
 (function(){
-
-  /* --- 1. KILL scroll restoration — browser must not remember position --- */
-  if(history.scrollRestoration) history.scrollRestoration = 'manual';
-
-  /* --- 2. Immediate scroll on script execution (before paint) --- */
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body && (document.body.scrollTop = 0);
-
-  /* --- 3. Logo animation trigger -------------------------------- */
   function triggerLogoAnim(){
     var logo = document.querySelector('.hero-logo');
     if(!logo) return;
+    /* Reset then re-trigger so cached pages replay it */
     logo.classList.remove('ob-anim');
-    void logo.offsetWidth; /* force reflow — required for CSS reset */
+    void logo.offsetWidth; /* force reflow */
     logo.classList.add('ob-anim');
   }
-
-  /* --- 4. Fire on DOMContentLoaded (catches normal + cached loads) --- */
-  function onReady(){
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body && (document.body.scrollTop = 0);
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', triggerLogoAnim);
+  } else {
     triggerLogoAnim();
   }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', onReady);
-  } else {
-    onReady();
-  }
-
-  /* --- 5. window.load fallback (images / fonts loaded) --- */
-  window.addEventListener('load', function(){
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body && (document.body.scrollTop = 0);
-  });
-
-  /* --- 6. pageshow covers bfcache (back/forward cache) ---
-      persisted=true means the page was served from bfcache.
-      iOS Safari and modern Chrome both use bfcache on navigation.
-      Without this the page restores its old scroll position silently. --- */
-  window.addEventListener('pageshow', function(e){
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body && (document.body.scrollTop = 0);
-    /* Re-trigger logo anim so it plays fresh on back-nav too */
-    if(e.persisted){
-      setTimeout(triggerLogoAnim, 0);
-    }
-  });
-
-  /* --- 7. beforeunload: lock scroll position to 0 before leaving --- */
-  window.addEventListener('beforeunload', function(){
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-  });
-
-  /* --- 8. Visibility change: catches tab switch back on mobile --- */
-  document.addEventListener('visibilitychange', function(){
-    if(document.visibilityState === 'visible'){
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    }
-  });
-
 })();
 </script>
 </body>

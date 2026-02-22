@@ -1365,6 +1365,38 @@ html.menu-open, body.menu-open{ overflow:hidden; }
 /* Header container padding match */
 .header .container{ padding-left: clamp(18px,5vw,42px) !important; padding-right: clamp(18px,5vw,42px) !important; }
 
+
+/* === MOBILE GET A QUOTE CTA — PIXEL-MATCH CONTACT === */
+@media (max-width: 980px){
+  .mobile-cta, .cta-mobile{
+    background:var(--orange);
+    color:var(--white) !important;
+    padding:14px 28px;
+    border-radius:10px;
+    font-weight:900;
+    font-size:13px;
+    letter-spacing:1.2px;
+    border:2px solid var(--orange);
+    box-shadow:0 8px 22px rgba(255,59,47,.22);
+    transition:all .25s ease;
+
+    white-space:nowrap;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px clamp(18px,3vw,28px);
+    font-size:clamp(12px,1.9vw,13px);
+  }
+  .mobile-cta::after, .cta-mobile::after{display:none}
+  .mobile-cta:hover, .cta-mobile:hover{
+    background:var(--orange-dark);
+    border-color:var(--orange-dark);
+    transform:translateY(-2px);
+    box-shadow:0 14px 32px rgba(255,59,47,.30);
+  }
+  .mobile-cta, .cta-mobile, .mobile-cta *, .cta-mobile *{ white-space:nowrap !important; }
+}
+
 </style>
 </head>
 <body>

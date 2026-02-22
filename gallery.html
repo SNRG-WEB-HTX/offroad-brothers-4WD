@@ -1,18 +1,17 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Gallery | Offroad Brothers 4WD Store</title>
-
 <!-- Favicons -->
-<link rel="icon" type="image/x-icon" href="images/favicon.ico" />
-<link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png" />
-<link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-
-<link rel="preconnect" href="https://api.fontshare.com" />
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+<link href="images/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="images/favicon-192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="images/favicon-512.png" rel="icon" sizes="512x512" type="image/png"/>
+<link href="images/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="https://api.fontshare.com" rel="preconnect"/>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet"/>
 <style>
 
 
@@ -148,7 +147,50 @@ a{color:inherit;text-decoration:none}
   box-shadow:0 8px 18px rgba(255,59,47,.24);
 }
 
+/* ===== HEADER ICON ROOT CAUSE FIX (NAV LINK ::after was overlaying icons) ===== */
+.nav .nav-social-icon{
+  padding:0 !important;
+  font-weight:inherit !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+  position:relative;
+}
+.nav .nav-social-icon::after{ content:none !important; display:none !important; }
+.nav .nav-social-icon:hover{ color: var(--white) !important; }
+
+/* Match footer icon inheritance: never wash out SVG on hover/active */
+.nav .nav-social-icon svg,
+.nav .nav-social-icon svg *{
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
+
+/* Prevent iOS/Android tap highlight + washed-out active states */
+.nav .nav-social-icon{
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+.nav .nav-social-icon:active,
+.nav .nav-social-icon:focus,
+.nav .nav-social-icon:focus-visible{
+  opacity: 1 !important;
+  filter: none !important;
+}
+.nav .nav-social-icon:focus-visible{
+  background: var(--orange) !important;
+  border-color: var(--orange) !important;
+  color: var(--white) !important;
+  box-shadow:0 8px 18px rgba(255,59,47,.24) !important;
+  transform: translateY(-1px);
+}
+
+
 .cta-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
   background:var(--orange);
   color:var(--white) !important;
   padding:14px 28px;
@@ -1228,259 +1270,120 @@ body.modal-open{
   overflow:hidden;
 }
 
+
+/* CTA visibility: prevent duplicate desktop+mobile CTAs showing together */
+.cta-desktop{ display:inline-flex; }
+.cta-mobile{ display:none; }
+@media (max-width: 980px){
+  .cta-desktop{ display:none !important; }
+  .cta-mobile{ display:inline-flex !important; }
+}
+/* Ensure CTA never wraps */
+.cta-desktop, .cta-mobile, .cta-desktop *, .cta-mobile *{ white-space:nowrap; }
+
 </style>
 </head>
 <body>
-
 <header class="header">
-  <div class="container header-inner">
-    <!-- Language Toggle - HARD LEFT -->
-    <div class="lang-wrap">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="es">ES</button>
-    </div>
-
-    <!-- Navigation - HARD RIGHT -->
-    <nav class="nav" id="mainNav">
-      <a href="index.html">Home</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#products">Products</a>
-      <a href="gallery.html" class="active" aria-current="page">Gallery</a>
-      <a href="index.html#reviews">Reviews</a>
-      <a href="index.html#contact">Contact</a>
-
-      <!-- Social Icons in Header -->
-<!-- Social Icons in Header -->
-      <div class="nav-social-icons">
-        <a href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-        </a>
-        <a href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" class="nav-social-icon" aria-label="Facebook">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        </a>
-      
-        <a href="https://www.tiktok.com/@offroadbrothers4wdstore" target="_blank" rel="noopener" class="nav-social-icon" aria-label="TikTok">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true" fill="currentColor">
-  <path d="M21 8.2c-1.8 0-3.3-.6-4.6-1.7v7.8c0 3.4-2.8 6.2-6.2 6.2S4 17.7 4 14.3c0-3.4 2.8-6.2 6.2-6.2.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h3.1c.1 2.6 2.2 4.7 4.8 4.8v3.4z"/>
-</svg>
-        </a>
-      </div>
-      
-      <a href="tel:+12814068738" class="cta-button">Call Now</a>
-    </nav>
-
-    <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
-  </div>
-</header>
-
-<main class="page" id="top">
-  <div class="gallery-wrap">
-    <div class="gallery-head">
-      <div class="gallery-title">Gallery <span style="color:var(--orange)">Videos</span></div>
-      <div class="gallery-sub">Real shop footage — lifts, wheels, installs, and builds. Tap any video to watch.</div>
-    </div>
-    <div class="grid" id="videoGrid"></div>
-    <div class="gallery-pager" id="galleryPager">
-      <button class="pager-btn" id="pagePrev" aria-label="Previous page" type="button">&#8249;</button>
-      <div class="pager-mid" id="pageLabel">Page 1 of 1</div>
-      <button class="pager-btn" id="pageNext" aria-label="Next page" type="button">&#8250;</button>
-    </div>
-  </div>
-</main>
-
-<div class="modal" id="videoModal" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="modal-backdrop" id="modalBackdrop"></div>
-  <div class="modal-sheet" role="document">
-    <div class="modal-top">
-      <span class="modal-visit">VISIT US TODAY!</span>
-      <button class="modal-close" id="modalClose" aria-label="Close">&#215;</button>
-    </div>
-    <div class="modal-body">
-      <video id="modalVideo" class="modal-video" playsinline webkit-playsinline preload="auto" tabindex="0"></video>
-    </div>
-    <div id="videoError" class="video-error" role="alert"></div>
-  </div>
+<div class="container header-inner">
+<!-- Language Toggle - HARD LEFT -->
+<div class="lang-wrap">
+<button class="lang-btn active" data-lang="en">EN</button>
+<button class="lang-btn" data-lang="es">ES</button>
 </div>
-
-<footer class="footer">
-  <div class="container footer-inner">
-    <nav class="footer-nav">
-      <a href="index.html#services">Services</a>
-      <a href="index.html#products">Products</a>
-      <a href="index.html">Home</a>
-      <a href="index.html#contact">Contact</a>
-</nav>
-
-    <div class="footer-social">
-      <a class="social" href="https://www.facebook.com/offroadbrothers4wd/" target="_blank" rel="noopener" aria-label="Facebook">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-        </svg>
-      </a>
-      <a class="social" href="https://www.instagram.com/offroadbrothers4wd" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      </a>
-    
-      <a class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" target="_blank" rel="noopener" aria-label="TikTok">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true" fill="currentColor">
-  <path d="M21 8.2c-1.8 0-3.3-.6-4.6-1.7v7.8c0 3.4-2.8 6.2-6.2 6.2S4 17.7 4 14.3c0-3.4 2.8-6.2 6.2-6.2.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h3.1c.1 2.6 2.2 4.7 4.8 4.8v3.4z"/>
+<!-- Navigation - HARD RIGHT -->
+<nav class="nav" id="mainNav">
+<a href="index.html">Home</a>
+<a href="index.html#services">Services</a>
+<a href="index.html#products">Products</a>
+<a aria-current="page" class="active" href="gallery.html">Gallery</a>
+<a href="index.html#reviews">Reviews</a>
+<a href="contact.html">Contact</a>
+<!-- Social Icons in Header -->
+<div class="nav-social-icons">
+<a aria-label="Instagram" class="nav-social-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
+<svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
 </svg>
-      </a>
-    </div>
-
-    <div class="footer-copy">
+</a>
+<a aria-label="Facebook" class="nav-social-icon" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener" target="_blank">
+<svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+</a>
+<a aria-label="TikTok" class="nav-social-icon" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
+</a>
+<a aria-label="WhatsApp" class="nav-social-icon" href="https://wa.me/17866237420" rel="noopener" target="_blank">
+<svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.769.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.67-1.612-.916-2.207-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 6.238h-.001a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64.001 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.898 6.989c-.002 5.45-4.437 9.884-9.893 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.158 11.89c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.867 11.867 0 0 0 5.739 1.47h.005c6.554 0 11.89-5.335 11.893-11.89a11.822 11.822 0 0 0-3.478-8.413z"></path>
+</svg>
+</a>
+</div>
+<a class="cta-button cta-desktop" href="contact.html">GET A QUOTE</a>
+</nav>
+<button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
+<a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" href="contact.html">GET A QUOTE</a>
+</div>
+</header>
+<main class="page" id="top">
+<div class="gallery-wrap">
+<div class="gallery-head">
+<div class="gallery-title" data-i18n-combo="Gallery Videos">Gallery <span style="color:var(--orange)">Videos</span></div>
+<div class="gallery-sub">Real shop footage — lifts, wheels, installs, and builds. Tap any video to watch.</div>
+</div>
+<div class="grid" id="videoGrid"></div>
+<div class="gallery-pager" id="galleryPager">
+<button aria-label="Previous page" class="pager-btn" id="pagePrev" type="button">‹</button>
+<div class="pager-mid" id="pageLabel">Page 1 of 1</div>
+<button aria-label="Next page" class="pager-btn" id="pageNext" type="button">›</button>
+</div>
+</div>
+</main>
+<div aria-hidden="true" aria-modal="true" class="modal" id="videoModal" role="dialog">
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div class="modal-sheet" role="document">
+<div class="modal-top">
+<span class="modal-visit">VISIT US TODAY!</span>
+<button aria-label="Close" class="modal-close" id="modalClose">×</button>
+</div>
+<div class="modal-body">
+<video class="modal-video" id="modalVideo" playsinline="" preload="auto" tabindex="0" webkit-playsinline=""></video>
+</div>
+<div class="video-error" id="videoError" role="alert"></div>
+</div>
+</div>
+<footer class="footer">
+<div class="container footer-inner">
+<nav class="footer-nav">
+<a href="index.html#services">Services</a>
+<a href="index.html#products">Products</a>
+<a href="index.html">Home</a>
+<a href="index.html#contact">Contact</a>
+</nav>
+<div class="footer-social">
+<a aria-label="Facebook" class="social" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener" target="_blank">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+</a>
+<a aria-label="Instagram" class="social" href="https://www.instagram.com/offroadbrothers4wd" rel="noopener" target="_blank">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+</svg>
+</a>
+<a aria-label="TikTok" class="social" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 8.2c-1.8 0-3.3-.6-4.6-1.7v7.8c0 3.4-2.8 6.2-6.2 6.2S4 17.7 4 14.3c0-3.4 2.8-6.2 6.2-6.2.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5V2h3.1c.1 2.6 2.2 4.7 4.8 4.8v3.4z"></path>
+</svg>
+</a>
+</div>
+<div class="footer-copy">
       © <span id="year"></span> Offroad Brothers 4WD Store • 14300 Northwest Fwy SUITE A-23, Houston, TX 77040 • (281) 406-8738
-      <div class="footer-built">Built by <a href="https://snrgweb.com" target="_blank" rel="noopener">SNRG WEB</a></div>
-    </div>
-  </div>
+      <div class="footer-built">Built by <a href="https://snrgweb.com" rel="noopener" target="_blank">SNRG WEB</a></div>
+</div>
+</div>
 </footer>
-
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      if (!href || href === '#') return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior:'smooth', block:'start' });
-      const nav = document.getElementById('mainNav');
-      if (nav) nav.classList.remove('active');
-    });
-  });
-
-  // Form handler
-  const quoteForm = document.getElementById('quoteForm');
-  if (quoteForm) {
-    quoteForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert("Thanks! We received your quote request and will reach out shortly.");
-      quoteForm.reset();
-    });
-  }
-
-  // Reviews carousel
-  const REVIEWS = [
-    {"name": "David Saldana", "meta": "10 reviews • 15 photos • 2 months ago", "stars": 5, "body": "Julio and his Offroad Brothers team are top-notch. Brought in a Tundra TRD PRO for a 3in lift and a tire upgrade — amazing job at a great price. Would definitely recommend.", "badge": "Lift + tires"},
-    {"name": "Troy Gannod", "meta": "Local Guide • 33 reviews • 5 months ago", "stars": 5, "body": "Julio is the best! He squeezed me into a busy week to get me rolling for the weekend. I already had parts for my 4Runner and wanted a reputable shop — they delivered.", "badge": "4Runner install"},
-    {"name": "Dave DeRouen", "meta": "Local Guide • 42 reviews • 10 months ago", "stars": 5, "body": "Outstanding customer service and work on my Tundra. In under an hour we had a plan, parts were ordered, and my truck was scheduled. Smooth process end-to-end.", "badge": "Plan + schedule fast"},
-    {"name": "James Benton", "meta": "Local Guide • 187 reviews • 3 months ago", "stars": 5, "body": "They installed a rally bar and lights on my 2025 Subaru Forester Wilderness — great job and clean install.", "badge": "Lights + bar"},
-    {"name": "Mauricio Torres", "meta": "6 reviews • 8 months ago", "stars": 5, "body": "Julio and Claudio were great to work with. Julio answered all my questions quickly and put my mind at ease. Great price and great communication.", "badge": "Clear communication"},
-    {"name": "Matthew Russell", "meta": "8 reviews • 6 months ago", "stars": 5, "body": "Julio is simply the best. Fantastic work, incredibly knowledgeable, and the craftsmanship is top-notch. Houston is fortunate to have a shop like this.", "badge": "Craftsmanship"}
-  ];
-
-  const track = document.getElementById('reviewTrack');
-  const dots = document.getElementById('reviewDots');
-
-  function stars(n) {
-    return "★★★★★".slice(0,n);
-  }
-
-  function renderReviews(){
-    if(!track) return;
-    track.innerHTML = "";
-    dots && (dots.innerHTML="");
-    REVIEWS.forEach((r, i) => {
-      const card = document.createElement('div');
-      card.className = 'review-card';
-      card.innerHTML = `
-        <div class="review-top">
-          <div>
-            <div class="r-name">${r.name}</div>
-            <div class="r-meta">${r.meta}</div>
-          </div>
-          <div style="text-align:right">
-            <div class="r-stars">${stars(r.stars)}</div>
-            <div class="r-meta">Google review</div>
-          </div>
-        </div>
-        <div class="r-body">"${r.body}"</div>
-        <div class="r-badge">✔ ${r.badge}</div>
-      `;
-      track.appendChild(card);
-
-      if(dots){
-        const d = document.createElement('button');
-        d.className = 'dotbtn' + (i===0 ? ' active' : '');
-        d.setAttribute('aria-label', 'Go to review ' + (i+1));
-        d.addEventListener('click', () => {
-          const first = track.querySelector('.review-card');
-          if(!first) return;
-          const cardW = first.getBoundingClientRect().width + 16;
-          track.scrollTo({ left: i * cardW, behavior:'smooth' });
-        });
-        dots.appendChild(d);
-      }
-    });
-  }
-
-  function updateDots(){
-    if(!track || !dots) return;
-    const cards = [...track.querySelectorAll('.review-card')];
-    if(cards.length === 0) return;
-    const first = cards[0];
-    const cardW = first.getBoundingClientRect().width + 16;
-    const idx = Math.round(track.scrollLeft / cardW);
-    [...dots.children].forEach((b, i)=> b.classList.toggle('active', i===idx));
-  }
-
-  function step(dir){
-    if(!track) return;
-    const first = track.querySelector('.review-card');
-    if(!first) return;
-    const cardW = first.getBoundingClientRect().width + 16;
-    track.scrollBy({ left: dir * cardW, behavior:'smooth' });
-  }
-
-  renderReviews();
-  track && track.addEventListener('scroll', () => {
-    window.requestAnimationFrame(updateDots);
-  });
-
-  const prev = document.querySelector('.car-btn.prev');
-  const next = document.querySelector('.car-btn.next');
-  prev && prev.addEventListener('click', ()=>step(-1));
-  next && next.addEventListener('click', ()=>step(1));
-
-  // Language toggle
-  (function(){
-    const wrap = document.querySelector('.lang-wrap');
-    if(!wrap) return;
-    const btns = [...wrap.querySelectorAll('.lang-btn')];
-    const heroLead = document.getElementById('heroLead');
-    const btnCall = document.getElementById('btnCall');
-    const btnExplore = document.getElementById('btnExplore');
-
-    function setLang(lang){
-      document.documentElement.setAttribute('lang', lang);
-      btns.forEach(b=>{
-        const on = b.dataset.lang === lang;
-        b.classList.toggle('active', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      [heroLead, btnCall, btnExplore].forEach(el=>{
-        if(!el) return;
-        const key = lang === 'es' ? 'es' : 'en';
-        const val = el.dataset[key];
-        if(val) el.textContent = val;
-      });
-    }
-
-    btns.forEach(b=> b.addEventListener('click', ()=> setLang(b.dataset.lang)));
-    setLang('en');
-  })();
-
-</script>
-
 <script>
   const BLANK_POSTER = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
@@ -1821,5 +1724,145 @@ const OB_VIDEOS = [
   render();
 })();
 </script>
+<script>
+/* ================================================================
+   I18N (EN/ES) — EXACT-PHRASE TRANSLATION (LOCKED)
+   - Default EN (no contamination)
+   - ES only when ES button pressed
+   - Reversible (restores exact original EN)
+   ================================================================ */
+(function(){
+  const MAP_ES = {"Home": "Inicio", "Services": "Servicios", "Products": "Productos", "Gallery": "Galería", "Reviews": "Reseñas", "Contact": "Contacto", "GET A QUOTE": "COTIZAR", "Videos": "Videos", "Real shop footage — lifts, wheels, installs, and builds. Tap any video to watch.": "Imágenes reales del taller — elevaciones, rines, instalaciones y builds. Toca cualquier video para verlo.", "VISIT US TODAY!": "¡VISÍTANOS HOY!", "Built by": "Construido por", "Page 1 of 1": "Página 1 de 1", "Gallery | Offroad Brothers 4WD Store": "Galería | Offroad Brothers 4WD Store", "Offroad Brothers 4WD Store • 14300 Northwest Fwy SUITE A-23, Houston, TX 77040 • (281) 406-8738": "Offroad Brothers 4WD Store • 14300 Northwest Fwy Suite A-23, Houston, TX 77040 • (281) 406-8738", "Previous page": "Página anterior", "Next page": "Página siguiente", "Close": "Cerrar"};
+
+  const norm = (s) => (s ?? '').replace(/\s+/g,' ').trim();
+  const textNodes = [];
+  const original = new WeakMap();
+  const originalAttr = new WeakMap();
+
+  function collectTextNodes(root){
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if(!node.nodeValue) return NodeFilter.FILTER_REJECT;
+        const v = norm(node.nodeValue);
+        if(!v) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        const tag = p.tagName ? p.tagName.toLowerCase() : '';
+        if(['script','style','noscript'].includes(tag)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    let n;
+    while((n = walker.nextNode())){
+      textNodes.push(n);
+      if(!original.has(n)) original.set(n, n.nodeValue);
+    }
+  }
+
+  function translateDynamicPageLabel(){
+    const el = document.getElementById('pageLabel');
+    if(!el) return;
+    const v = norm(el.textContent);
+    const m = v.match(/^Page\s+(\d+)\s+of\s+(\d+)$/i);
+    if(m) el.textContent = `Página ${m[1]} de ${m[2]}`;
+  }
+
+  function setTitle(lang){
+    if(!document.__obTitleEN) document.__obTitleEN = document.title;
+    if(lang === 'es'){
+      const es = MAP_ES[document.__obTitleEN];
+      if(es) document.title = es;
+    } else {
+      document.title = document.__obTitleEN;
+    }
+  }
+
+  function setLang(lang){
+    document.documentElement.setAttribute('lang', lang === 'es' ? 'es' : 'en');
+
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      const isES = (btn.getAttribute('data-lang') || '').toLowerCase() === 'es';
+      btn.classList.toggle('active', (lang==='es') ? isES : !isES);
+    });
+
+    textNodes.forEach(node=>{
+      const enRaw = original.get(node) ?? node.nodeValue;
+      const enKey = norm(enRaw);
+      if(lang === 'es'){
+        if(MAP_ES[enKey]){
+          const lead = (enRaw.match(/^\s+/) || [''])[0];
+          const trail = (enRaw.match(/\s+$/) || [''])[0];
+          node.nodeValue = lead + MAP_ES[enKey] + trail;
+        }
+      } else {
+        node.nodeValue = enRaw;
+      }
+    });
+
+    document.querySelectorAll('[aria-label],[title],[placeholder],input[value],textarea[placeholder]').forEach(el=>{
+      const attrs = ['aria-label','title','placeholder','value'];
+      attrs.forEach(a=>{
+        if(!el.hasAttribute(a)) return;
+        const en = el.getAttribute(a);
+        if(en == null) return;
+        const enKey = norm(en);
+        if(!enKey) return;
+
+        let store = originalAttr.get(el);
+        if(!store){ store={}; originalAttr.set(el, store); }
+        if(store[a] === undefined) store[a] = en;
+
+        if(lang === 'es'){
+          if(MAP_ES[enKey]) el.setAttribute(a, MAP_ES[enKey]);
+        } else {
+          el.setAttribute(a, store[a]);
+        }
+      });
+    });
+
+    if(lang==='es') translateDynamicPageLabel();
+    setTitle(lang);
+
+    try{ localStorage.setItem('lang', lang); }catch(e){}
+  }
+
+  function init(){
+    collectTextNodes(document.body);
+
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const l = (btn.getAttribute('data-lang') || 'en').toLowerCase();
+        setLang(l === 'es' ? 'es' : 'en');
+      });
+    });
+
+    let saved = 'en';
+    try{ saved = (localStorage.getItem('lang') || 'en').toLowerCase(); }catch(e){}
+    setLang(saved === 'es' ? 'es' : 'en');
+  }
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script>
+(function(){
+  const el = document.querySelector('.gallery-title[data-i18n-combo]');
+  if(!el) return;
+  function apply(){
+    const lang = (document.documentElement.getAttribute('lang') || 'en').toLowerCase();
+    if(lang === 'es'){
+      el.innerHTML = "Galería <span style=\"color:var(--orange)\">Videos</span>";
+    }else{
+      el.innerHTML = "Gallery <span style=\"color:var(--orange)\">Videos</span>";
+    }
+  }
+  const mo = new MutationObserver(apply);
+  mo.observe(document.documentElement, {attributes:true, attributeFilter:['lang']});
+  apply();
+})();
+</script>
+
 </body>
 </html>

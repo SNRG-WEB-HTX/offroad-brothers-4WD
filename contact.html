@@ -4098,6 +4098,54 @@ footer.footer{
 
 /* Prevent background scroll when mobile menu is open */
 html.menu-open, body.menu-open{ overflow:hidden; }
+
+
+/* Mobile menu hardening */
+.header, header{ position:fixed; top:0; left:0; right:0; z-index:9999 !important; }
+.mobile-menu-btn{ position:relative; z-index:10002 !important; pointer-events:auto !important; }
+.mobile-cta{ position:relative; z-index:10001 !important; }
+@media (max-width: 980px){
+  #mainNav.active{
+    position:fixed !important;
+    top:92px !important;
+    left:0 !important; right:0 !important;
+    z-index:10000 !important;
+    max-height: calc(100vh - 92px) !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Contact mobile footer spacing trim */
+@media (max-width: 980px){
+  footer .footer-inner{ padding-top: 10px !important; }
+  footer .footer-nav{ margin-top: 8px !important; padding-top: 0 !important; }
+}
+
+/* CTA styles synced from Gallery */
+.cta-button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  white-space:nowrap;
+  background:var(--orange);
+  color:var(--white) !important;
+  padding:14px 28px;
+  border-radius:10px;
+  font-weight:900;
+  font-size:13px;
+  letter-spacing:1.2px;
+  border:2px solid var(--orange);
+  box-shadow:0 8px 22px rgba(255,59,47,.22);
+  transition:all .25s ease;
+}
+.mobile-cta{ position:relative; z-index:1201; }
+.mobile-cta{ order: 1; }
+.mobile-cta{ position:relative; z-index:10001 !important; }
+.cta-desktop{ display:inline-flex; }
+.cta-desktop{ display:none !important; }
+.cta-mobile{ display:none; }
+.cta-mobile{ display:inline-flex !important; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://offroadbrothers4wd.com/#website", "url": "https://offroadbrothers4wd.com/", "name": "Offroad Brothers 4WD Store", "inLanguage": "en-US", "publisher": {"@id": "https://offroadbrothers4wd.com/#organization"}}, {"@type": "ContactPage", "@id": "https://offroadbrothers4wd.com/contact.html#webpage", "url": "https://offroadbrothers4wd.com/contact.html", "name": "Contact — Offroad Brothers 4WD Store", "description": "Contact Offroad Brothers 4WD Store in Houston, TX. Call, email, or get directions for lift kits, wheels & tires, suspension upgrades, lighting, and custom off-road builds.", "isPartOf": {"@id": "https://offroadbrothers4wd.com/#website"}, "about": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}, "primaryImageOfPage": {"@id": "https://offroadbrothers4wd.com/#logo"}, "inLanguage": "en-US"}, {"@type": "Organization", "@id": "https://offroadbrothers4wd.com/#organization", "name": "Offroad Brothers 4WD Store", "url": "https://offroadbrothers4wd.com/", "logo": {"@id": "https://offroadbrothers4wd.com/#logo"}, "sameAs": ["https://www.instagram.com/offroadbrothers4wd/?hl=en", "https://www.facebook.com/offroadbrothers4wd/", "https://www.tiktok.com/@offroadbrothers4wdstore", "https://www.google.com/maps/place/Offroad+Brothers+4wd+Store/@29.8644738,-95.5362629,16z/data=!3m1!4b1!4m6!3m5!1s0x8640cf8ed1bfec93:0xbb18a2469283ac8!8m2!3d29.8644738!4d-95.533688!16s%2Fg%2F11cks68jf6"], "contactPoint": [{"@type": "ContactPoint", "telephone": "+1-281-406-8738", "contactType": "customer service", "areaServed": "US", "availableLanguage": ["en", "es"]}]}, {"@type": "ImageObject", "@id": "https://offroadbrothers4wd.com/#logo", "url": "https://offroadbrothers4wd.com/offroadbrotherlogo.png", "contentUrl": "https://offroadbrothers4wd.com/offroadbrotherlogo.png", "caption": "Offroad Brothers 4WD Store logo"}, {"@type": ["LocalBusiness", "AutoPartsStore", "AutomotiveBusiness"], "@id": "https://offroadbrothers4wd.com/#localbusiness", "name": "Offroad Brothers 4WD Store", "url": "https://offroadbrothers4wd.com/", "telephone": "+1-281-406-8738", "description": "Offroad Brothers 4WD Store in Houston, TX. Off-road, 4x4, and overland tires, wheels, suspension, accessories, and installation services.", "image": ["https://offroadbrothers4wd.com/offroadbrotherlogo.png"], "address": {"@type": "PostalAddress", "streetAddress": "14300 Northwest Fwy, Suite A-23", "addressLocality": "Houston", "addressRegion": "TX", "postalCode": "77040", "addressCountry": "US"}, "hasMap":"https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9", "sameAs": ["https://www.instagram.com/offroadbrothers4wd/?hl=en", "https://www.facebook.com/offroadbrothers4wd/", "https://www.tiktok.com/@offroadbrothers4wdstore", "https://www.google.com/maps/place/Offroad+Brothers+4wd+Store/@29.8644738,-95.5362629,16z/data=!3m1!4b1!4m6!3m5!1s0x8640cf8ed1bfec93:0xbb18a2469283ac8!8m2!3d29.8644738!4d-95.533688!16s%2Fg%2F11cks68jf6"], "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "09:00", "closes": "18:00"}, {"@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "09:00", "closes": "13:00"}], "areaServed": [{"@type": "City", "name": "Houston"}, {"@type": "State", "name": "Texas"}], "makesOffer": [{"@type": "OfferCatalog", "name": "Services", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Lift Kits", "url": "https://offroadbrothers4wd.com/#services"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Expert Consultation", "url": "https://offroadbrothers4wd.com/#services"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Builds", "url": "https://offroadbrothers4wd.com/#services"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Suspension Upgrades", "url": "https://offroadbrothers4wd.com/#services"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tire & Wheel Packages", "url": "https://offroadbrothers4wd.com/#services"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Lighting Systems", "url": "https://offroadbrothers4wd.com/#services"}}]}], "department": [{"@type": "AutoPartsStore", "name": "Tires & Wheels", "url": "https://offroadbrothers4wd.com/#products"}], "potentialAction": [{"@type": "ReserveAction", "target": "https://offroadbrothers4wd.com/#contact", "name": "Request a quote"}, {"@type": "ViewAction", "target": "https://maps.google.com/?q=14300+Northwest+Fwy+Suite+A-23+Houston+TX+77040", "name": "Get directions"}], "aggregateRating": {"@type": "AggregateRating", "ratingValue": 5.0, "bestRating": "5", "worstRating": "1", "ratingCount": 24}, "review": [{"@type": "Review", "author": {"@type": "Person", "name": "David Saldana"}, "reviewBody": "Julio and his Offroad Brothers team are top-notch. Brought in a Tundra TRD PRO for a 3in lift and a tire upgrade, they did an amazing job at a great price. Would definitely recommend their services to anyone!", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2025-12-19", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}, {"@type": "Review", "author": {"@type": "Person", "name": "Justin Miller"}, "reviewBody": "This is my go-to place to have anything done to my 4Runner. Recently had a suspension upgrade done, they've also installed lights and rock sliders for me. These guys are friendly, knowledgeable and reliable. Highly recommend this shop.", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2026-02-15", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}, {"@type": "Review", "author": {"@type": "Person", "name": "Blair Paul"}, "reviewBody": "Quite happy with Julio at Offroad Brothers. Clear communication and his knowledge about final outcome was paramount in my decision on what to install. Would highly recommend. Great service, price and turn around time.", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2025-11-19", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}, {"@type": "Review", "author": {"@type": "Person", "name": "Carlo Palomino"}, "reviewBody": "An excellent experience! Julio helped me a lot with the type of tire for my truck, the proper lift, and much more. Highly recommended. Personalized time so your truck looks and drives great.", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2025-10-19", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}, {"@type": "Review", "author": {"@type": "Person", "name": "Troy Gannod"}, "reviewBody": "Julio is the best! He squeezed me in during a busy week to get me rolling for the weekend. I had the parts and needed a reputable shop—glad I chose Offroad Brothers.", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2025-08-19", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}, {"@type": "Review", "author": {"@type": "Person", "name": "Matthew Russell"}, "reviewBody": "Julio is simply the best. His work is fantastic, incredibly knowledgeable, and did an amazing job on my 5th Gen 4Runner. Could not be happier.", "reviewRating": {"@type": "Rating", "ratingValue": "5.0", "bestRating": "5", "worstRating": "1"}, "datePublished": "2025-08-19", "itemReviewed": {"@id": "https://offroadbrothers4wd.com/#localbusiness"}}]}, {"@type": "BreadcrumbList", "@id": "https://offroadbrothers4wd.com/#breadcrumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://offroadbrothers4wd.com/"}, {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://offroadbrothers4wd.com/contact.html"}]}]}</script><style>
 /* ══════════════════════════════════════════════════════════════
@@ -4247,12 +4295,6 @@ html body .contact-grid {
 </div>
 <!-- Navigation - HARD RIGHT -->
 <nav class="nav" id="mainNav">
-
-
-
-
-
-
 <!-- Social Icons in Header -->
 <a href="index.html">Home</a><a href="index.html#services">Services</a><a href="index.html#products">Products</a><a href="index.html#reviews">Reviews</a><a href="gallery.html">Gallery</a><div class="nav-social-icons">
 <a aria-label="Instagram" class="nav-social-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
@@ -4274,11 +4316,10 @@ html body .contact-grid {
 </svg>
 </a>
 </div>
-<a class="cta-button" href="contact.html">Get a Quote</a>
+<a class="cta-button cta-desktop" href="contact.html">GET A QUOTE</a>
 </nav>
-<a aria-label="Get a Quote" class="mobile-cta" href="#contact" data-i18n="get_a_quote">Get a Quote</a>
-<button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" type="button">☰</button>
-
+<a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" data-i18n="get_a_quote" href="contact.html">GET A QUOTE</a>
+<button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" id="menuBtn" type="button">☰</button>
 </div>
 </header><main class="ob-contact-page" id="main"><section class="contact-section" id="contact">
 <div class="animated-bg"></div>
@@ -4353,59 +4394,7 @@ html body .contact-grid {
   });
 })();
 </script>
-<script>
-(function(){
-  const btn = document.querySelector('.mobile-menu-btn');
-  if(!btn) return;
 
-  // Target the intended nav via aria-controls to avoid accidentally grabbing other .nav elements
-  const navId = btn.getAttribute('aria-controls');
-  const nav = navId ? document.getElementById(navId) : document.querySelector('header .nav');
-
-  if(!nav) return;
-
-  const setOpen = (open) => {
-    nav.classList.toggle('active', open);
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    // Prevent background scroll when menu is open on mobile
-    if (window.matchMedia('(max-width: 980px)').matches){
-      document.documentElement.classList.toggle('menu-open', open);
-      document.body.classList.toggle('menu-open', open);
-    }
-  };
-
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setOpen(!nav.classList.contains('active'));
-  });
-
-  // Close when clicking a link inside nav (mobile)
-  nav.addEventListener('click', (e) => {
-    const a = e.target.closest('a');
-    if(!a) return;
-    if(window.matchMedia('(max-width: 980px)').matches){
-      setOpen(false);
-    }
-  });
-
-  // Close on outside click (mobile)
-  document.addEventListener('click', (e) => {
-    if(!window.matchMedia('(max-width: 980px)').matches) return;
-    if(e.target.closest('.mobile-menu-btn')) return;
-    if(e.target.closest('#' + nav.id)) return;
-    if(nav.classList.contains('active')) setOpen(false);
-  });
-
-  // Close on resize up
-  window.addEventListener('resize', () => {
-    if(!window.matchMedia('(max-width: 980px)').matches){
-      setOpen(false);
-      document.documentElement.classList.remove('menu-open');
-      document.body.classList.remove('menu-open');
-    }
-  });
-})();</script>
 <script>
 /* ================================================================
    I18N (EN/ES) — EXACT-PHRASE TRANSLATION (LOCKED)
@@ -4529,177 +4518,51 @@ html body .contact-grid {
 })();
 </script>
 
+
 <script>
-/* MOBILE_MENU_TOGGLE_V2 */
+/* MOBILE_MENU_TOGGLE_V3 — robust (tap-safe) */
 (function(){
-  const btn = document.querySelector('.mobile-menu-btn');
+  const btn = document.getElementById('menuBtn') || document.querySelector('.mobile-menu-btn');
   const nav = document.getElementById('mainNav');
   if(!btn || !nav) return;
 
-  function setExpanded(state){
-    btn.setAttribute('aria-expanded', state ? 'true' : 'false');
+  function setOpen(open){
+    nav.classList.toggle('active', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.documentElement.classList.toggle('menu-open', open);
+    document.body.classList.toggle('menu-open', open);
   }
 
-  btn.addEventListener('click', function(e){
+  // Toggle on click/tap
+  const toggle = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    nav.classList.toggle('active');
-    setExpanded(nav.classList.contains('active'));
-  }, {passive:false});
+    setOpen(!nav.classList.contains('active'));
+  };
 
-  // close when tapping outside
-  document.addEventListener('click', function(e){
+  btn.addEventListener('click', toggle, {passive:false});
+  btn.addEventListener('touchstart', toggle, {passive:false});
+
+  // Close when tapping outside nav
+  document.addEventListener('click', (e)=>{
     if(!nav.classList.contains('active')) return;
-    const insideNav = e.target.closest('#mainNav');
-    const insideBtn = e.target.closest('.mobile-menu-btn');
-    if(insideNav || insideBtn) return;
-    nav.classList.remove('active');
-    setExpanded(false);
+    if(e.target.closest('#mainNav') || e.target.closest('.mobile-menu-btn')) return;
+    setOpen(false);
   });
 
-  // close after tapping a link (mobile)
-  nav.addEventListener('click', function(e){
+  // Close after selecting a link on mobile
+  nav.addEventListener('click', (e)=>{
     const a = e.target.closest('a');
     if(!a) return;
     if(window.matchMedia('(max-width: 980px)').matches){
-      nav.classList.remove('active');
-      setExpanded(false);
+      setOpen(false);
     }
   });
-})();
-</script>
-<style>
-/* ═══════════════════════════════════════════════════════════════
-   TERMINAL: MOBILE HAMBURGER MENU — SHOW ALL ITEMS PERFECTLY
-   Root cause killed: #mainNav > a:not(.home-link){ display:none }
-   was hiding every link on mobile even when menu was open.
-   ═══════════════════════════════════════════════════════════════ */
 
-/* 1. On mobile: hide nav by default (container hidden, not links) */
-@media (max-width: 980px) {
-  /* Override the "show HOME only" rule — all links visible when menu opens */
-  #mainNav > a:not(.home-link) {
-    display: flex !important;
-  }
-
-  /* Active (open) dropdown */
-  #mainNav.active {
-    display: flex !important;
-    flex-direction: column !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100dvh !important;
-    background: #ffffff !important;
-    z-index: 1199 !important;
-    padding: 100px 28px 40px !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
-    gap: 0 !important;
-    box-shadow: none !important;
-    border-bottom: none !important;
-  }
-
-  /* Every nav <a> link: full-width row with border separator */
-  #mainNav.active > a {
-    display: flex !important;
-    align-items: center !important;
-    width: 100% !important;
-    padding: 18px 0 !important;
-    font-size: 18px !important;
-    font-weight: 800 !important;
-    color: #0A0A0A !important;
-    text-decoration: none !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    border-bottom: 1px solid #E9ECF2 !important;
-    transition: color .18s ease !important;
-    white-space: nowrap !important;
-  }
-
-  /* Active page link */
-  #mainNav.active > a.active,
-  #mainNav.active > a[aria-current="page"] {
-    color: var(--orange, #FF3B2F) !important;
-  }
-
-  /* Hover / tap */
-  #mainNav.active > a:hover,
-  #mainNav.active > a:active {
-    color: var(--orange, #FF3B2F) !important;
-  }
-
-  /* Social icons row: show at bottom of menu */
-  #mainNav.active .nav-social-icons {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    gap: 10px !important;
-    margin-top: 28px !important;
-    margin-left: 0 !important;
-    width: 100% !important;
-    justify-content: flex-start !important;
-  }
-
-  /* Social icon chips */
-  #mainNav.active .nav-social-icon {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 12px !important;
-    flex-shrink: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* CTA button inside open menu */
-  #mainNav.active .cta-button {
-    display: inline-flex !important;
-    width: auto !important;
-    align-self: flex-start !important;
-    margin-top: 28px !important;
-    padding: 14px 28px !important;
-    font-size: 14px !important;
-    border-radius: 12px !important;
-  }
-
-  /* Hamburger sits above the overlay */
-  .mobile-menu-btn {
-    position: fixed !important;
-    top: 22px !important;
-    right: 18px !important;
-    z-index: 1201 !important;
-  }
-
-  /* When menu open: change ☰ to ✕ */
-  .mobile-menu-btn[aria-expanded="true"] {
-    background: #F5F6F8 !important;
-    border-color: #E9ECF2 !important;
-  }
-
-  /* Mobile CTA pill: keep in header */
-  .mobile-cta {
-    position: fixed !important;
-    top: 18px !important;
-    right: 70px !important;
-    z-index: 1201 !important;
-  }
-}
-</style>
-<script>
-/* ─── HAMBURGER ICON: ☰ → ✕ toggle ─── */
-(function(){
-  var btn = document.querySelector('.mobile-menu-btn');
-  if(!btn) return;
-  var observer = new MutationObserver(function(){
-    btn.textContent = btn.getAttribute('aria-expanded') === 'true' ? '✕' : '☰';
+  // Escape closes
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') setOpen(false);
   });
-  observer.observe(btn, {attributes: true, attributeFilter: ['aria-expanded']});
 })();
 </script>
 </body></html>

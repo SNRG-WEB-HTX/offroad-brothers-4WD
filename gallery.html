@@ -1306,6 +1306,65 @@ body.modal-open{
 
 /* Prevent background scroll when mobile menu is open */
 html.menu-open, body.menu-open{ overflow:hidden; }
+
+
+/* === PIXEL-MATCH HEADER ALIGNMENT (CONTACT ↔ GALLERY) === */
+.header-inner{
+  height:92px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:24px !important;
+}
+
+/* Ensure language toggle stays hard-left and nav/controls hard-right */
+.header-inner{ justify-content:flex-start !important; }
+.nav{ margin-left:auto !important; }
+
+/* Mobile: CTA + hamburger are a right-side pair with identical spacing/alignment */
+@media (max-width: 980px){
+  .header-inner{
+    justify-content:space-between !important;
+    gap:16px !important;
+  }
+
+  /* Make sure CTA and hamburger sit on the far right in the same row */
+  .mobile-cta, .cta-mobile{ 
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    white-space:nowrap !important;
+    line-height:1 !important;
+  }
+
+  .mobile-menu-btn{
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    line-height:1 !important;
+    width:44px !important;
+    height:44px !important;
+    padding:0 !important;
+    border-radius:12px !important;
+  }
+
+  /* Right-side ordering: CTA then hamburger */
+  .mobile-cta, .cta-mobile{ order:1 !important; }
+  .mobile-menu-btn{ order:2 !important; }
+
+  /* Force the right-side pair to align right even if wrapped in different containers */
+  header .mobile-cta, header .cta-mobile{ margin-left:auto !important; }
+  header .mobile-menu-btn{ margin-left:12px !important; }
+
+  /* Tap/click reliability */
+  .mobile-menu-btn{ position:relative !important; z-index:2005 !important; pointer-events:auto !important; }
+  .mobile-cta, .cta-mobile{ position:relative !important; z-index:2004 !important; pointer-events:auto !important; }
+}
+
+
+
+/* Header container padding match */
+.header .container{ padding-left: clamp(18px,5vw,42px) !important; padding-right: clamp(18px,5vw,42px) !important; }
+
 </style>
 </head>
 <body>

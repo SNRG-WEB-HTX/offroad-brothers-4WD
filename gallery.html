@@ -1281,6 +1281,14 @@ body.modal-open{
 /* Ensure CTA never wraps */
 .cta-desktop, .cta-mobile, .cta-desktop *, .cta-mobile *{ white-space:nowrap; }
 
+
+
+/* === MOBILE MENU RELIABILITY PATCH === */
+.mobile-menu-btn{ position:relative; z-index:1201; -webkit-tap-highlight-color:transparent; }
+.nav.active{ z-index:1200; }
+@media (max-width:980px){
+  .mobile-cta{ position:relative; z-index:1201; }
+}
 </style>
 </head>
 <body>
@@ -1293,14 +1301,14 @@ body.modal-open{
 </div>
 <!-- Navigation - HARD RIGHT -->
 <nav class="nav" id="mainNav">
-<a href="index.html">Home</a>
-<a href="index.html#services">Services</a>
-<a href="index.html#products">Products</a>
-<a aria-current="page" class="active" href="gallery.html">Gallery</a>
-<a href="index.html#reviews">Reviews</a>
-<a href="contact.html">Contact</a>
+
+
+
+
+
+
 <!-- Social Icons in Header -->
-<div class="nav-social-icons">
+<a href="index.html">Home</a><a href="index.html#services">Services</a><a href="index.html#products">Products</a><a href="index.html#reviews">Reviews</a><a href="contact.html">Contact</a><div class="nav-social-icons">
 <a aria-label="Instagram" class="nav-social-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
 <svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
@@ -1322,7 +1330,7 @@ body.modal-open{
 </div>
 <a class="cta-button cta-desktop" href="contact.html">GET A QUOTE</a>
 </nav>
-<button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('active')">☰</button>
+<button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" type="button">☰</button>
 <a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" href="contact.html">GET A QUOTE</a>
 </div>
 </header>
@@ -1845,7 +1853,6 @@ const OB_VIDEOS = [
   else init();
 })();
 </script>
-
 <script>
 (function(){
   const el = document.querySelector('.gallery-title[data-i18n-combo]');
@@ -1864,5 +1871,44 @@ const OB_VIDEOS = [
 })();
 </script>
 
+<script>
+/* MOBILE_MENU_TOGGLE_V2 */
+(function(){
+  const btn = document.querySelector('.mobile-menu-btn');
+  const nav = document.getElementById('mainNav');
+  if(!btn || !nav) return;
+
+  function setExpanded(state){
+    btn.setAttribute('aria-expanded', state ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    nav.classList.toggle('active');
+    setExpanded(nav.classList.contains('active'));
+  }, {passive:false});
+
+  // close when tapping outside
+  document.addEventListener('click', function(e){
+    if(!nav.classList.contains('active')) return;
+    const insideNav = e.target.closest('#mainNav');
+    const insideBtn = e.target.closest('.mobile-menu-btn');
+    if(insideNav || insideBtn) return;
+    nav.classList.remove('active');
+    setExpanded(false);
+  });
+
+  // close after tapping a link (mobile)
+  nav.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(!a) return;
+    if(window.matchMedia('(max-width: 980px)').matches){
+      nav.classList.remove('active');
+      setExpanded(false);
+    }
+  });
+})();
+</script>
 </body>
 </html>

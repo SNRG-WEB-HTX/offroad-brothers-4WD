@@ -1302,6 +1302,10 @@ body.modal-open{
   .mobile-menu-btn{ order: 2; }
 }
 
+
+
+/* Prevent background scroll when mobile menu is open */
+html.menu-open, body.menu-open{ overflow:hidden; }
 </style>
 </head>
 <body>
@@ -1343,7 +1347,7 @@ body.modal-open{
 </div>
 <a class="cta-button cta-desktop" href="contact.html">GET A QUOTE</a>
 </nav>
-<a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" href="contact.html">GET A QUOTE</a>
+<a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" href="contact.html" data-i18n="get_a_quote">GET A QUOTE</a>
 <button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" type="button">☰</button>
 
 </div>
@@ -1889,40 +1893,55 @@ const OB_VIDEOS = [
 /* MOBILE_MENU_TOGGLE_V2 */
 (function(){
   const btn = document.querySelector('.mobile-menu-btn');
-  const nav = document.getElementById('mainNav');
-  if(!btn || !nav) return;
+  if(!btn) return;
 
-  function setExpanded(state){
-    btn.setAttribute('aria-expanded', state ? 'true' : 'false');
-  }
+  // Target the intended nav via aria-controls to avoid accidentally grabbing other .nav elements
+  const navId = btn.getAttribute('aria-controls');
+  const nav = navId ? document.getElementById(navId) : document.querySelector('header .nav');
 
-  btn.addEventListener('click', function(e){
+  if(!nav) return;
+
+  const setOpen = (open) => {
+    nav.classList.toggle('active', open);
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    // Prevent background scroll when menu is open on mobile
+    if (window.matchMedia('(max-width: 980px)').matches){
+      document.documentElement.classList.toggle('menu-open', open);
+      document.body.classList.toggle('menu-open', open);
+    }
+  };
+
+  btn.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    nav.classList.toggle('active');
-    setExpanded(nav.classList.contains('active'));
-  }, {passive:false});
-
-  // close when tapping outside
-  document.addEventListener('click', function(e){
-    if(!nav.classList.contains('active')) return;
-    const insideNav = e.target.closest('#mainNav');
-    const insideBtn = e.target.closest('.mobile-menu-btn');
-    if(insideNav || insideBtn) return;
-    nav.classList.remove('active');
-    setExpanded(false);
+    setOpen(!nav.classList.contains('active'));
   });
 
-  // close after tapping a link (mobile)
-  nav.addEventListener('click', function(e){
+  // Close when clicking a link inside nav (mobile)
+  nav.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if(!a) return;
     if(window.matchMedia('(max-width: 980px)').matches){
-      nav.classList.remove('active');
-      setExpanded(false);
+      setOpen(false);
     }
   });
-})();
-</script>
+
+  // Close on outside click (mobile)
+  document.addEventListener('click', (e) => {
+    if(!window.matchMedia('(max-width: 980px)').matches) return;
+    if(e.target.closest('.mobile-menu-btn')) return;
+    if(e.target.closest('#' + nav.id)) return;
+    if(nav.classList.contains('active')) setOpen(false);
+  });
+
+  // Close on resize up
+  window.addEventListener('resize', () => {
+    if(!window.matchMedia('(max-width: 980px)').matches){
+      setOpen(false);
+      document.documentElement.classList.remove('menu-open');
+      document.body.classList.remove('menu-open');
+    }
+  });
+})();</script>
 </body>
 </html>

@@ -1416,6 +1416,45 @@ html.menu-open, body.menu-open{ overflow:hidden; }
   }
 }
 
+/* === MOBILE: TITLE SPACING + EN/ES + HAMBURGER SIZE MATCH CONTACT === */
+@media (max-width: 980px){
+
+  /* Add breathing room between header and first title ("Gallery Videos") */
+  .gallery-title,
+  .videos-title,
+  main h1,
+  .page-title{
+    margin-top: 26px !important;
+  }
+
+  /* Match Contact language toggle sizing */
+  .lang-wrap{
+    height: 44px !important;
+  }
+  .lang-btn{
+    height: 40px !important;
+    padding: 0 16px !important;
+    font-size: 13px !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+  }
+
+  /* Match Contact hamburger button sizing */
+  .mobile-menu-btn{
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    font-size: 22px !important;
+  }
+}
 </style>
 </head>
 <body>

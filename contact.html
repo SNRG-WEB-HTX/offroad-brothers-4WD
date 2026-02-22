@@ -227,6 +227,11 @@ a{color:inherit;text-decoration:none}
     margin-left:0;
     margin-top:12px;
   }
+  /* Contact page mobile menu: HOME only */
+  .nav.active a:not(.home-link){
+    display:none !important;
+  }
+  .nav.active .nav-social-icons{display:none !important;}
 }
 
 /* Hero with Logo */
@@ -3742,12 +3747,20 @@ body{
   filter: drop-shadow(0 10px 26px rgba(0,0,0,.12));
 }
 .ob-contact-page .contact-title{
-  margin:0; font-weight:900; letter-spacing:-0.02em; line-height:1.02;
+  margin:0;
+  padding-top: 10px;
+  font-weight:900;
+  letter-spacing:-0.02em;
+  line-height:1.02;
   color: var(--ob-ink);
   font-size: clamp(20px, 4.6vw, 60px);
-  white-space: nowrap;
-  text-wrap: nowrap;
+  white-space: normal;
+  text-wrap: balance;
   overflow-wrap: normal;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
 .ob-contact-page .contact-line-2{ color: var(--ob-orange); }
 .ob-contact-page .contact-subtitle{
@@ -3809,7 +3822,7 @@ body{
   color: rgba(15,17,21,.90);
   white-space: nowrap; overflow:hidden; text-overflow: ellipsis;
 }
-.ob-contact-page .contact-tile-arrow{ width:18px; height:18px; color: rgba(15,17,21,.38); flex:0 0 auto; }
+.ob-contact-page .contact-tile-arrow{ width:18px; height:18px; color: var(--ob-orange); margin-left:auto; align-self:center; flex:0 0 auto; filter:none; }
 
 .ob-contact-page .cta-button{
   display:inline-flex; align-items:center; justify-content:center;
@@ -4048,7 +4061,7 @@ footer.footer{
 .contact-title{ white-space:nowrap; }
 
 /* Mobile only: split title into 2 lines */
-.contact-title .ob-title-line{ display:inline; }
+.contact-title .ob-title-line{ display:block; white-space:nowrap; }
 @media (max-width: 640px){
   .contact-title{ white-space:normal !important; line-height:1.08 !important; }
   .contact-title .ob-title-line{ display:block !important; }
@@ -4152,7 +4165,7 @@ html body .contact-grid {
 <a href="#products">Products</a>
 <a href="gallery.html">Gallery</a>
 <a href="#reviews">Reviews</a>
-<a href="contact.html">Contact</a>
+
 <!-- Social Icons in Header -->
 <div class="nav-social-icons">
 <a aria-label="Instagram" class="nav-social-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
@@ -4169,7 +4182,7 @@ html body .contact-grid {
 <svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
 </a>
 <a aria-label="WhatsApp" class="nav-social-icon" href="https://wa.me/12814068738" rel="noopener" target="_blank">
-<svg fill="currentColor" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+<svg fill="currentColor" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.769.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.67-1.612-.916-2.207-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 6.238h-.001a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64.001 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.898 6.989c-.002 5.45-4.437 9.884-9.893 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.158 11.89c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.867 11.867 0 0 0 5.739 1.47h.005c6.554 0 11.89-5.335 11.893-11.89a11.822 11.822 0 0 0-3.478-8.413z"></path>
 </svg>
 </a>
@@ -4189,12 +4202,11 @@ html body .contact-grid {
 <h1 class="contact-title"><span class="ob-title-line ob-title-line-1">Let’s Talk</span><span class="ob-title-line ob-title-line-2">About Your Build</span></h1>
 <p class="contact-subtitle"><span lang="en">Multiple ways to connect — call, email, or get directions to the shop.</span><span lang="es">Varias formas de conectarnos: llama, envía un correo o recibe direcciones a la tienda.</span></p>
 </div>
-<div class="contact-grid"><a class="contact-tile fade-rise" href="tel:+12814068738"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Call</span><span lang="es">Llamar</span></span><span class="contact-tile-value">(281) 406‑8738</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"></path><path d="M9 3v15"></path><path d="M15 6v15"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Directions</span><span lang="es">Direcciones</span></span><span class="contact-tile-value">14300 Northwest Fwy, Suite A‑23</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="/cdn-cgi/l/email-protection#412e2727332e202523332e352924333275362501262c20282d6f222e2c"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m2 7 10 7 10-7"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Email</span><span lang="es">Correo</span></span><span class="contact-tile-value"><span class="__cf_email__" data-cfemail="aac5ccccd8c5cbcec8d8c5dec2cfd8d99eddceeacdc7cbc3c684c9c5c7">[email&#160;protected]</span></span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 7.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 7.25Z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Instagram</span><span lang="es">Instagram</span></span><span class="contact-tile-value">@offroadbrothers4wd</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Facebook</span><span lang="es">Facebook</span></span><span class="contact-tile-value">Offroad Brothers 4WD</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">TikTok</span><span lang="es">TikTok</span></span><span class="contact-tile-value">@offroadbrothers4wdstore</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise contact-tile--center whatsapp-tile" href="https://wa.me/12814068738"><div class="contact-tile-icon">
+<div class="contact-grid"><a class="contact-tile fade-rise" href="tel:+12814068738"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Call</span><span lang="es">Llamar</span></span><span class="contact-tile-value">(281) 406‑8738</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"></path><path d="M9 3v15"></path><path d="M15 6v15"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Directions</span><span lang="es">Direcciones</span></span><span class="contact-tile-value">14300 Northwest Fwy, Suite A‑23</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="/cdn-cgi/l/email-protection#412e2727332e202523332e352924333275362501262c20282d6f222e2c"><div class="contact-tile-icon"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m2 7 10 7 10-7"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Email</span><span lang="es">Correo</span></span><span class="contact-tile-value"><span class="__cf_email__" data-cfemail="aac5ccccd8c5cbcec8d8c5dec2cfd8d99eddceeacdc7cbc3c684c9c5c7">[email protected]</span></span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5Zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5ZM18 7.25a1.25 1.25 0 1 1-1.25-1.25A1.25 1.25 0 0 1 18 7.25Z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Instagram</span><span lang="es">Instagram</span></span><span class="contact-tile-value">@offroadbrothers4wd</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg fill="currentColor" viewbox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">Facebook</span><span lang="es">Facebook</span></span><span class="contact-tile-value">Offroad Brothers 4WD</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise" href="https://www.tiktok.com/@offroadbrothers4wdstore" rel="noopener noreferrer" target="_blank"><div class="contact-tile-icon"><svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z"></path></svg></div><div class="contact-tile-body"><span class="contact-tile-label"><span lang="en">TikTok</span><span lang="es">TikTok</span></span><span class="contact-tile-value">@offroadbrothers4wdstore</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a><a class="contact-tile fade-rise contact-tile--center whatsapp-tile" href="https://wa.me/12814068738"><div class="contact-tile-icon">
 <svg aria-hidden="true" fill="currentColor" viewbox="0 0 32 32">
 <path d="M19.11 17.62c-.27-.13-1.58-.78-1.82-.87-.24-.09-.42-.13-.6.13-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.13-1.14-.42-2.17-1.34-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.41.12-.54.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.33-.02-.47-.07-.13-.6-1.45-.82-1.99-.22-.53-.44-.46-.6-.47l-.51-.01c-.18 0-.47.07-.71.33-.24.27-.94.92-.94 2.25 0 1.33.97 2.62 1.1 2.8.13.18 1.91 2.92 4.63 4.1.65.28 1.15.45 1.55.58.65.21 1.24.18 1.71.11.52-.08 1.58-.64 1.8-1.27.22-.62.22-1.15.16-1.27-.07-.11-.24-.18-.51-.31zM16.02 26.67h-.01c-1.79 0-3.54-.48-5.07-1.38l-.36-.21-3.58.94.96-3.49-.23-.36a10.6 10.6 0 0 1-1.63-5.66c0-5.88 4.79-10.67 10.68-10.67 2.85 0 5.53 1.11 7.54 3.12a10.6 10.6 0 0 1 3.13 7.54c0 5.89-4.79 10.67-10.68 10.67zm9.06-19.76A12.74 12.74 0 0 0 16.02 3.2C8.98 3.2 3.25 8.92 3.25 15.96c0 2.24.58 4.43 1.69 6.37L3.15 28.8l6.62-1.73a12.7 12.7 0 0 0 6.25 1.62h.01c7.04 0 12.77-5.72 12.77-12.77 0-3.41-1.33-6.62-3.72-9.01z"></path>
 </svg>
 </div><div class="contact-tile-content"><span class="contact-tile-label"><span lang="en">WhatsApp</span><span lang="es">WhatsApp</span></span><span class="contact-tile-value">Chat on WhatsApp</span></div><svg class="contact-tile-arrow" fill="none" viewbox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"></path></svg></a></div>
-
 </div>
 </div>
 </section></main><footer class="footer">
@@ -4220,7 +4232,7 @@ html body .contact-grid {
 <svg aria-hidden="true" fill="none" height="20" style="display:block" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 3a5.7 5.7 0 0 0 3.2 1.5v3.4a9.1 9.1 0 0 1-3.2-.8v7.1a6.8 6.8 0 1 1-6.8-6.8c.4 0 .8 0 1.2.1v3.6a3.5 3.5 0 1 0 2.3 3.3V3h3.3Z" fill="currentColor"></path></svg>
 </a>
 <a aria-label="WhatsApp" class="social" href="https://wa.me/12814068738" rel="noopener" target="_blank">
-<svg fill="currentColor" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<svg fill="currentColor" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.67.15-.198.297-.769.966-.94 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.67-1.612-.916-2.207-.242-.579-.487-.5-.67-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 6.238h-.001a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64.001 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.898 6.989c-.002 5.45-4.437 9.884-9.893 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.158 11.89c0 2.096.547 4.142 1.588 5.945L0 24l6.305-1.654a11.867 11.867 0 0 0 5.739 1.47h.005c6.554 0 11.89-5.335 11.893-11.89a11.822 11.822 0 0 0-3.478-8.413z"></path>
 </svg>
 </a>
@@ -4231,17 +4243,296 @@ html body .contact-grid {
 </div>
 </div>
 </footer>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script></script><script>
+/* =========================================================
+   I18N (EN/ES) — FULL-PAGE TRANSLATION (PERFECTED)
+   Root-cause fixes:
+   - Robust matching (case/whitespace/nbsp/hyphen normalization)
+   - Translates text nodes + key attrs (aria-label, title, placeholder, value)
+   - Relative time conversion (e.g., "4 days ago" -> "hace 4 días")
+   ========================================================= */
 (function(){
-  const page=document.querySelector('.ob-contact-page');
-  const buttons=document.querySelectorAll('.lang-btn');
-  const nav=document.getElementById('mainNav');
-  const menuBtn=document.querySelector('.mobile-menu-btn');
-  function setLang(lang){
-    if(!page) return;
-    page.classList.toggle('lang-es', lang==='es');
-    buttons.forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
-    try{ localStorage.setItem('ob_lang', lang); }catch(e){}
+  const wrap = document.querySelector('.lang-wrap');
+  if(!wrap) return;
+
+  const btns = Array.from(wrap.querySelectorAll('.lang-btn'));
+  const htmlEl = document.documentElement;
+
+  const norm = (s) => (s || '')
+    .replace(/\u00A0/g,' ')
+    .replace(/[‐‑‒–—]/g,'-')
+    .replace(/\s+/g,' ')
+    .trim();
+
+  const keyOf = (s) => norm(s).toLowerCase();
+
+  const DICT = {
+  "call now": "Llamar ahora",
+  "get a quote": "Obtener cotización",
+  "explore services": "Ver servicios",
+  "contact": "Contacto",
+  "directions": "Cómo llegar",
+  "gallery": "Galería",
+  "products": "Productos",
+  "services": "Servicios",
+  "reviews": "Reseñas",
+  "hours": "Horario",
+  "address": "Dirección",
+  "phone": "Teléfono",
+  "visit the shop": "Visita la tienda",
+  "talk to an expert": "Habla con un experto",
+  "start a build": "Iniciar un proyecto",
+  "shop tire & wheel": "Comprar llantas y rines",
+  "get a lift quote": "Cotizar elevación",
+  "read more on google": "Leer más en Google",
+  "tap to flip back": "Toca para volver",
+  "carry": "Manejamos",
+  "our": "Nuestro",
+  "us": "Nosotros",
+  "owner": "Propietario",
+  "need a specific brand?": "¿Buscas una marca específica?",
+  "call us — we can source and install what fits your build.": "Llámanos: podemos conseguir e instalar lo que mejor se adapte a tu proyecto.",
+  "come see us in houston": "Ven a visitarnos en Houston",
+  "certified • trusted • installed right": "Certificados • Confiables • Instalación profesional",
+  "premium performance brands — wheels, suspension, armor & accessories.": "Marcas premium de alto rendimiento — Rines, suspensión, protección y accesorios.",
+  "suvs • trucks • jeeps": "SUVs • Camionetas • Jeeps",
+  "sun: closed": "Dom: Cerrado",
+  "mon–fri: 9 am – 6 pm": "Lun–Vie: 9 AM – 6 PM",
+  "sat: 9 am – 5 pm": "Sáb: 9 AM – 5 PM",
+  "hours loading…": "Cargando horario…",
+  "wheels": "Rines",
+  "suspension & accessories": "Suspensión y accesorios",
+  "custom builds": "Proyectos a medida",
+  "lift kits": "Kits de elevación",
+  "lighting systems": "Sistemas de iluminación",
+  "suspension upgrades": "Mejoras de suspensión",
+  "tire & wheel packages": "Paquetes de llantas y rines",
+  "precision build": "Instalación de precisión",
+  "ride quality first": "Primero la calidad de manejo",
+  "ride height + clearance": "Altura y despeje",
+  "rub‑free fitment": "Ajuste sin roce",
+  "visibility + style": "Visibilidad y estilo",
+  "2–6\"+ lift options": "Opciones de elevación de 2 a 6\"+",
+  "fitment + tire‑size plan": "Plan de ajuste y tamaño de llanta",
+  "parts list + install quote": "Lista de piezas y cotización de instalación",
+  "phased or turnkey plan": "Plan por etapas o llave en mano",
+  "daily‑driver ready": "Listo para uso diario",
+  "trail / overland ready": "Listo para ruta / overland",
+  "alignment‑ready setup": "Configuración lista para alineación",
+  "correct geometry (ucas / links)": "Geometría correcta (brazos superiores / bieletas)",
+  "ride + handling tuned": "Manejo y estabilidad ajustados",
+  "shocks/struts + springs": "Amortiguadores/struts y resortes",
+  "aim + waterproof seal": "Ajuste y sellado impermeable",
+  "bars, pods + rock lights": "Barras, pods y luces rock",
+  "relays/switches wired clean": "Relés/interruptores cableados limpio",
+  "clean wiring + mounting": "Cableado y montaje limpios",
+  "mount/balance + tpms": "Montaje/balanceo + TPMS",
+  "rub‑free fitment check": "Revisión de ajuste sin roce",
+  "alignment + road test": "Alineación y prueba de carretera",
+  "torque + re‑torque": "Torque y re‑torque",
+  "add lighting": "Agregar iluminación",
+  "upgrade suspension": "Mejorar suspensión",
+  "brands we": "Marcas que",
+  "brands we carry": "Marcas que manejamos",
+  "products section": "Sección de productos",
+  "services section": "Sección de servicios",
+  "reviews section": "Sección de reseñas",
+  "contact section": "Sección de contacto",
+  "built by": "Desarrollado por",
+  "great place! julio listened, understood what i needed, and helped me save money. knowledgeable and honest.": "¡Excelente lugar! Julio escuchó, entendió lo que necesitaba y me ayudó a ahorrar dinero. Muy conocedor y honesto.",
+  "great work at a competitive price. lifted my 4runner the right way—definitely back.": "Gran trabajo a un precio competitivo. Levantaron mi 4Runner de la manera correcta—sin duda regreso.",
+  "great service, communication and pricing. lifted my jlu rubicon and they did an awesome job.": "Excelente servicio, comunicación y precios. Levantaron mi JLU Rubicon e hicieron un trabajo increíble.",
+  "highly recommend. professional, customer-focused, responsive, fair pricing, delivers on promises.": "Muy recomendables. Profesionales, enfocados en el cliente, rápidos, precios justos y cumplen lo que prometen.",
+  "had offroad brothers install a rally bar and lights on my 2025 subaru forester wilderness. they did a great job.": "Offroad Brothers instaló una barra rally y luces en mi Subaru Forester Wilderness 2025. Hicieron un gran trabajo.",
+  "this place was great. first tacoma trd off-road and didn’t know much—julio helped guide me and made upgrading easy.": "Este lugar fue excelente. Era mi primera Tacoma TRD Off‑Road y no sabía mucho—Julio me guió y facilitó la mejora.",
+  "exceptional service and honest pricing. needed upper control arms and alignment—excellent communication and quality work.": "Servicio excepcional y precios honestos. Necesitaba brazos superiores y alineación—excelente comunicación y trabajo de calidad.",
+  "julio and claudio were great to work with. quick answers, peace of mind, and a great price on my tundra trd pro work.": "Julio y Claudio fueron excelentes. Respuestas rápidas, tranquilidad y un gran precio para el trabajo de mi Tundra TRD PRO.",
+  "julio is simply the best. his work is fantastic, incredibly knowledgeable, and did an amazing job on my 5th gen 4runner. could not be happier.": "Julio es simplemente el mejor. Su trabajo es fantástico, sabe muchísimo e hizo un trabajo increíble en mi 4Runner 5ª gen. No podría estar más feliz.",
+  "julio is the best! he squeezed me in during a busy week to get me rolling for the weekend. i had the parts and needed a reputable shop—glad i chose offroad brothers.": "¡Julio es el mejor! Me hizo un espacio en una semana ocupada para que estuviera listo para el fin de semana. Ya tenía las piezas y necesitaba un taller confiable—me alegra haber elegido Offroad Brothers.",
+  "julio knew exactly what size tire would fit my trx. options, recommendations, and he listened to my preferences.": "Julio sabía exactamente qué tamaño de llanta le quedaba a mi TRX. Me dio opciones, recomendaciones y escuchó mis preferencias.",
+  "got my ironman stage 2 lift done. julio replied instantly with a quote and got me in the same day. awesome experience.": "Me instalaron el lift Ironman Stage 2. Julio respondió al instante con una cotización y me atendieron el mismo día. Excelente experiencia.",
+  "great job. same day service on the install. great work! going back for more custom work.": "Gran trabajo. Instalación el mismo día. ¡Excelente! Regresaré para más trabajo a medida.",
+  "can’t say enough good things about julio and the team. if you want it done right, this is the place.": "No tengo suficientes buenas palabras para Julio y el equipo. Si quieres que quede bien hecho, este es el lugar.",
+  "great service, price and turn around time.": "Gran servicio, precio y tiempo de entrega.",
+  "buddy thank you so much, offroadbrothers 4wd store is your home...": "Amigo, muchas gracias. Offroad Brothers 4WD Store es tu casa...",
+  "omg ben thank you so much, we always be here for you...": "¡Wow Ben, muchas gracias! Siempre estaremos aquí para ti...",
+  "hi mister douglass... offroadbrothers 4wd its your home......": "Hola Sr. Douglass… Offroad Brothers 4WD es su casa……",
+  "thank so much austin": "Muchas gracias, Austin.",
+  "thank so much mr james, was a pleasure meet you and work in your cool subaru...": "Muchas gracias Sr. James, fue un placer conocerlo y trabajar en su increíble Subaru...",
+  "thank so much diego": "Muchas gracias, Diego.",
+  "thank so much gonzalo, was a pleasure work in your truck...": "Muchas gracias, Gonzalo. Fue un placer trabajar en su camioneta...",
+  "thank so much sr and welcome to offroadbrothers family": "Muchas gracias, señor, y bienvenido a la familia Offroad Brothers.",
+  "thank you so much blair enjoy your beautiful 4runner": "Muchas gracias, Blair. Disfruta tu hermoso 4Runner.",
+  "thank you so much david and welcome to our family": "Muchas gracias, David, y bienvenido a nuestra familia.",
+  "thank you so much troy and welcome to offroadbrothers family": "Muchas gracias, Troy, y bienvenido a la familia Offroad Brothers.",
+  "thank you so much boss, offroadbrothers is your family now": "Muchas gracias, jefe. Offroad Brothers es tu familia ahora.",
+  "thank you so much buddy": "Muchas gracias, amigo.",
+  "thank you so much carlo, welcome to our family": "Muchas gracias, Carlo. Bienvenido a nuestra familia.",
+  "thank you so much guys, will be here for you any time": "Muchas gracias, chicos. Aquí estaremos para ustedes cuando lo necesiten.",
+  "thank you so much rachel, offroadbrothers is your home.": "Muchas gracias, Rachel. Offroad Brothers es tu casa.",
+  "thank you so much, was a pleasure work on your fantastic trx...": "Muchas gracias, fue un placer trabajar en tu increíble TRX...",
+  "thank you so much, you guys trust your silverado in our hands. always welcome...": "Muchas gracias por confiar su Silverado en nuestras manos. Siempre bienvenidos...",
+  "thank so much mister david, for trust your beautifull trx in our hands.": "Muchas gracias Sr. David por confiar su hermosa TRX en nuestras manos.",
+  "thank so much sr, here is your home always ready for you": "Muchas gracias, señor. Esta es su casa; siempre listos para atenderle.",
+  "thank you mauricio, you are part of our family and thank for trust your new tundra trd pro": "Gracias, Mauricio. Ya eres parte de nuestra familia y gracias por confiar su nueva Tundra TRD PRO.",
+  "thank you so much adam, we are glad to help you": "Muchas gracias, Adam. Nos alegra poder ayudarte.",
+  "thank you so much justin, here is your 4runner home.": "Muchas gracias, Justin. Aquí tu 4Runner tiene casa.",
+  "thnak you so much michael, welcome to the offroadbrothers family": "Muchas gracias, Michael. Bienvenido a la familia Offroad Brothers.",
+  "call (281) 406‑8738": "Llama al (281) 406‑8738",
+  "expert consultation": "Consulta experta",
+  "extremely satisfied with the customer service and the work performed on my tundra. we had a plan within an hour—parts ordered and truck scheduled. clean, professional work.": "Extremadamente satisfecho con el servicio al cliente y el trabajo realizado en mi Tundra. En una hora ya teníamos un plan—piezas pedidas y la camioneta agendada. Trabajo limpio y profesional.",
+  "julio and his offroad brothers team are top-notch. brought in a tundra trd pro for a 3in lift and a tire upgrade, they did an amazing job at a great price. would definitely recommend their services to anyone!": "Julio y su equipo de Offroad Brothers son de primera. Llevé una Tundra TRD PRO para un lift de 3\" y mejora de llantas; hicieron un trabajo increíble a un gran precio. ¡Sin duda recomendaría sus servicios a cualquiera!",
+  "julio helped me pick what i needed for my sequoia based on terrain and what i wanted. great guidance and service.": "Julio me ayudó a elegir lo que necesitaba para mi Sequoia según el terreno y lo que yo buscaba. Excelente orientación y servicio.",
+  "kickass job on my truck. love the result—3.5\" ironman lift with icon ucas, wheels and mickey thompson tires. looks incredible.": "Trabajo brutal en mi camioneta. Me encantó el resultado—lift Ironman de 3.5\" con UCAs Icon, rines y llantas Mickey Thompson. Se ve increíble.",
+  "leveling, larger tires and alignment on our silverado—terrific pre-consult, great work, and follow up call. we’ll be back.": "Nivelación, llantas más grandes y alineación en nuestra Silverado—excelente preconsulta, gran trabajo y llamada de seguimiento. Volveremos.",
+  "brand new tundra 1794—other shops weren’t helpful. julio was passionate and knowledgeable. great experience and results.": "Tundra 1794 nueva—otros talleres no ayudaron. Julio fue apasionado y experto. Gran experiencia y resultados.",
+  "an excellent experience! julio helped me a lot with the type of tire for my truck, the proper lift, and much more. highly recommended. personalized time so your truck looks and drives great.": "¡Una experiencia excelente! Julio me ayudó muchísimo con el tipo de llanta para mi camioneta, el lift adecuado y mucho más. Muy recomendado. Atención personalizada para que tu camioneta se vea y maneje increíble.",
+  "quite happy with julio at offroad brothers. clear communication and his knowledge about final outcome was paramount in my decision on what to install. would highly recommend. great service, price and turn around time.": "Muy contento con Julio en Offroad Brothers. Comunicación clara y su conocimiento del resultado final fue clave para decidir qué instalar. Lo recomiendo totalmente. Gran servicio, precio y tiempo de entrega."
+};
+
+  
+const isInSkipZone = (node) => {
+  if(!node) return false;
+  const el = node.nodeType === 1 ? node : node.parentElement;
+  if(!el) return false;
+  // Skip brand/logo rails + SVG icons + script/style
+  if(el.closest('.brand-rail, .brand-strip, .brand-chip, .logo, svg, .social-row')) return true;
+  return false;
+};
+
+const relTimeToEs = (s) => {
+  const t = keyOf(s);
+  if(t === 'a year ago') return 'hace 1 año';
+  let m = t.match(/^(\d+)\s+day[s]?\s+ago$/);
+  if(m) return `hace ${m[1]} día${m[1]==='1'?'':'s'}`;
+  m = t.match(/^(\d+)\s+month[s]?\s+ago$/);
+  if(m) return `hace ${m[1]} mes${m[1]==='1'?'':'es'}`;
+  m = t.match(/^(\d+)\s+year[s]?\s+ago$/);
+  if(m) return `hace ${m[1]} año${m[1]==='1'?'':'s'}`;
+  return null;
+};
+
+const translateString = (s, lang) => {
+  if(lang !== 'es') return s;
+  const rt = relTimeToEs(s);
+  if(rt) return rt;
+
+  const k = keyOf(s);
+  if(DICT[k]) return DICT[k];
+
+  // Try softer fallback: remove trailing punctuation for matching
+  const k2 = k.replace(/[.!…]+$/,'');
+  if(DICT[k2]) return DICT[k2];
+
+  return s;
+};
+
+// ---------------------------
+// ROOT CAUSE FIX (NO MIXING):
+// Snapshot EN + ES for every text node/attr once,
+// then apply deterministically on toggle.
+// ---------------------------
+const TEXT_NODES = [];
+const ATTRS = ['aria-label','title','placeholder','value'];
+const ATTR_STORE = new Map(); // el -> {attr:{en,es}}
+
+const shouldAcceptTextNode = (node) => {
+  if(!node.nodeValue || !node.nodeValue.trim()) return false;
+  if(isInSkipZone(node)) return false;
+  const p = node.parentElement;
+  if(p && (p.tagName === 'SCRIPT' || p.tagName === 'STYLE')) return false;
+  return true;
+};
+
+const buildSnapshots = () => {
+  // Text nodes
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node){
+      return shouldAcceptTextNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+
+  let n;
+  while((n = walker.nextNode())){
+    const en = n.nodeValue;
+
+    // Preserve leading/trailing whitespace
+    const lead = en.match(/^\s*/)[0];
+    const trail = en.match(/\s*$/)[0];
+    const compact = norm(en);
+
+    // If nothing meaningful, skip
+    if(!compact) continue;
+
+    const esCompact = translateString(compact, 'es');
+    const es = lead + esCompact + trail;
+
+    TEXT_NODES.push({ node: n, en, es });
   }
-  buttons.forEach(btn=>btn.addEventListener('click',()=>setLang(btn.dataset.lang)));
-  try{ const saved=localStorage.getItem('ob_lang'); if(saved) setLang
+
+  // Attributes
+  document.body.querySelectorAll('*').forEach(el => {
+    if(isInSkipZone(el)) return;
+
+    let pack = null;
+    ATTRS.forEach(a => {
+      if(!el.hasAttribute(a)) return;
+      const v = el.getAttribute(a);
+      if(v == null) return;
+      const en = v;
+      const es = translateString(v, 'es');
+      if(!pack) pack = {};
+      pack[a] = { en, es };
+    });
+
+    if(pack) ATTR_STORE.set(el, pack);
+  });
+
+  // Explicit CTA labels: ensure both languages are locked-in
+  const btnCall = document.getElementById('btnCall');
+  if(btnCall){
+    btnCall.dataset.en = btnCall.dataset.en || 'Call Now';
+    btnCall.dataset.es = btnCall.dataset.es || 'Llamar ahora';
+  }
+  document.querySelectorAll('a.cta-button, .mobile-cta').forEach(el=>{
+    el.dataset.en = el.dataset.en || 'Get a Quote';
+    el.dataset.es = el.dataset.es || 'Obtener cotización';
+  });
+};
+
+const setActive = (lang) => {
+  btns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+};
+
+const applyLang = (lang) => {
+  htmlEl.setAttribute('lang', lang);
+  setActive(lang);
+
+  // Deterministic text swap (prevents EN/ES blending)
+  TEXT_NODES.forEach(tn => {
+    tn.node.nodeValue = (lang === 'es') ? tn.es : tn.en;
+  });
+
+  // Deterministic attribute swap
+  ATTR_STORE.forEach((pack, el) => {
+    Object.keys(pack).forEach(a => {
+      el.setAttribute(a, (lang === 'es') ? pack[a].es : pack[a].en);
+    });
+  });
+
+  // Deterministic CTAs (do this last so nothing overwrites it)
+  const btnCall = document.getElementById('btnCall');
+  if(btnCall) btnCall.textContent = (lang === 'es') ? btnCall.dataset.es : btnCall.dataset.en;
+
+  document.querySelectorAll('a.cta-button, .mobile-cta').forEach(el=>{
+    el.textContent = (lang === 'es') ? el.dataset.es : el.dataset.en;
+  });
+};
+
+// Bind buttons
+btns.forEach(b => b.addEventListener('click', ()=> applyLang(b.dataset.lang || 'en')));
+
+// Init (build snapshots ONCE)
+buildSnapshots();
+applyLang(htmlEl.getAttribute('lang') || 'en');
+})();</script></body></html>

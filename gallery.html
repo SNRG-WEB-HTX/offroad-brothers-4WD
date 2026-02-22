@@ -1289,6 +1289,19 @@ body.modal-open{
 @media (max-width:980px){
   .mobile-cta{ position:relative; z-index:1201; }
 }
+
+/* Mobile header controls: CTA then hamburger (hamburger on the right) */
+@media (max-width: 980px){
+  .header-actions, .nav-actions, .top-actions, header .actions, header .right{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+  }
+  .mobile-cta{ order: 1; }
+  .mobile-menu-btn{ order: 2; }
+}
+
 </style>
 </head>
 <body>
@@ -1330,8 +1343,9 @@ body.modal-open{
 </div>
 <a class="cta-button cta-desktop" href="contact.html">GET A QUOTE</a>
 </nav>
-<button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" type="button">☰</button>
 <a aria-label="Get a Quote" class="mobile-cta cta-button cta-mobile" href="contact.html">GET A QUOTE</a>
+<button aria-controls="mainNav" aria-expanded="false" class="mobile-menu-btn" type="button">☰</button>
+
 </div>
 </header>
 <main class="page" id="top">

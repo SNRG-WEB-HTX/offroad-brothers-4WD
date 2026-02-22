@@ -4568,4 +4568,138 @@ html body .contact-grid {
   });
 })();
 </script>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   TERMINAL: MOBILE HAMBURGER MENU — SHOW ALL ITEMS PERFECTLY
+   Root cause killed: #mainNav > a:not(.home-link){ display:none }
+   was hiding every link on mobile even when menu was open.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1. On mobile: hide nav by default (container hidden, not links) */
+@media (max-width: 980px) {
+  /* Override the "show HOME only" rule — all links visible when menu opens */
+  #mainNav > a:not(.home-link) {
+    display: flex !important;
+  }
+
+  /* Active (open) dropdown */
+  #mainNav.active {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    background: #ffffff !important;
+    z-index: 1199 !important;
+    padding: 100px 28px 40px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+
+  /* Every nav <a> link: full-width row with border separator */
+  #mainNav.active > a {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 18px 0 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #0A0A0A !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-bottom: 1px solid #E9ECF2 !important;
+    transition: color .18s ease !important;
+    white-space: nowrap !important;
+  }
+
+  /* Active page link */
+  #mainNav.active > a.active,
+  #mainNav.active > a[aria-current="page"] {
+    color: var(--orange, #FF3B2F) !important;
+  }
+
+  /* Hover / tap */
+  #mainNav.active > a:hover,
+  #mainNav.active > a:active {
+    color: var(--orange, #FF3B2F) !important;
+  }
+
+  /* Social icons row: show at bottom of menu */
+  #mainNav.active .nav-social-icons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    margin-top: 28px !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Social icon chips */
+  #mainNav.active .nav-social-icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* CTA button inside open menu */
+  #mainNav.active .cta-button {
+    display: inline-flex !important;
+    width: auto !important;
+    align-self: flex-start !important;
+    margin-top: 28px !important;
+    padding: 14px 28px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+  }
+
+  /* Hamburger sits above the overlay */
+  .mobile-menu-btn {
+    position: fixed !important;
+    top: 22px !important;
+    right: 18px !important;
+    z-index: 1201 !important;
+  }
+
+  /* When menu open: change ☰ to ✕ */
+  .mobile-menu-btn[aria-expanded="true"] {
+    background: #F5F6F8 !important;
+    border-color: #E9ECF2 !important;
+  }
+
+  /* Mobile CTA pill: keep in header */
+  .mobile-cta {
+    position: fixed !important;
+    top: 18px !important;
+    right: 70px !important;
+    z-index: 1201 !important;
+  }
+}
+</style>
+<script>
+/* ─── HAMBURGER ICON: ☰ → ✕ toggle ─── */
+(function(){
+  var btn = document.querySelector('.mobile-menu-btn');
+  if(!btn) return;
+  var observer = new MutationObserver(function(){
+    btn.textContent = btn.getAttribute('aria-expanded') === 'true' ? '✕' : '☰';
+  });
+  observer.observe(btn, {attributes: true, attributeFilter: ['aria-expanded']});
+})();
+</script>
 </body></html>

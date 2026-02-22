@@ -1279,6 +1279,7 @@ a{color:inherit;text-decoration:none}
   gap:clamp(14px,3vw,28px);
 }
 .footer-nav a{
+  color: rgba(255,255,255,.92);
   font-weight:800;
   font-size:14px;
   text-transform:uppercase;
@@ -1286,6 +1287,7 @@ a{color:inherit;text-decoration:none}
   transition:color .25s ease;
 }
 .footer-nav a:hover{color:var(--orange)}
+.footer-nav a:visited{color: rgba(255,255,255,.92);}
 .footer-nav .nav-social{
   color:var(--orange);
 }
@@ -2831,14 +2833,14 @@ a{color:inherit;text-decoration:none}
 .g-dot{
   width: 8px; height: 8px;
   border-radius: 999px;
-  border: 1px solid rgba(2,6,23,.18);
-  background: rgba(2,6,23,.10);
+  border: 1px solid rgba(255,59,47,.35);
+  background: rgba(255,59,47,.22);
   cursor:pointer;
 }
 .g-dot.active{
   width: 22px;
-  background: rgba(255,59,47,.18);
-  border-color: rgba(255,59,47,.28);
+  background: rgba(255,59,47,.55);
+  border-color: rgba(255,59,47,.75);
 }
 
 .g-more{ margin-top: 18px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
@@ -3759,6 +3761,31 @@ body{
   background: var(--soft-2) !important;
   color: var(--orange) !important;
 }
+
+
+/* --- Header social icons: match contact-page logic, prevent washout/overlays --- */
+.nav a.nav-social-icon{
+  padding:0 !important;
+  font-weight:inherit !important;
+  text-transform:none !important;
+  letter-spacing:0 !important;
+  position:relative !important;
+}
+.nav a.nav-social-icon::after{ content:none !important; display:none !important; }
+.nav a.nav-social-icon:hover,
+.nav a.nav-social-icon:focus,
+.nav a.nav-social-icon:focus-visible,
+.nav a.nav-social-icon:active{
+  color: var(--white) !important;
+}
+.nav a.nav-social-icon svg,
+.nav a.nav-social-icon svg *{
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -3775,7 +3802,7 @@ body{
 <a href="#products">Products</a>
 <a href="gallery.html">Gallery</a>
 <a href="#reviews">Reviews</a>
-<a href="offroad_contact_PERFECT_FINAL_perfected.html">Contact</a>
+<a href="offroad_contact_PERFECT_FINAL_perfected_v7.html">Contact</a>
 <!-- Social Icons in Header -->
 <div class="nav-social-icons">
 <a aria-label="Instagram" class="nav-social-icon" href="https://www.instagram.com/offroadbrothers4wd/?hl=en" rel="noopener" target="_blank">
@@ -4489,7 +4516,7 @@ body{
 <!-- Contact Section -->
 <section class="section" id="contact">
 <div class="container">
-<h2 class="section-title">Location <span class="highlight">Information</span></h2>
+<h2 class="section-title">Location <span class="highlight">Info</span></h2>
 <div class="contact-cards contact-cards-single">
 <div class="elite-card visit-card-apple">
 <div class="visit-apple-header">
@@ -4546,7 +4573,7 @@ body{
 <a href="#services">Services</a>
 <a href="#products">Products</a>
 <a href="gallery.html">Gallery</a>
-<a href="offroad_contact_PERFECT_FINAL_perfected.html">Contact</a>
+<a href="offroad_contact_PERFECT_FINAL_perfected_v7.html">Contact</a>
 </nav>
 <div class="footer-social">
 <a aria-label="Facebook" class="social" href="https://www.facebook.com/offroadbrothers4wd/" rel="noopener" target="_blank">

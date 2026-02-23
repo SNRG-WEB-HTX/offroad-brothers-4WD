@@ -16,8 +16,8 @@
   <link rel="alternate" hreflang="es" href="https://offroadbrothers4wd.com">
   <link rel="alternate" hreflang="x-default" href="https://offroadbrothers4wd.com">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Offroad Brothers 4WD Store | Houston's Family-Owned Off-Road Shop">
-  <meta property="og:description" content="Offroad Brothers 4WD Store — Houston's family-owned 4x4 shop. Expert lift kits, suspension upgrades, tire & wheel packages, and custom off-road builds. Serving Houston, Katy, Sugar Land, Cypress & surrounding areas. Call (281) 406-8738.">
+  <meta property="og:title" content="Offroad Brothers 4WD Store | Houston's #1 Off-Road Shop">
+  <meta property="og:description" content="Offroad Brothers 4WD Store — Expert lift kits, suspension upgrades, tire & wheel packages, and custom off-road builds. Serving Houston, Katy, Sugar Land, Cypress & surrounding areas. Call (281) 406-8738.">
   <meta property="og:url" content="https://offroadbrothers4wd.com">
   <meta property="og:image" content="https://offroadbrothers4wd.com/offroadbrotherlogo.png">
   <meta property="og:image:width" content="800">
@@ -27,8 +27,8 @@
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="es_MX">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Offroad Brothers 4WD Store | Houston's Family-Owned Off-Road Shop">
-  <meta name="twitter:description" content="Offroad Brothers 4WD Store — Houston's family-owned 4x4 shop. Expert lift kits, suspension upgrades, tire & wheel packages, and custom off-road builds. Serving Houston, Katy, Sugar Land, Cypress & surrounding areas. Call (281) 406-8738.">
+  <meta name="twitter:title" content="Offroad Brothers 4WD Store | Houston's #1 Off-Road Shop">
+  <meta name="twitter:description" content="Offroad Brothers 4WD Store — Expert lift kits, suspension upgrades, tire & wheel packages, and custom off-road builds. Serving Houston, Katy, Sugar Land, Cypress & surrounding areas. Call (281) 406-8738.">
   <meta name="twitter:image" content="https://offroadbrothers4wd.com/offroadbrotherlogo.png">
 <script type="application/ld+json">
 {
@@ -2351,7 +2351,7 @@ a{color:inherit;text-decoration:none}
   display:flex;
   align-items:center;
   justify-content:center;
-  padding: 12px;
+  padding: 10px;
   box-shadow: 0 10px 26px rgba(10,10,10,.06);
 }
 
@@ -5435,6 +5435,70 @@ applyLang(htmlEl.getAttribute('lang') || 'en');
     document.addEventListener('DOMContentLoaded', triggerLogoAnim);
   } else {
     triggerLogoAnim();
+  }
+})();
+</script>
+<script>
+/* =========================================================
+   OB: BRANDS TABS (Wheels / Suspension & Accessories)
+   Root cause: missing tab toggle script.
+   ========================================================= */
+(function(){
+  function initBrandsTabs(){
+    var tablist = document.querySelector('.ob-brands-tabs[role="tablist"]');
+    if(!tablist) return;
+
+    var tabs = Array.prototype.slice.call(tablist.querySelectorAll('.ob-tab[role="tab"]'));
+    var panels = Array.prototype.slice.call(document.querySelectorAll('.ob-panel[role="tabpanel"]'));
+
+    if(!tabs.length || !panels.length) return;
+
+    function setActive(panelKey){
+      tabs.forEach(function(t){
+        var isActive = (t.getAttribute('data-panel') === panelKey);
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        t.tabIndex = isActive ? 0 : -1;
+      });
+
+      panels.forEach(function(p){
+        var isActive = (p.getAttribute('data-panel') === panelKey);
+        p.classList.toggle('active', isActive);
+        p.style.display = isActive ? 'block' : 'none';
+      });
+    }
+
+    // Ensure initial state is consistent
+    var initial = (tabs.find(function(t){ return t.classList.contains('active'); }) || tabs[0]).getAttribute('data-panel');
+    setActive(initial);
+
+    tabs.forEach(function(tab, idx){
+      tab.addEventListener('click', function(){
+        setActive(tab.getAttribute('data-panel'));
+      });
+
+      tab.addEventListener('keydown', function(e){
+        var key = e.key;
+        if(key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Home' && key !== 'End') return;
+
+        e.preventDefault();
+        var nextIdx = idx;
+
+        if(key === 'ArrowLeft')  nextIdx = (idx - 1 + tabs.length) % tabs.length;
+        if(key === 'ArrowRight') nextIdx = (idx + 1) % tabs.length;
+        if(key === 'Home')       nextIdx = 0;
+        if(key === 'End')        nextIdx = tabs.length - 1;
+
+        tabs[nextIdx].focus();
+        setActive(tabs[nextIdx].getAttribute('data-panel'));
+      });
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initBrandsTabs);
+  } else {
+    initBrandsTabs();
   }
 })();
 </script>

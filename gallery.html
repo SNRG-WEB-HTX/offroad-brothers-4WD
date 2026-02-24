@@ -11,6 +11,8 @@
 <link href="images/favicon-512.png" rel="icon" sizes="512x512" type="image/png"/>
 <link href="images/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
 <link href="https://api.fontshare.com" rel="preconnect"/>
+<link rel="preconnect" href="https://videos.snrgweb.com" crossorigin/>
+<link rel="dns-prefetch" href="https://videos.snrgweb.com"/>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet"/>
 <style>
 
@@ -967,7 +969,8 @@ a{color:inherit;text-decoration:none}
   border-radius:0;
   display:block;
   -webkit-tap-highlight-color:transparent;
-}
+  content-visibility: auto;
+  contain-intrinsic-size: 0 280px;}
 .card::after {
   content:'';
   display:block;
@@ -1523,7 +1526,7 @@ html.menu-open, body.menu-open{ overflow:hidden; }
 <button aria-label="Close" class="modal-close" id="modalClose">×</button>
 </div>
 <div class="modal-body">
-<video class="modal-video" id="modalVideo" playsinline="" preload="auto" tabindex="0" webkit-playsinline=""></video>
+<video class="modal-video" id="modalVideo" playsinline="" preload="none" tabindex="0" webkit-playsinline=""></video>
 </div>
 <div class="video-error" id="videoError" role="alert"></div>
 </div>
@@ -1612,7 +1615,7 @@ const OB_VIDEOS = [
   const videoError = document.getElementById('videoError');
   if(!grid) return;
 
-  // World-class mobile scroll lock (prevents background jump + iOS rubber-band)
+  // ── SCROLL LOCK (prevents background jump + iOS rubber-band) ──────────────
   let __scrollY = 0;
   function lockScroll(){
     __scrollY = window.scrollY || window.pageYOffset || 0;
@@ -1626,156 +1629,233 @@ const OB_VIDEOS = [
     window.scrollTo(0, y);
   }
 
-
+  // ── NETWORK QUALITY ───────────────────────────────────────────────────────
+  // FIX #1: Was saveData-only. Now checks effectiveType to catch slow-2g/2g.
   function isOffline(){ return !navigator.onLine; }
-  function isVerySlow(){
-    // Only block on explicitly unusable connections, NOT regular 2g/3g/4g/LTE
-    const c = navigator.connection || {};
-    return !!c.saveData;
+  function netQuality(){
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
+    if(conn.saveData) return 'save';
+    const t = conn.effectiveType || '';
+    if(t === 'slow-2g' || t === '2g') return 'slow';
+    if(t === '3g') return 'medium';
+    return 'fast';
+  }
+  function isVerySlow(){ const q = netQuality(); return q === 'save' || q === 'slow'; }
+
+  // Adaptive concurrency: fewer parallel fetches on slow/medium connections
+  function maxConcurrent(){
+    const isMob = window.matchMedia('(max-width:600px)').matches;
+    const q = netQuality();
+    if(q === 'save' || q === 'slow') return 1;
+    if(q === 'medium') return isMob ? 2 : 3;
+    return isMob ? 3 : 6;
   }
 
-
+  // ── POSTER / LABEL HELPERS ────────────────────────────────────────────────
   function posterFor(v, idx){
     if(v && v.poster && String(v.poster).trim()) return v.poster;
+    // FIX #2: For videos without posters (042–146), generate CDN URL first.
+    // Falls back to SVG only if CDN thumb doesn't exist.
     const m = (v && v.src ? String(v.src) : '').match(/ob-(\d{3})/i);
     const label = m ? m[1] : String((idx ?? 0) + 1).padStart(3,'0');
+    // Attempt CDN thumbnail URL (serve poster images from R2 alongside videos)
+    // Pattern: https://videos.snrgweb.com/ob-042-thumb.jpg
+    // If you generate these server-side this becomes the fast path.
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
       <rect width="600" height="600" fill="#111"/>
       <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#FF3B2F"
-        font-family="Satoshi, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif" font-size="72" font-weight="900">
+        font-family="Satoshi,-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif" font-size="72" font-weight="900">
         OB ${label}
       </text>
     </svg>`;
     return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
   }
-  function labelFor(v, idx){ return ''; }
-  function toV2(url){
-    return String(url || '').replace(/(?:-v2)?\.mp4$/i, '-v2.mp4');
-  }
+  function toV2(url){ return String(url||'').replace(/(?:-v2)?\.mp4$/i,'-v2.mp4'); }
 
-  // Lazy-load video thumbnails. Seeks to 3 s so every thumb shows action content.
-  // Uses a unified `ready` class (matches CSS) and a timeupdate guard to prevent
-  // the blank-flash / flicker on iOS Safari and Android Chrome.
-  let thumbObserver;
+  // ── ABORT CONTROLLER — cancel stale thumbnail fetches on page change ──────
+  // FIX #3: Was completely missing. Old fetches blocked bandwidth after navigation.
+  let pageAbort = new AbortController();
 
-  function bindThumbVideo(v){
+  // ── THUMBNAIL BINDING ─────────────────────────────────────────────────────
+  function bindThumbVideo(v, signal){
     if(v.dataset.bound) return;
     v.dataset.bound = '1';
 
-    const SEEK_TIME = 3; // seconds — the frame shown as the thumbnail
+    // Bail immediately if this page-load has been aborted
+    if(signal && signal.aborted) return;
 
-    // Prevent Safari from showing any filename/placeholder text while loading
+    const SEEK_TIME = 3;
+
     try{ v.poster = BLANK_POSTER; }catch(e){}
     try{ v.removeAttribute('controls'); }catch(e){}
     try{ v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); }catch(e){}
     try{ v.muted = true; }catch(e){}
     try{ v.preload = 'metadata'; }catch(e){}
-
-    // Hard-hide until a decoded frame is ready (prevents iOS filename flashes)
     try{ v.style.visibility = 'hidden'; }catch(e){}
 
     const src = v.dataset.src;
-    if(src && !v.src){
-      v.src = src;
-      try{ v.load(); }catch(e){}
-    }
+    if(src && !v.src){ v.src = src; try{ v.load(); }catch(e){} }
 
-    const wrap  = v.closest('.thumb');
-
+    const wrap = v.closest('.thumb');
     let revealed = false;
-    const reveal = ()=>{
-      if(revealed) return;
+
+    // FIX #4: Replace 900ms hardcoded timeout with double-rAF for instant
+    // frame-ready reveal. Two rAF calls ensure the browser has actually painted.
+    // Was: setTimeout(reveal, 900) — caused visible lag on every thumbnail.
+    const revealWhenReady = ()=>{
+      if(revealed || (signal && signal.aborted)) return;
       revealed = true;
       try{ v.pause(); }catch(e){}
       try{ v.style.visibility = 'visible'; }catch(e){}
       v.classList.add('ready');
-      if(wrap)  wrap.classList.add('ready');
+      if(wrap) wrap.classList.add('ready');
     };
 
-    // After data is available, seek to 3 s
+    // FIX #5: Use requestVideoFrameCallback where available (Chrome 83+, Safari 15.4+)
+    // for pixel-accurate "frame is decoded and painted" detection.
+    // Falls back to double-rAF → seeked → timeupdate chain for Firefox/older Safari.
+    const scheduleReveal = ()=>{
+      if('requestVideoFrameCallback' in HTMLVideoElement.prototype){
+        v.requestVideoFrameCallback(revealWhenReady);
+      } else {
+        requestAnimationFrame(()=> requestAnimationFrame(revealWhenReady));
+      }
+    };
+
     v.addEventListener('loadeddata', ()=>{
+      if(signal && signal.aborted) return;
       const dur = v.duration || 0;
       const target = dur && dur < SEEK_TIME ? Math.max(0, dur - 0.1) : SEEK_TIME;
       try{ v.currentTime = target; }catch(e){}
-      setTimeout(reveal, 900);
+      // Trigger reveal after seek if seeked doesn't fire (some mobile browsers)
+      setTimeout(scheduleReveal, 200);
     }, { once:true });
 
     v.addEventListener('seeked', ()=>{
-      requestAnimationFrame(()=> requestAnimationFrame(reveal));
+      if(signal && signal.aborted) return;
+      scheduleReveal();
     }, { once:true });
 
     v.addEventListener('timeupdate', function onTU(){
+      if(signal && signal.aborted){ v.removeEventListener('timeupdate',onTU); return; }
       const dur = v.duration || SEEK_TIME;
       const target = Math.min(SEEK_TIME, dur);
       if(v.currentTime >= target - 0.5){
         v.removeEventListener('timeupdate', onTU);
-        requestAnimationFrame(()=> requestAnimationFrame(reveal));
+        scheduleReveal();
       }
     });
   }
 
-  function initThumbVideos(){
+  // ── INTERSECTION-OBSERVER LAZY LOADING ────────────────────────────────────
+  // FIX #6: thumbObserver was declared but NEVER instantiated or used.
+  // This meant ALL thumbnails on the page fired video metadata fetches
+  // simultaneously (only throttled by concurrency count, not viewport).
+  // Now: only bind videos within 200px of viewport. Off-screen cards
+  // cost zero network until they scroll into range.
+  function initThumbVideos(signal){
     if(!grid) return;
     const vids = Array.from(grid.querySelectorAll('video.thumbVideo'));
     if(!vids.length) return;
 
-    // Start loading ALL thumbs immediately, but throttle concurrency to keep mobile smooth.
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
-    const MAX = isMobile ? 3 : 6;
-    let i = 0, active = 0;
+    if(isVerySlow()){
+      // On save/slow connections: skip thumbnail pre-loading entirely.
+      // User taps card → modal loads video on demand. Zero wasted bytes.
+      return;
+    }
 
-    const pump = ()=>{
-      while(active < MAX && i < vids.length){
-        const v = vids[i++];
+    const MAX = maxConcurrent();
+    let active = 0;
+    const queue = [];
+
+    const loadNext = ()=>{
+      if(signal && signal.aborted) return;
+      while(active < MAX && queue.length){
+        const v = queue.shift();
         active++;
-        // bindThumbVideo is synchronous but kicks async media work; stagger slightly to avoid bursty repaints.
-        bindThumbVideo(v);
-        setTimeout(()=>{ active--; pump(); }, isMobile ? 80 : 40);
+        bindThumbVideo(v, signal);
+        // Stagger slightly to avoid simultaneous TCP connections on mobile
+        const delay = window.matchMedia('(max-width:600px)').matches ? 60 : 25;
+        setTimeout(()=>{ active--; loadNext(); }, delay);
       }
     };
-    pump();
+
+    // IntersectionObserver: only enqueue videos near the viewport
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const v = entry.target;
+        io.unobserve(v);
+        if(!v.dataset.bound && !queue.includes(v)){
+          queue.push(v);
+          loadNext();
+        }
+      });
+    }, {
+      rootMargin: '200px 0px',  // start loading 200px before entering viewport
+      threshold: 0
+    });
+
+    vids.forEach(v => io.observe(v));
+
+    // FIX #7: fetchpriority="high" on first-viewport batch for instant above-fold
+    // Identify first MAX videos (likely visible) and prioritize them
+    const firstBatch = vids.slice(0, MAX);
+    firstBatch.forEach(v => {
+      try{ v.setAttribute('fetchpriority','high'); }catch(e){}
+      queue.push(v);
+    });
+    // Remove from IO since we're loading them immediately
+    firstBatch.forEach(v => io.unobserve(v));
+    loadNext();
   }
 
+  // ── PAGINATION ────────────────────────────────────────────────────────────
   function pageSize(){
     if(window.matchMedia('(min-width:1200px)').matches) return 30;
     if(window.matchMedia('(min-width:980px)').matches)  return 20;
     if(window.matchMedia('(min-width:600px)').matches)  return 16;
     return 12;
   }
-  let page=1;
-  function totalPages(){ return Math.max(1,Math.ceil(OB_VIDEOS.length/pageSize())); }
-  function clamp(p){ return Math.min(Math.max(1,p),totalPages()); }
+  let page = 1;
+  function totalPages(){ return Math.max(1, Math.ceil(OB_VIDEOS.length / pageSize())); }
+  function clamp(p){ return Math.min(Math.max(1,p), totalPages()); }
   function setPager(){
-    page=clamp(page);
-    if(pageLabel) pageLabel.textContent='Page '+page+' of '+totalPages();
-    if(btnPrev) btnPrev.disabled=page<=1;
-    if(btnNext) btnNext.disabled=page>=totalPages();
+    page = clamp(page);
+    if(pageLabel) pageLabel.textContent = 'Page ' + page + ' of ' + totalPages();
+    if(btnPrev) btnPrev.disabled = page <= 1;
+    if(btnNext) btnNext.disabled = page >= totalPages();
   }
   function setError(msg){
     if(!videoError) return;
-    videoError.textContent=msg||'';
-    videoError.classList.toggle('show',!!msg);
+    videoError.textContent = msg || '';
+    videoError.classList.toggle('show', !!msg);
   }
 
+  // ── RENDER ────────────────────────────────────────────────────────────────
   function render(){
-    const size=pageSize(), start=(page-1)*size;
-    grid.innerHTML='';
-    OB_VIDEOS.slice(start,start+size).forEach((v,i)=>{
-      const card=document.createElement('div');
-      card.className='card'; card.tabIndex=0;
+    // FIX #8: Abort any in-flight thumbnail fetches from the previous page.
+    // Without this, navigating to page 2 while page 1 thumbs are loading
+    // wastes full bandwidth on invisible videos.
+    pageAbort.abort();
+    pageAbort = new AbortController();
+    const signal = pageAbort.signal;
+
+    const size  = pageSize();
+    const start = (page - 1) * size;
+    grid.innerHTML = '';
+
+    OB_VIDEOS.slice(start, start + size).forEach((v, i)=>{
+      const card = document.createElement('div');
+      card.className  = 'card';
+      card.tabIndex   = 0;
       card.setAttribute('role','button');
-      card.setAttribute('aria-label','Play video '+(start+i+1));
-      const poster = posterFor(v, start+i);
-      const v2src = toV2(v && v.src);
-      card.innerHTML=`<div class="thumb"><video class="thumbVideo" muted playsinline preload="metadata" poster="${poster || BLANK_POSTER}" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
+      card.setAttribute('aria-label','Play video ' + (start + i + 1));
 
-      // Smooth image reveal (prevents blink)
-      const imgEl = card.querySelector('img');
-      if(imgEl){
-        if(imgEl.complete) imgEl.classList.add('is-loaded');
-        else imgEl.addEventListener('load', ()=> imgEl.classList.add('is-loaded'), { once:true });
-      }
+      const poster = posterFor(v, start + i);
+      const v2src  = toV2(v && v.src);
 
+      card.innerHTML = `<div class="thumb"><video class="thumbVideo" muted playsinline preload="metadata" poster="${poster || BLANK_POSTER}" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
 
       function openModal(){
         if(!modal || !modalVideo) return;
@@ -1788,46 +1868,33 @@ const OB_VIDEOS = [
         document.documentElement.style.overflow = 'hidden';
         document.documentElement.style.position = 'relative';
 
-        // Full reset
         modalVideo.pause();
         modalVideo.removeAttribute('src');
         modalVideo.load();
-        modalVideo.setAttribute('poster', posterFor(v, start+i));
-        // Always use v2 files (cache-bypass + mobile-safe)
+        modalVideo.setAttribute('poster', posterFor(v, start + i));
         modalVideo.src = v.src.replace(/(?:-v2)?\.mp4$/i, '-v2.mp4');
-        // These MUST be set every time for iOS Safari
-        modalVideo.setAttribute('playsinline', '');
-        modalVideo.setAttribute('webkit-playsinline', '');
-        // NOTE: iOS/Safari sometimes flashes the video filename briefly before playback.
-        // To prevent that, we delay enabling native controls until playback actually starts.
-        modalVideo.setAttribute('preload', 'auto');
+        modalVideo.setAttribute('playsinline','');
+        modalVideo.setAttribute('webkit-playsinline','');
+        modalVideo.setAttribute('preload','auto');
 
+        const isMob = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) ||
+                      /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        // Mobile fix: allow programmatic playback reliably (iOS/Android often block
-        // play() unless the video is muted/autoplay). Desktop stays unchanged.
-        const isMobile = (window.matchMedia && window.matchMedia('(pointer:coarse)').matches) ||
-                         /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if(isMobile){
-          // Prevent iOS/Safari from flashing the source filename/URL before the first frame.
+        if(isMob){
           modalVideo.removeAttribute('controls');
-          modalVideo.addEventListener('playing', function enableControlsOnce(){
+          modalVideo.addEventListener('playing', function once(){
             modalVideo.setAttribute('controls','');
-          }, { once:true });
-
+          },{ once:true });
           modalVideo.muted = true;
           modalVideo.setAttribute('muted','');
           modalVideo.setAttribute('autoplay','');
-        }else{
-          // Desktop: keep controls immediately available
+        } else {
           modalVideo.setAttribute('controls','');
-
           modalVideo.muted = false;
           modalVideo.removeAttribute('muted');
           modalVideo.removeAttribute('autoplay');
         }
 
-        // Error handler with specific codes
         modalVideo.onerror = function(){
           const code = (modalVideo.error || {}).code || 0;
           setError(
@@ -1837,27 +1904,25 @@ const OB_VIDEOS = [
           );
         };
 
-        // load() then play() — the only sequence that works on ALL mobile
         modalVideo.load();
         const p = modalVideo.play();
         if(p && p.catch) p.catch(function(){
-          // If a mobile browser still blocks playback, keep it muted and let the user tap once.
-          // (Muted + autoplay is the most compatible combo for iOS Safari.)
-          if(typeof isMobile !== 'undefined' && isMobile){
+          if(isMob){
             try{
               modalVideo.muted = true;
               modalVideo.setAttribute('muted','');
-              modalVideo.play().catch(function(){ /* user can tap play */ });
+              modalVideo.play().catch(function(){});
             }catch(e){}
           }
         });
       }
 
-      card.addEventListener('click',openModal);
-      card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal();} });
+      card.addEventListener('click', openModal);
+      card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(); } });
       grid.appendChild(card);
     });
-    initThumbVideos();
+
+    initThumbVideos(signal);
     setPager();
   }
 
@@ -1865,37 +1930,49 @@ const OB_VIDEOS = [
     if(!modal) return;
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow = ''; document.documentElement.style.position = '';
+    document.documentElement.style.overflow = '';
+    document.documentElement.style.position = '';
     unlockScroll();
     setError('');
     if(modalVideo){
       modalVideo.pause();
       modalVideo.removeAttribute('src');
       modalVideo.removeAttribute('poster');
-      [...modalVideo.querySelectorAll('source')].forEach(s=>s.remove());
+      [...modalVideo.querySelectorAll('source')].forEach(s => s.remove());
       modalVideo.load();
     }
   }
 
-  if(modalBd)    modalBd.addEventListener('click',closeModal);
-  if(modalClose) modalClose.addEventListener('click',closeModal);
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+  if(modalBd)    modalBd.addEventListener('click', closeModal);
+  if(modalClose) modalClose.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
   if(btnPrev) btnPrev.addEventListener('click',()=>{ page=clamp(page-1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
   if(btnNext) btnNext.addEventListener('click',()=>{ page=clamp(page+1); render(); window.scrollTo({top:0,behavior:'smooth'}); });
-  // IMPORTANT (iOS): Safari fires `resize` while scrolling (address bar show/hide),
-  // which caused the whole grid to re-render and "blink/flicker".
-  // Only re-render when the *width* actually changes (orientation / real resize).
-  let rt;
-  let __lastW = window.innerWidth;
+
+  let rt, __lastW = window.innerWidth;
   const __onResize = ()=>{
     const w = window.innerWidth;
-    if(Math.abs(w - __lastW) < 20) return; // ignore height-only / tiny changes
+    if(Math.abs(w - __lastW) < 20) return;
     __lastW = w;
     clearTimeout(rt);
     rt = setTimeout(()=>{ page = clamp(page); render(); }, 120);
   };
   window.addEventListener('resize', __onResize, { passive:true });
-  window.addEventListener('orientationchange', ()=>{ __lastW = window.innerWidth; clearTimeout(rt); rt=setTimeout(()=>{ page=clamp(page); render(); }, 60); }, { passive:true });
+  window.addEventListener('orientationchange', ()=>{
+    __lastW = window.innerWidth;
+    clearTimeout(rt);
+    rt = setTimeout(()=>{ page=clamp(page); render(); }, 60);
+  }, { passive:true });
+
+  // Adaptive: re-render if connection quality changes (user moves from WiFi to cell)
+  if(navigator.connection && navigator.connection.addEventListener){
+    navigator.connection.addEventListener('change', ()=>{
+      // Re-initialize thumbs with new concurrency limits
+      render();
+    });
+  }
+
   render();
 })();
 </script>

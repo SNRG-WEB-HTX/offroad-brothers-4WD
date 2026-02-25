@@ -1670,30 +1670,20 @@ const OB_VIDEOS = [
   // ── ABORT CONTROLLER ──────────────────────────────────────────────────────
   let pageAbort = new AbortController();
 
-  // ── THUMBNAIL BINDING ─────────────────────────────────────────────────────
+  // ── OPTIMIZED THUMBNAIL BINDING ─────────────────────────────────────────────────────
   function bindThumbVideo(v, signal){
     if(v.dataset.bound) return;
     v.dataset.bound = '1';
     if(signal && signal.aborted) return;
 
-    // MOBILE FIX #1: Adaptive seek time.
-    // Desktop: seek to 3s (shows action content).
-    // Mobile: seek to 0.1s — iOS Safari requires downloading real video data to
-    // seek. At 3s it must buffer 3s worth, often stalling entirely.
-    // At 0.1s it only needs the first keyframe — near-instant on any connection.
-    const SEEK_TIME = IS_MOBILE ? 0.1 : 3;
+    // Fast seek time - 0.1s loads instantly on all devices
+    const SEEK_TIME = 0.1;
 
     try{ v.poster = BLANK_POSTER; }catch(e){}
     try{ v.removeAttribute('controls'); }catch(e){}
     try{ v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); }catch(e){}
     try{ v.muted = true; }catch(e){}
-
-    // MOBILE FIX #2: preload="auto" on mobile instead of "metadata".
-    // "metadata" on iOS Safari downloads moov atom only — but currentTime seek
-    // then requires ADDITIONAL network round-trips that frequently time out.
-    // "auto" lets the browser grab the first few frames immediately.
-    // On desktop keep "metadata" (less bandwidth waste for 30+ thumbs).
-    try{ v.preload = IS_MOBILE ? 'auto' : 'metadata'; }catch(e){}
+    try{ v.preload = 'metadata'; }catch(e){}
     try{ v.style.visibility = 'hidden'; }catch(e){}
 
     const src = v.dataset.src;
@@ -1711,13 +1701,9 @@ const OB_VIDEOS = [
       if(wrap) wrap.classList.add('ready');
     };
 
-    // MOBILE FIX #3: onerror handler on every thumbnail.
-    // Was missing — if -v2.mp4 file returns 404/CORS error, the video stayed
-    // permanently invisible (opacity:0, no .ready class ever added).
-    // Now: on error, show the poster/SVG fallback and mark ready anyway.
+    // Error handler - fallback to non-v2 or show poster
     v.addEventListener('error', ()=>{
       if(signal && signal.aborted) return;
-      // Try falling back to non-v2 source if v2 404s
       const v2Src = v.src || '';
       const baseSrc = v2Src.replace(/-v2\.mp4$/i, '.mp4');
       if(v2Src !== baseSrc && !v.dataset.fallbackTried){
@@ -1726,65 +1712,27 @@ const OB_VIDEOS = [
         try{ v.load(); }catch(e){}
         return;
       }
-      // Both v2 and base failed — show poster and reveal anyway
       try{ v.style.visibility = 'visible'; }catch(e){}
       v.classList.add('ready');
       if(wrap) wrap.classList.add('ready');
-    });
+    }, { once: true });
 
-    const scheduleReveal = ()=>{
-      if('requestVideoFrameCallback' in HTMLVideoElement.prototype){
-        v.requestVideoFrameCallback(revealWhenReady);
-      } else {
-        requestAnimationFrame(()=> requestAnimationFrame(revealWhenReady));
-      }
-    };
-
+    // Simple loadeddata handler - seek and reveal
     v.addEventListener('loadeddata', ()=>{
       if(signal && signal.aborted) return;
-      const dur = v.duration || 0;
-      const target = dur && dur < SEEK_TIME ? Math.max(0, dur - 0.1) : SEEK_TIME;
-      try{ v.currentTime = target; }catch(e){}
-      // On mobile with preload=auto the first frame may already be rendered
-      // by loadeddata — reveal immediately if no seek needed
-      if(SEEK_TIME <= 0.1){
-        scheduleReveal();
-      } else {
-        setTimeout(scheduleReveal, 200);
-      }
+      try{ v.currentTime = SEEK_TIME; }catch(e){}
+      revealWhenReady();
     }, { once:true });
-
-    v.addEventListener('seeked', ()=>{
-      if(signal && signal.aborted) return;
-      scheduleReveal();
-    }, { once:true });
-
-    v.addEventListener('timeupdate', function onTU(){
-      if(signal && signal.aborted){ v.removeEventListener('timeupdate',onTU); return; }
-      const dur = v.duration || SEEK_TIME;
-      const target = Math.min(SEEK_TIME, dur);
-      if(v.currentTime >= target - 0.05){
-        v.removeEventListener('timeupdate', onTU);
-        scheduleReveal();
-      }
-    });
-
-    // Safety net: if nothing fires in 4s, reveal anyway
-    // (prevents permanently-black tiles on flaky connections)
-    setTimeout(()=>{
-      if(!revealed) revealWhenReady();
-    }, 4000);
   }
 
-  // ── INTERSECTION-OBSERVER LAZY LOADING ────────────────────────────────────
+  // ── OPTIMIZED INTERSECTION-OBSERVER LAZY LOADING ────────────────────────────────────────
   function initThumbVideos(signal){
     if(!grid) return;
     const vids = Array.from(grid.querySelectorAll('video.thumbVideo'));
     if(!vids.length) return;
 
     if(isVerySlow()){
-      // On save/slow: no thumbnail pre-loading. Modal loads on demand.
-      // Reveal all immediately so they show their SVG poster (visible but no video)
+      // On save/slow: show SVG poster immediately
       vids.forEach(v=>{
         try{ v.style.visibility = 'visible'; }catch(e){}
         v.classList.add('ready');
@@ -1794,48 +1742,25 @@ const OB_VIDEOS = [
       return;
     }
 
-    const MAX = maxConcurrent();
-    let active = 0;
-    const queue = [];
-
-    const loadNext = ()=>{
-      if(signal && signal.aborted) return;
-      while(active < MAX && queue.length){
-        const v = queue.shift();
-        active++;
-        bindThumbVideo(v, signal);
-        const delay = IS_MOBILE ? 60 : 25;
-        setTimeout(()=>{ active--; loadNext(); }, delay);
-      }
-    };
-
-    // MOBILE FIX #4: On mobile, use a tighter rootMargin (50px vs 200px).
-    // 200px pre-load on mobile means 200px + full-page of videos start loading.
-    // On a 390px-wide iPhone this can trigger ALL videos simultaneously.
-    const rootMarginPx = IS_MOBILE ? '50px' : '200px';
-
+    // Simple IntersectionObserver - load when visible
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         if(!entry.isIntersecting) return;
         const v = entry.target;
         io.unobserve(v);
-        if(!v.dataset.bound && !queue.includes(v)){
-          queue.push(v);
-          loadNext();
+        if(!v.dataset.bound){
+          bindThumbVideo(v, signal);
         }
       });
-    }, { rootMargin: `${rootMarginPx} 0px`, threshold: 0 });
+    }, { rootMargin: '100px 0px', threshold: 0 });
 
-    // First viewport batch: high priority, load immediately
-    const firstBatch = vids.slice(0, MAX);
-    firstBatch.forEach(v => {
+    // Load first 6 immediately, observe the rest
+    vids.slice(0, 6).forEach(v => {
       try{ v.setAttribute('fetchpriority','high'); }catch(e){}
-      queue.push(v);
-      io.unobserve(v); // don't double-observe
+      bindThumbVideo(v, signal);
     });
-    // Rest: observe and load when near viewport
-    vids.slice(MAX).forEach(v => io.observe(v));
-    loadNext();
+    
+    vids.slice(6).forEach(v => io.observe(v));
   }
 
   // ── PAGINATION ────────────────────────────────────────────────────────────

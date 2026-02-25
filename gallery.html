@@ -970,7 +970,11 @@ a{color:inherit;text-decoration:none}
   display:block;
   -webkit-tap-highlight-color:transparent;
   content-visibility: auto;
-  contain-intrinsic-size: 0 280px;}
+  contain-intrinsic-size: 0 280px;
+  /* MOBILE: Hardware acceleration for smooth scrolling */
+  transform: translateZ(0);
+  will-change: transform;
+}
 .card::after {
   content:'';
   display:block;
@@ -982,6 +986,19 @@ a{color:inherit;text-decoration:none}
   inset:0;
   overflow:hidden;
   background:#111;
+  /* INSTANT POSTER: Show immediately while video loads */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #111;
+  /* MOBILE: Smooth rendering */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.thumb[data-poster] {
+  background-image: var(--poster-bg);
 }
 .thumb img {
   position:absolute;
@@ -1008,11 +1025,14 @@ a{color:inherit;text-decoration:none}
   display:block;
   opacity:0;
   transition:opacity .18s ease;
-  transform:translateZ(0);
-  -webkit-transform:translateZ(0);
+  /* MOBILE: GPU acceleration */
+  transform:translate3d(0,0,0);
+  -webkit-transform:translate3d(0,0,0);
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
   will-change:opacity;
+  /* MOBILE: Smooth playback */
+  -webkit-video-playable-inline:true;
 }
 .thumb video.thumbVideo.ready,
 .thumb video.thumbVideo.is-loaded{ opacity:1; }
@@ -1670,24 +1690,32 @@ const OB_VIDEOS = [
   // ── ABORT CONTROLLER ──────────────────────────────────────────────────────
   let pageAbort = new AbortController();
 
-  // ── OPTIMIZED THUMBNAIL BINDING ─────────────────────────────────────────────────────
+  // ── MOBILE-OPTIMIZED THUMBNAIL BINDING ─────────────────────────────────────────────────────
   function bindThumbVideo(v, signal){
     if(v.dataset.bound) return;
     v.dataset.bound = '1';
     if(signal && signal.aborted) return;
 
-    // Fast seek time - 0.1s loads instantly on all devices
+    // MOBILE: On slow connections, skip video - poster already showing
+    if(isVerySlow()) {
+      const wrap = v.closest('.thumb');
+      if(wrap) wrap.classList.add('ready');
+      return;
+    }
+
+    // Fast seek time - 0.1s loads first keyframe instantly
     const SEEK_TIME = 0.1;
 
-    try{ v.poster = BLANK_POSTER; }catch(e){}
     try{ v.removeAttribute('controls'); }catch(e){}
     try{ v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); }catch(e){}
     try{ v.muted = true; }catch(e){}
     try{ v.preload = 'metadata'; }catch(e){}
-    try{ v.style.visibility = 'hidden'; }catch(e){}
 
     const src = v.dataset.src;
-    if(src && !v.src){ v.src = src; try{ v.load(); }catch(e){} }
+    if(src && !v.src){ 
+      v.src = src; 
+      try{ v.load(); }catch(e){} 
+    }
 
     const wrap = v.closest('.thumb');
     let revealed = false;
@@ -1696,12 +1724,11 @@ const OB_VIDEOS = [
       if(revealed || (signal && signal.aborted)) return;
       revealed = true;
       try{ v.pause(); }catch(e){}
-      try{ v.style.visibility = 'visible'; }catch(e){}
       v.classList.add('ready');
       if(wrap) wrap.classList.add('ready');
     };
 
-    // Error handler - fallback to non-v2 or show poster
+    // Error handler - fallback gracefully (poster already visible)
     v.addEventListener('error', ()=>{
       if(signal && signal.aborted) return;
       const v2Src = v.src || '';
@@ -1712,29 +1739,41 @@ const OB_VIDEOS = [
         try{ v.load(); }catch(e){}
         return;
       }
-      try{ v.style.visibility = 'visible'; }catch(e){}
+      // Failed - poster already showing via CSS, just mark ready
       v.classList.add('ready');
       if(wrap) wrap.classList.add('ready');
     }, { once: true });
 
-    // Simple loadeddata handler - seek and reveal
+    // Simple loadeddata handler - seek to 0.1s and reveal
     v.addEventListener('loadeddata', ()=>{
       if(signal && signal.aborted) return;
-      try{ v.currentTime = SEEK_TIME; }catch(e){}
+      try{ 
+        v.currentTime = SEEK_TIME; 
+        // On mobile, video may already be at correct time
+        if(v.currentTime >= SEEK_TIME - 0.05) {
+          revealWhenReady();
+        }
+      }catch(e){
+        revealWhenReady();
+      }
+    }, { once:true });
+
+    // Seeked - reveal when ready
+    v.addEventListener('seeked', ()=>{
+      if(signal && signal.aborted) return;
       revealWhenReady();
     }, { once:true });
   }
 
-  // ── OPTIMIZED INTERSECTION-OBSERVER LAZY LOADING ────────────────────────────────────────
+  // ── MOBILE-OPTIMIZED INTERSECTION-OBSERVER ────────────────────────────────────────
   function initThumbVideos(signal){
     if(!grid) return;
     const vids = Array.from(grid.querySelectorAll('video.thumbVideo'));
     if(!vids.length) return;
 
     if(isVerySlow()){
-      // On save/slow: show SVG poster immediately
+      // On save/slow: poster already showing via CSS, just mark ready
       vids.forEach(v=>{
-        try{ v.style.visibility = 'visible'; }catch(e){}
         v.classList.add('ready');
         const wrap = v.closest('.thumb');
         if(wrap) wrap.classList.add('ready');
@@ -1742,7 +1781,10 @@ const OB_VIDEOS = [
       return;
     }
 
-    // Simple IntersectionObserver - load when visible
+    // MOBILE: More aggressive preload for smooth scrolling
+    const rootMargin = IS_MOBILE ? '200px 0px' : '150px 0px';
+    const firstBatch = IS_MOBILE ? 9 : 6; // Load more on mobile (full first screen)
+
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
         if(!entry.isIntersecting) return;
@@ -1752,15 +1794,16 @@ const OB_VIDEOS = [
           bindThumbVideo(v, signal);
         }
       });
-    }, { rootMargin: '100px 0px', threshold: 0 });
+    }, { rootMargin, threshold: 0 });
 
-    // Load first 6 immediately, observe the rest
-    vids.slice(0, 6).forEach(v => {
+    // Load first batch immediately with high priority
+    vids.slice(0, firstBatch).forEach(v => {
       try{ v.setAttribute('fetchpriority','high'); }catch(e){}
       bindThumbVideo(v, signal);
     });
     
-    vids.slice(6).forEach(v => io.observe(v));
+    // Observe rest for lazy loading
+    vids.slice(firstBatch).forEach(v => io.observe(v));
   }
 
   // ── PAGINATION ────────────────────────────────────────────────────────────
@@ -1806,8 +1849,8 @@ const OB_VIDEOS = [
       const poster = posterFor(v, start + i);
       const v2src  = toV2(v && v.src);
 
-      // MOBILE FIX: add crossorigin="anonymous" to thumb video for R2 CORS
-      card.innerHTML = `<div class="thumb"><video class="thumbVideo" muted playsinline webkit-playsinline crossorigin="anonymous" preload="metadata" poster="${poster || BLANK_POSTER}" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
+      // INSTANT MOBILE LOAD: Set poster as CSS background for immediate display
+      card.innerHTML = `<div class="thumb" data-poster="${poster || BLANK_POSTER}" style="--poster-bg: url('${poster || BLANK_POSTER}')"><video class="thumbVideo" muted playsinline webkit-playsinline crossorigin="anonymous" preload="metadata" data-src="${v2src}"></video><div class="play-badge">&#9654;</div></div>`;
 
       function openModal(){
         if(!modal || !modalVideo) return;

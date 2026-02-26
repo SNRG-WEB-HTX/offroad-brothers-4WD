@@ -61,139 +61,226 @@
 
   <!-- Schema: Website + WebPage + LocalBusiness + FAQ + Service -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://offroadbrothers4wd.com/#website",
-        "name": "Offroad Brothers 4WD Store",
-        "url": "https://offroadbrothers4wd.com/",
-        "inLanguage": ["en-US","es-MX"],
-        "publisher": { "@id": "https://offroadbrothers4wd.com/#organization" }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://offroadbrothers4wd.com/#website",
+      "name": "Offroad Brothers 4WD Store",
+      "url": "https://offroadbrothers4wd.com/",
+      "inLanguage": [
+        "en-US",
+        "es-MX"
+      ],
+      "publisher": {
+        "@id": "https://offroadbrothers4wd.com/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://offroadbrothers4wd.com/houston-off-road-shop.html#webpage",
+      "url": "https://offroadbrothers4wd.com/houston-off-road-shop.html",
+      "name": "Off Road Shop Houston, TX | Lift Kits, Suspension & 4x4 Builds",
+      "description": "Family-owned off road shop in Houston, TX. Lift kits, suspension, tires & wheels, and custom builds. Serving Houston and surrounding areas.",
+      "isPartOf": {
+        "@id": "https://offroadbrothers4wd.com/#website"
       },
-      {
-        "@type": "WebPage",
-        "@id": "https://offroadbrothers4wd.com/houston-off-road-shop.html#webpage",
-        "url": "https://offroadbrothers4wd.com/houston-off-road-shop.html",
-        "name": "Off Road Shop Houston, TX | Lift Kits, Suspension & 4x4 Builds",
-        "description": "Family-owned off road shop in Houston, TX. Lift kits, suspension, tires & wheels, and custom builds. Serving Houston and surrounding areas.",
-        "isPartOf": { "@id": "https://offroadbrothers4wd.com/#website" },
-        "about": { "@id": "https://offroadbrothers4wd.com/#localbusiness" },
-        "inLanguage": ["en-US","es-MX"],
-        "primaryImageOfPage": { "@id": "https://offroadbrothers4wd.com/#logo" }
+      "about": {
+        "@id": "https://offroadbrothers4wd.com/#localbusiness"
       },
-      {
-        "@type": "ImageObject",
-        "@id": "https://offroadbrothers4wd.com/#logo",
-        "url": "https://offroadbrothers4wd.com/offroadbrotherlogo.png",
-        "contentUrl": "https://offroadbrothers4wd.com/offroadbrotherlogo.png",
-        "width": 800,
-        "height": 200
+      "inLanguage": [
+        "en-US",
+        "es-MX"
+      ],
+      "primaryImageOfPage": {
+        "@id": "https://offroadbrothers4wd.com/#logo"
+      }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://offroadbrothers4wd.com/#logo",
+      "url": "https://offroadbrothers4wd.com/offroadbrotherlogo.png",
+      "contentUrl": "https://offroadbrothers4wd.com/offroadbrotherlogo.png",
+      "width": 800,
+      "height": 200
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://offroadbrothers4wd.com/#organization",
+      "name": "Offroad Brothers 4WD Store",
+      "url": "https://offroadbrothers4wd.com/",
+      "logo": {
+        "@id": "https://offroadbrothers4wd.com/#logo"
       },
-      {
-        "@type": "Organization",
-        "@id": "https://offroadbrothers4wd.com/#organization",
-        "name": "Offroad Brothers 4WD Store",
-        "url": "https://offroadbrothers4wd.com/",
-        "logo": { "@id": "https://offroadbrothers4wd.com/#logo" },
-        "telephone": "+1-281-406-8738",
-        "email": "info@offroadbrothers4wd.com",
-        "contactPoint": [{
+      "telephone": "+1-281-406-8738",
+      "email": "info@offroadbrothers4wd.com",
+      "contactPoint": [
+        {
           "@type": "ContactPoint",
           "contactType": "customer service",
           "telephone": "+1-281-406-8738",
-        "email": "info@offroadbrothers4wd.com",
           "email": "info@offroadbrothers4wd.com",
-          "availableLanguage": ["English","Spanish"]
-        }],
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "14300 Northwest Fwy, Suite A-23",
-          "addressLocality": "Houston",
-          "addressRegion": "TX",
-          "postalCode": "77040",
-          "addressCountry": "US"
+          "availableLanguage": [
+            "English",
+            "Spanish"
+          ]
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "14300 Northwest Fwy, Suite A-23",
+        "addressLocality": "Houston",
+        "addressRegion": "TX",
+        "postalCode": "77040",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.instagram.com/offroadbrothers4wd/",
+        "https://www.facebook.com/offroadbrothers4wd/",
+        "https://www.tiktok.com/@offroadbrothers4wdstore",
+        "https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9"
+      ]
+    },
+    {
+      "@type": [
+        "LocalBusiness",
+        "AutoPartsStore",
+        "AutomotiveBusiness"
+      ],
+      "@id": "https://offroadbrothers4wd.com/#localbusiness",
+      "name": "Offroad Brothers 4WD Store",
+      "url": "https://offroadbrothers4wd.com/",
+      "telephone": "+1-281-406-8738",
+      "email": "info@offroadbrothers4wd.com",
+      "priceRange": "$$",
+      "image": [
+        "https://offroadbrothers4wd.com/offroadbrotherlogo.png"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "14300 Northwest Fwy, Suite A-23",
+        "addressLocality": "Houston",
+        "addressRegion": "TX",
+        "postalCode": "77040",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 29.8644738,
+        "longitude": -95.533688
+      },
+      "hasMap": "https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
         },
-        "sameAs": [
-          "https://www.instagram.com/offroadbrothers4wd/",
-          "https://www.facebook.com/offroadbrothers4wd/",
-          "https://www.tiktok.com/@offroadbrothers4wdstore",
-          "https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9"
-        ]
-      },
-      {
-        "@type": ["LocalBusiness","AutoPartsStore","AutomotiveBusiness"],
-        "@id": "https://offroadbrothers4wd.com/#localbusiness",
-        "name": "Offroad Brothers 4WD Store",
-        "url": "https://offroadbrothers4wd.com/",
-        "telephone": "+1-281-406-8738",
-        "priceRange": "$$",
-        "image": ["https://offroadbrothers4wd.com/offroadbrotherlogo.png"],
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "14300 Northwest Fwy, Suite A-23",
-          "addressLocality": "Houston",
-          "addressRegion": "TX",
-          "postalCode": "77040",
-          "addressCountry": "US"
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Saturday"
+          ],
+          "opens": "09:00",
+          "closes": "13:00"
+        }
+      ],
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Houston"
         },
-        "geo": { "@type": "GeoCoordinates", "latitude": 29.8644738, "longitude": -95.533688 },
-        "hasMap": "https://maps.app.goo.gl/KVJHVW2ZNJukZ3xY9",
-        "openingHoursSpecification": [
-          { "@type":"OpeningHoursSpecification", "dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens":"09:00", "closes":"18:00" },
-          { "@type":"OpeningHoursSpecification", "dayOfWeek":["Saturday"], "opens":"09:00", "closes":"13:00" }
-        ],
-        "areaServed": [
-          { "@type":"City", "name":"Houston" },
-          { "@type":"City", "name":"Katy" },
-          { "@type":"City", "name":"Sugar Land" },
-          { "@type":"City", "name":"Cypress" },
-          { "@type":"City", "name":"Spring" },
-          { "@type":"City", "name":"The Woodlands" },
-          { "@type":"City", "name":"Pearland" },
-          { "@type":"City", "name":"Humble" }
-        ]
+        {
+          "@type": "City",
+          "name": "Katy"
+        },
+        {
+          "@type": "City",
+          "name": "Sugar Land"
+        },
+        {
+          "@type": "City",
+          "name": "Cypress"
+        },
+        {
+          "@type": "City",
+          "name": "Spring"
+        },
+        {
+          "@type": "City",
+          "name": "The Woodlands"
+        },
+        {
+          "@type": "City",
+          "name": "Pearland"
+        },
+        {
+          "@type": "City",
+          "name": "Humble"
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://offroadbrothers4wd.com/houston-off-road-shop.html#service",
+      "name": "Off-Road Services in Houston, TX",
+      "provider": {
+        "@id": "https://offroadbrothers4wd.com/#localbusiness"
       },
-      {
-        "@type": "Service",
-        "@id": "https://offroadbrothers4wd.com/houston-off-road-shop.html#service",
-        "name": "Off-Road Services in Houston, TX",
-        "provider": { "@id": "https://offroadbrothers4wd.com/#localbusiness" },
-        "areaServed": { "@type":"City", "name":"Houston" },
-        "serviceType": [
-          "Lift Kit Installation",
-          "Leveling Kits",
-          "Suspension Upgrades",
-          "Tire and Wheel Packages",
-          "Off-Road Lighting",
-          "Custom 4x4 Builds",
-          "Overland Build-Outs"
-        ]
+      "areaServed": {
+        "@type": "City",
+        "name": "Houston"
       },
-      {
-        "@type":"FAQPage",
-        "@id":"https://offroadbrothers4wd.com/houston-off-road-shop.html#faq",
-        "mainEntity":[
-          {
-            "@type":"Question",
-            "name":"Do you install lift kits in Houston?",
-            "acceptedAnswer":{"@type":"Answer","text":"Yes. We install leveling kits and full suspension lift kits for trucks, SUVs, and 4x4 vehicles in Houston. Call (281) 406-8738 for fitment and scheduling."}
-          },
-          {
-            "@type":"Question",
-            "name":"What areas near Houston do you serve?",
-            "acceptedAnswer":{"@type":"Answer","text":"We serve Houston and nearby areas including Katy, Cypress, Sugar Land, Spring, The Woodlands, Pearland, and Humble."}
-          },
-          {
-            "@type":"Question",
-            "name":"Can you build a full custom off-road or overland setup?",
-            "acceptedAnswer":{"@type":"Answer","text":"Yes. We can plan and build complete setups including suspension, tires, wheels, lighting, armor, and overland accessories."}
+      "serviceType": [
+        "Lift Kit Installation",
+        "Leveling Kits",
+        "Suspension Upgrades",
+        "Tire and Wheel Packages",
+        "Off-Road Lighting",
+        "Custom 4x4 Builds",
+        "Overland Build-Outs"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://offroadbrothers4wd.com/houston-off-road-shop.html#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do you install lift kits in Houston?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We install leveling kits and full suspension lift kits for trucks, SUVs, and 4x4 vehicles in Houston. Call (281) 406-8738 for fitment and scheduling."
           }
-        ]
-      }
-    ]
-  }
+        },
+        {
+          "@type": "Question",
+          "name": "What areas near Houston do you serve?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We serve Houston and nearby areas including Katy, Cypress, Sugar Land, Spring, The Woodlands, Pearland, and Humble."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you build a full custom off-road or overland setup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We can plan and build complete setups including suspension, tires, wheels, lighting, armor, and overland accessories."
+          }
+        }
+      ]
+    }
+  ]
+}
   </script>
 </head>
 
